@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Skip the build if running in a CI/CD environment
+if [ "$CI" = "true" ]; then
+    echo "Skipping build in CI/CD environment"
+    exit 0
+fi
+
+echo "⚙️ Building monorepo..."
+pnpm build

@@ -8,11 +8,15 @@
 		"dev": "turbo run dev",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo run lint",
-		"test": "turbo run test"
+		"test": "turbo run test",
+		"prepare": "husky"
 	},
 	"devDependencies": {
 		"prettier": "^3.4.2",
-		"turbo": "^2.3.3"
+		"turbo": "^2.3.3",
+		"@commitlint/config-conventional": "^19.5.0",
+		"lint-staged": "^15.2.11",
+		"typescript": "^5.7.2"
 	},
 	"engines": {
 		"node": ">=14.0.0",

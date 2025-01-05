@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+npx commitlint --edit $1 && echo "💻 Code is committed! 💪 Take 10 pushups now!!!"
