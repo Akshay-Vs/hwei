@@ -1,0 +1,36 @@
+{
+	"name": "@hwei/database",
+	"version": "1.0.0",
+	"exports": {
+		".": "./src/db.ts"
+	},
+	"scripts": {
+		"prisma": "ts-node src/prisma-wrapper.ts",
+		"db:migrate:deploy": "npm run prisma migrate deploy",
+		"db:migrate:dev": "npm run prisma migrate dev",
+		"db:push": "npm run prisma db push",
+		"db:seed": "tsx src/seed.ts",
+		"dev": "tsup src/* --watch",
+		"format": "npm run prisma format",
+		"generate": "npm run prisma generate",
+		"lint": "eslint . --max-warnings 0",
+		"prebuild": "npm run generate",
+		"predev": "npm run generate",
+		"studio": "prisma studio"
+	},
+	"dependencies": {
+		"@prisma/client": "^6.1.0",
+		"@hwei/env": "workspace:*"
+	},
+	"devDependencies": {
+		"@hwei/typescript-config": "workspace:*",
+		"@types/node": "^22.10.2",
+		"eslint": "^9.17.0",
+		"prisma": "^6.0.1",
+		"rimraf": "^6.0.1",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.3.5",
+		"tsx": "^4.19.2",
+		"typescript": "5.7.2"
+	}
+}
