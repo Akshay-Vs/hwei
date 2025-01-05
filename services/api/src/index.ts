@@ -1,11 +1,12 @@
-import { createServer } from "./server";
 import env from "@hwei/env";
+import log from "npmlog";
+import { createServer } from "./server";
 
-env.initializeApp();
+env.loadEnv();
 
 const port = process.env.PORT || 3001;
 const server = createServer();
 
 server.listen(port, () => {
-  console.log(`api running on ${port}`);
+  log.info("API", `api running on ${port}`);
 });
