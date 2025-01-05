@@ -1,0 +1,22 @@
+{
+  "extends": "@hwei/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": [
+      "ES2015",
+      "DOM"
+    ],
+    "outDir": "./dist/",
+    "rootDir": ".",
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "src",
+    "validate.test.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

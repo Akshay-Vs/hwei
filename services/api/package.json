@@ -11,10 +11,11 @@
 		"test": "jest --detectOpenHandles"
 	},
 	"jest": {
-		"preset": "@repo/jest-presets/node"
+		"preset": "@hwei/jest-presets/node"
 	},
 	"dependencies": {
-		"@repo/logger": "workspace:*",
+		"@hwei/logger": "workspace:*",
+		"@hwei/env": "workspace:*",
 		"body-parser": "^1.20.3",
 		"cors": "^2.8.5",
 		"express": "^4.21.2",
@@ -22,9 +23,9 @@
 	},
 	"devDependencies": {
 		"@jest/globals": "^29.7.0",
-		"@repo/eslint-config": "workspace:*",
-		"@repo/jest-presets": "workspace:*",
-		"@repo/typescript-config": "workspace:*",
+		"@hwei/eslint-config": "workspace:*",
+		"@hwei/jest-presets": "workspace:*",
+		"@hwei/typescript-config": "workspace:*",
 		"@types/body-parser": "^1.19.5",
 		"@types/cors": "^2.8.17",
 		"@types/express": "^4.17.21",
