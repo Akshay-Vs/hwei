@@ -24,5 +24,9 @@ export const EnvSchema = z.object({
 
   // Optional configuration with a fallback
   LOG_LEVEL: z.enum(['error', 'warn', 'info', 'debug'])
-    .default('info')
+    .default('info'),
+
+
+  /// Services
+  AUTH_PORT: z.string().transform(val => parseInt(val)),
 });
