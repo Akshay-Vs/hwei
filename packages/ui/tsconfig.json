@@ -1,11 +1,13 @@
 {
-  "extends": "@hwei/typescript-config/react-library.json",
-  "include": [
-    "."
-  ],
-  "exclude": [
-    "dist",
-    "build",
-    "node_modules"
-  ]
+	"extends": "@proximity/typescript-config/react-library.json",
+	"compilerOptions": {
+		"module": "Node16",
+		"moduleResolution": "node16",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"]
+		}
+	},
+	"include": ["."],
+	"exclude": ["dist", "build", "node_modules"]
 }
