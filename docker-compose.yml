@@ -11,11 +11,11 @@ services:
       - 3000:3000
     networks:
       - hwei_network
-  api:
-    container_name: api
+  auth-service:
+    container_name: auth-service
     build:
       context: .
-      dockerfile: ./services/api/Dockerfile
+      dockerfile: ./services/auth/Dockerfile
     restart: always
     ports:
       - 3001:3001

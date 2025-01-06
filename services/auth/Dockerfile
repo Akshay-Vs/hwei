@@ -20,7 +20,7 @@ WORKDIR /app
 RUN pnpm add -g turbo
 
 COPY . .
-RUN turbo prune api --docker
+RUN turbo prune auth-service --docker
 
 FROM base AS installer
 RUN apk update && apk add --no-cache libc6-compat
@@ -58,4 +58,4 @@ USER expressjs
 
 COPY --from=installer /app .
 
-CMD node apps/api/dist/index.js
+CMD node services/auth/dist/index.js
