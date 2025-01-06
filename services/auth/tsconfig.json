@@ -1,9 +1,12 @@
 {
-	"extends": "@hwei/typescript-config/base.json",
 	"compilerOptions": {
 		"lib": ["ES2015"],
 		"outDir": "./dist",
-		"rootDir": "./src"
+		"rootDir": "./src",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+		"target": "ES2020"
 	},
 	"exclude": ["node_modules"],
 	"include": ["src"]
