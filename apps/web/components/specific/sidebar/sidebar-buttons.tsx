@@ -13,6 +13,7 @@ import {
 	ShoppingCart,
 	Truck,
 } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -51,23 +52,25 @@ const SidebarButtons = () => {
 			{sidebarButtons.map((button) => (
 				<Tooltip key={button.label}>
 					<TooltipTrigger key={button.label} asChild>
-						<Button
-							className="hover:bg-transparent"
-							variant="ghost"
-							size="icon"
-							aria-label={button.label}
-						>
-							<div
-								className={cn(
-									'rounded-full p-4',
-									path === button.href
-										? 'text-accent bg-secondary'
-										: 'text-secondary hover:bg-accent/10 hover:text-secondary/80 transition-all duration-300'
-								)}
+						<Link href={button.href}>
+							<Button
+								className="hover:bg-transparent"
+								variant="ghost"
+								size="icon"
+								aria-label={button.label}
 							>
-								{button.icon}
-							</div>
-						</Button>
+								<div
+									className={cn(
+										'rounded-full p-4',
+										path === button.href
+											? 'text-accent bg-secondary'
+											: 'text-secondary hover:bg-accent/10 hover:text-secondary/80 transition-all duration-300'
+									)}
+								>
+									{button.icon}
+								</div>
+							</Button>
+						</Link>
 					</TooltipTrigger>
 
 					<TooltipContent>
