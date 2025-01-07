@@ -3,6 +3,11 @@ import Image from 'next/image';
 
 import { ChevronDown } from 'lucide-react';
 import IconButton from '@/components/shared/button/icon-button';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@hwei/ui/shadcn/tooltip';
 
 const AccountSelector = () => {
 	return (
@@ -20,7 +25,17 @@ const AccountSelector = () => {
 				<p className="text-lg font-medium">Evelin Violet</p>
 			</div>
 
-			<IconButton icon={<ChevronDown className="text-inherit scale-150" />} />
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<IconButton
+						icon={<ChevronDown className="text-inherit" />}
+						ariaLabel="Switch Account"
+					/>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p className="text-sm font-semibold">Switch Account</p>
+				</TooltipContent>
+			</Tooltip>
 		</div>
 	);
 };

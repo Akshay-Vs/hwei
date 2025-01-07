@@ -50,9 +50,11 @@
 }
 
 @layer base {
-	* {
-		@apply border-border;
-	}
+	@layer base {
+    *:not(svg) {
+        @apply border-border;
+    }
+}
 	body {
 		@apply font-sans antialiased bg-background text-foreground;
 	}
