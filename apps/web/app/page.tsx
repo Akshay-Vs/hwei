@@ -2,9 +2,9 @@ import React from 'react';
 
 const page = () => {
 	return (
-		<div className="center gap-4 w-full h-[89vh] text-3xl text-secondary">
+		<main className="center gap-4 w-full h-[89vh] text-3xl text-secondary">
 			Hwei <span className="animate-wave">👋</span>
-		</div>
+		</main>
 	);
 };
 
