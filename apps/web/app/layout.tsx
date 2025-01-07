@@ -25,7 +25,7 @@ const RootLayout = ({
 	return (
 		<html lang="en">
 			<body
-				className={`${kantumruy_pro.variable} antialiased p-5 screen transition-all duration-300 transform-gpu`}
+				className={`${kantumruy_pro.variable} antialiased px-5 py-4 screen transition-all duration-300 transform-gpu`}
 			>
 				<Nav />
 				<Sidebar />

@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 
-import { Button } from '@hwei/ui/shadcn/button';
 import { ChevronDown } from 'lucide-react';
+import IconButton from '@/components/shared/button/icon-button';
 
-const ProfileDropdown = () => {
+const AccountSelector = () => {
 	return (
 		<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
 			<Image
@@ -20,11 +20,9 @@ const ProfileDropdown = () => {
 				<p className="text-lg font-medium">Evelin Violet</p>
 			</div>
 
-			<Button className="h-16 w-16 bg-transparent shadow-none border-secondary/60 border-2 hover:bg-secondary text-secondary/60 hover:text-highlight">
-				<ChevronDown className="text-inherit scale-150" />
-			</Button>
+			<IconButton icon={<ChevronDown className="text-inherit scale-150" />} />
 		</div>
 	);
 };
 
-export default ProfileDropdown;
+export default AccountSelector;
