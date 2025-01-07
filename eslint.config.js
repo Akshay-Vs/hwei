@@ -1,22 +1,14 @@
-module.exports = {
-  "extends": [
-    "plugin:storybook/recommended",
-    "next",
-    "next/core-web-vitals",
-    "eslint:recommended"
-  ],
-  "globals": {
-    "React": "readonly"
-  },
-  "overrides": [
-    {
-      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
-      "rules": {
-        "storybook/hierarchy-separator": "error"
+// eslint.config.js
+
+export default [
+  {
+    rules: {
+      'no-unused-vars': ['warn', { args: 'after-used', argsIgnorePattern: '^_' }],
+    },
+    languageOptions: {
+      globals: {
+        React: 'readonly'
       }
     }
-  ],
-  "rules": {
-    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
   }
-}
+]

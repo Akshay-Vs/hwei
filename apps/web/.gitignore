@@ -1,0 +1,59 @@
+
+# dependencies
+.DS_Store
+node_modules/
+package/
+.pnp/
+.pnp.js
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env
+.env.*
+!.env.example
+
+# turbo
+.turbo
+
+# production
+dist/
+examples/**/build/
+docs/build/
+.svelte-kit/
+.next/
+next-env.d.ts
+.nuxt/
+out/
+.vercel/
+.output/
+output/
+
+# vscode
+.vscode
+
+# jetbrains ide
+.idea
+
+# rollup
+.rollup.cache
+
+# vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# serwist
+__tests__/next/*/public/sw.js*
+__tests__/next/*/public/swe-worker-*.js*
+/public/sw.js
+/public/swe-worker-*.js
+
+# typescript
+tsconfig.tsbuildinfo
+
+# pnpm ci
+.pnpm-store

@@ -1,10 +1,31 @@
-const path = require("path");
+import withSerwistInit from '@serwist/next';
+import { fileURLToPath } from 'url';
+import path from "path";
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const withSerwist = withSerwistInit({
+  swSrc: 'app/sw.ts',
+  swDest: 'public/sw.js',
+});
+
+const nextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@hwei/ui"],
   output: "standalone",
   experimental: {
     outputFileTracingRoot: path.join(__dirname, "../../"),
   },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'utfs.io',
+        port: '',
+        pathname: '/**',
+      },
+    ]
+  }
 };
+
+export default withSerwist(nextConfig);

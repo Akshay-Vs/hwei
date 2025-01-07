@@ -1,0 +1,40 @@
+{
+	"theme_color": "#FFFFFF",
+	"background_color": "#FFFFFF",
+	"display": "standalone",
+	"scope": "/",
+	"start_url": "/",
+	"name": "hwei",
+	"short_name": "hwei",
+	"description": "News App",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"purpose": "maskable",
+			"sizes": "512x512",
+			"src": "/icon512_maskable.png",
+			"type": "image/png"
+		},
+		{
+			"purpose": "any",
+			"sizes": "512x512",
+			"src": "/icon512_rounded.png",
+			"type": "image/png"
+		}
+	],
+	"id": "com.akvs.hwei.xi",
+	"lang": "en",
+	"orientation": "portrait",
+	"display_override": ["standalone", "window-controls-overlay", "browser"],
+	"dir": "auto",
+	"categories": ["ecommerce", "analytics", "business", "productivity"]
+}
