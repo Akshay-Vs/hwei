@@ -6,6 +6,9 @@ import { myMetadata, myViewport } from '@/pwa';
 import '@hwei/ui/styles.css';
 import '@/styles/global.scss';
 
+import Nav from '@/components/specific/nav/nav';
+import Sidebar from '@/components/specific/sidebar/sidebar';
+
 const kantumruy_pro = Kantumruy_Pro({
 	variable: '--font-kantumruy-pro',
 	subsets: ['latin'],
@@ -21,7 +24,11 @@ const RootLayout = ({
 }>) => {
 	return (
 		<html lang="en">
-			<body className={`${kantumruy_pro.variable} antialiased`}>
+			<body
+				className={`${kantumruy_pro.variable} antialiased p-5 screen transition-all duration-300 transform-gpu`}
+			>
+				<Nav />
+				<Sidebar />
 				{children}
 			</body>
 		</html>
