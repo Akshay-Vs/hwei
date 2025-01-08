@@ -1,4 +1,4 @@
-<h1 align='center'>Hwei</h1>
+<h1 align='center'>Hwei (Under development)</h1>
 <h3 align='center'>E-commerce Headless Dashboard</h3>
 
 Hwei is an open-source, production-grade, headless e-commerce solution tailored for small to medium businesses. Designed to be modular, scalable, and developer-friendly, Hwei provides a robust backend, an admin panel, and customizable APIs for seamless storefront integration. Whether you're looking to launch your next online store or manage an existing business, Hwei empowers you to build and scale efficiently.
@@ -110,7 +110,7 @@ Hwei provides detailed API documentation for integrating your custom frontend. T
 - **Orders**: APIs for processing orders and tracking order statuses.
 - **Payments**: Stripe integration for payment handling.
 
-API Docs are available [here](https://hwei.example.com/docs).
+API Docs are available [here](https://github.com/Akshay-Vs/hwei/).
 
 ---
 
@@ -133,7 +133,7 @@ Contributions are welcome! If you’d like to contribute to Hwei, please:
 
 ## Roadmap
 
-#### Roadmap is available [here](https://github.com/akvs/hwei/blob/main/ROADMAP.md).
+#### Roadmap is available [here](https://github.com/Akshay-Vs/hwei/blob/main/ROADMAP.md).
 
 ## License
 

@@ -4,7 +4,7 @@
 
 - [x] Define objectives and scope for the project.
 - [x] Set up project repository on GitHub/GitLab.
-- [x] Prepare `.env.example` file with placeholder environment variables.
+- [] Prepare `.env.example` file with placeholder environment variables.
 - [x] Select tech stack and libraries
 - [ ] Create initial database schema using Prisma.
 - [ ] Write user stories or tasks for each feature.
