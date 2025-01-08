@@ -23,7 +23,7 @@ const config: Omit<Config, "content"> = {
           foreground: "hsl(var(--primary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
+          DEFAULT: "#C20D0D",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {

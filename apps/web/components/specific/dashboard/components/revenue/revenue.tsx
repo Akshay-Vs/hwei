@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 
 import SelectorButton from '@/components/shared/button/selector-button';
 import { Card, CardHeader } from '@hwei/ui/shadcn/card';
-import SiteVisitsGraph from './site-visit-chart';
+import RevenueGraph from './revenue-chart';
 
 type Selector = 'Daily' | 'Weekly';
 
 const options: Selector[] = ['Daily', 'Weekly'];
 
-const SiteVisits = () => {
+const Revenue = () => {
 	const [selected, setSelected] = useState<Selector>('Daily');
-	const totalVisits = '16.3k';
+	const totalRevenue = 300;
 
 	const handleChange = (value: Selector) => {
 		if (selected !== value) setSelected(value);
@@ -19,13 +19,13 @@ const SiteVisits = () => {
 
 	return (
 		<div>
-			<Card className="w-[42vw] h-[19rem] space-y-1">
+			<Card className="w-[42vw] h-[16rem] space-y-1">
 				<CardHeader className="p-0 gap-2">
 					<div className="flex items-center justify-between">
 						<h1 className="text-3xl font-medium inline-flex items-center">
-							Site Visits
+							Revenue
 							<span className="text-xl font-semibold px-2 pt-1">
-								({totalVisits})
+								(${totalRevenue})
 							</span>
 						</h1>
 						<div className="flex gap-4">
@@ -43,7 +43,7 @@ const SiteVisits = () => {
 					</div>
 
 					<div className="max-h-64 w-full center">
-						<SiteVisitsGraph />
+						<RevenueGraph />
 					</div>
 				</CardHeader>
 			</Card>
@@ -51,4 +51,4 @@ const SiteVisits = () => {
 	);
 };
 
-export default SiteVisits;
+export default Revenue;

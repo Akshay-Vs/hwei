@@ -22,27 +22,13 @@ ChartJS.register(
 	Legend
 );
 
-const SiteVisitsGraph = () => {
+const Revenue = () => {
 	const options: ChartOptions<'line'> = {
 		responsive: true,
 		maintainAspectRatio: false,
 		plugins: {
 			title: {
 				display: false,
-			},
-			tooltip: {
-				enabled: true,
-				mode: 'index',
-				intersect: false,
-				usePointStyle: true,
-				callbacks: {
-					labelPointStyle: () => {
-						return {
-							pointStyle: 'circle',
-							rotation: 0,
-						};
-					},
-				},
 			},
 			legend: {
 				position: 'top',
@@ -58,9 +44,29 @@ const SiteVisitsGraph = () => {
 					},
 				},
 			},
+			tooltip: {
+				enabled: true,
+				mode: 'index',
+				intersect: false,
+				usePointStyle: true,
+				callbacks: {
+					labelPointStyle: () => {
+						return {
+							pointStyle: 'circle',
+							rotation: 0,
+						};
+					},
+					label: (context) => {
+						const datasetLabel = context.dataset.label || '';
+						const value = context.raw;
+						return `${datasetLabel}: ${value}`;
+					},
+				},
+			},
 		},
 		interaction: {
 			intersect: false,
+			mode: 'index', // Ensures both datasets are highlighted together
 		},
 		scales: {
 			x: {
@@ -81,8 +87,10 @@ const SiteVisitsGraph = () => {
 					display: true,
 					text: 'Value',
 				},
-				suggestedMin: -10,
-				suggestedMax: 200,
+				stacked: true,
+			},
+			y2: {
+				display: false,
 			},
 		},
 	};
@@ -91,25 +99,27 @@ const SiteVisitsGraph = () => {
 		labels: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
 		datasets: [
 			{
-				label: 'unique visits',
-				data: [100, 400, 500, 200, 600, 900, 340],
+				label: 'total revenue',
+				data: [300, 600, 400, 800, 100, 300, 340],
 				borderColor: '#EC8816',
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,
 				borderWidth: 2,
+				yAxisID: 'y',
 			},
 			{
-				label: 'recurring visits',
-				data: [100, 600, 100, 800, 600, 100, 700],
+				label: 'items sold',
+				data: [30, 48, 57, 25, 30, 50, 24],
 				borderColor: '#6780D2',
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,
 				borderWidth: 2,
+				yAxisID: 'y2',
 			},
 		],
 	};
 
-	return <Line options={options} data={data} className="h-56 px-4" />;
+	return <Line options={options} data={data} className="h-44 px-4" />;
 };
 
-export default SiteVisitsGraph;
+export default Revenue;
