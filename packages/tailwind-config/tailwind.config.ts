@@ -17,6 +17,7 @@ const config: Omit<Config, "content"> = {
         accent: "#EFB778",
         highlight: "#F5F6F8",
         secondary: "#111111",
+        tertiary: '#6780D2',
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

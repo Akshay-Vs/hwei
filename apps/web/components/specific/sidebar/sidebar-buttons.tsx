@@ -52,19 +52,24 @@ const SidebarButtons = () => {
 			{sidebarButtons.map((button) => (
 				<Tooltip key={button.label}>
 					<TooltipTrigger key={button.label} asChild>
-						<Link href={button.href}>
+						<Link
+							href={button.href}
+							className="focus:outline-dotted focus:outline-accent focus:border-secondary center border-2 border-transparent active:outline-accent"
+						>
 							<Button
 								className="hover:bg-transparent"
 								variant="ghost"
 								size="icon"
 								aria-label={button.label}
+								aria-current={path === button.href}
+								tabIndex={-1}
 							>
 								<div
 									className={cn(
-										'rounded-full p-4',
+										'rounded-full p-4 transition-all duration-300',
 										path === button.href
 											? 'text-accent bg-secondary'
-											: 'text-secondary hover:bg-accent/10 hover:text-secondary/80 transition-all duration-300'
+											: 'text-secondary hover:bg-accent/20 hover:text-secondary/80'
 									)}
 								>
 									{button.icon}
