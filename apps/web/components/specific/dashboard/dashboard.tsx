@@ -1,10 +1,14 @@
 import React from 'react';
 import SiteVisits from './components/site-visits';
+import TopSellers from './components/top-sellers';
 
 const Dashboard = () => {
 	return (
 		<div className="full">
-			<SiteVisits />
+			<div className="flex gap-10">
+				<SiteVisits />
+				<TopSellers />
+			</div>
 		</div>
 	);
 };
