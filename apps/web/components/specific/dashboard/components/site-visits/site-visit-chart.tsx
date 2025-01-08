@@ -86,7 +86,7 @@ const SiteVisitsGraph = () => {
 			},
 			{
 				label: 'recurring visits',
-				data: [100, 600, 100, 800, 3600, 100, 700],
+				data: [100, 600, 100, 800, 600, 100, 700],
 				borderColor: '#6780D2',
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,

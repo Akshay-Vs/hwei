@@ -18,7 +18,7 @@ const SiteVisits = () => {
 
 	return (
 		<div>
-			<Card className="w-[40vw] h-80">
+			<Card className="w-[42vw] h-[19rem] space-y-1">
 				<CardHeader className="p-0 gap-2">
 					<div className="flex items-center justify-between">
 						<h1 className="text-3xl font-medium">Site Visits</h1>

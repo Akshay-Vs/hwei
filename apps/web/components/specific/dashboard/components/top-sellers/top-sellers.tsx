@@ -6,7 +6,7 @@ const TopSellers = () => {
 	const products = [
 		{
 			id: 1,
-			title: 'Yellow Sports Running Shoes Shoes Shoes Shoes Shoes Shoes Shoes ',
+			title: 'Yellow Sports Running Shoes',
 			image:
 				'https://utfs.io/f/u628d5y0J6C1XsGgi6FQnH0wSx3JCMmKG5fDdjVpYL8rXaiy',
 			stock: 47,
@@ -39,7 +39,7 @@ const TopSellers = () => {
 				<h1 className="text-2xl font-medium space-y-0">Top Sellers</h1>
 			</CardHeader>
 
-			<div className="center justify-between gap-4">
+			<div className="center justify-between gap-8">
 				{products.map((product) => (
 					<ProductCard
 						key={product.id}
