@@ -30,6 +30,20 @@ const SiteVisitsGraph = () => {
 			title: {
 				display: false,
 			},
+			tooltip: {
+				enabled: true,
+				mode: 'index',
+				intersect: false,
+				usePointStyle: true,
+				callbacks: {
+					labelPointStyle: () => {
+						return {
+							pointStyle: 'circle',
+							rotation: 0,
+						};
+					},
+				},
+			},
 			legend: {
 				position: 'top',
 				align: 'start',

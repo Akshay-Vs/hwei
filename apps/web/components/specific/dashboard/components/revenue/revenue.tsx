@@ -11,6 +11,7 @@ const options: Selector[] = ['Daily', 'Weekly'];
 
 const Revenue = () => {
 	const [selected, setSelected] = useState<Selector>('Daily');
+	const totalRevenue = 300;
 
 	const handleChange = (value: Selector) => {
 		if (selected !== value) setSelected(value);
@@ -21,7 +22,12 @@ const Revenue = () => {
 			<Card className="w-[42vw] h-[16rem] space-y-1">
 				<CardHeader className="p-0 gap-2">
 					<div className="flex items-center justify-between">
-						<h1 className="text-3xl font-medium">Site Visits</h1>
+						<h1 className="text-3xl font-medium inline-flex items-center">
+							Revenue
+							<span className="text-xl font-semibold px-2 pt-1">
+								(${totalRevenue})
+							</span>
+						</h1>
 						<div className="flex gap-4">
 							{options.map((item) => (
 								<SelectorButton
