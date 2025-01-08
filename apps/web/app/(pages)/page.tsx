@@ -1,11 +1,7 @@
-import React from 'react';
+import Dashboard from '@/components/specific/dashboard/dashboard';
 
 const DashboardPage = () => {
-	return (
-		<main>
-			Hwei <span className="animate-wave">👋</span>
-		</main>
-	);
+	return <Dashboard />;
 };
 
 export default DashboardPage;
