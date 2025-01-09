@@ -1,5 +1,4 @@
 import ProductCard from '@/components/shared/card/product-card';
-import { Card, CardContent, CardHeader } from '@hwei/ui/shadcn/card';
 import React from 'react';
 
 const TopSellers = () => {

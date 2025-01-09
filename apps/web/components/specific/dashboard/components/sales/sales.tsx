@@ -2,6 +2,7 @@
 import SelectorButton from '@/components/shared/button/selector-button';
 import { Card, CardHeader } from '@hwei/ui/shadcn/card';
 import React, { useState } from 'react';
+import { SalesChart } from './sales-chart';
 
 type Selector = 'Daily' | 'Weekly';
 
@@ -15,11 +16,11 @@ const Sales = () => {
 	};
 
 	return (
-		<Card className="h-full w-full">
+		<Card className="h-[36rem] w-full">
 			<CardHeader className="p-0 gap-2 w-full">
 				<div className="flex items-center justify-between">
 					<h1 className="text-3xl font-medium inline-flex items-center">
-						Revenue
+						Sales
 					</h1>
 					<div className="flex gap-4">
 						{options.map((item) => (
@@ -35,6 +36,8 @@ const Sales = () => {
 					</div>
 				</div>
 			</CardHeader>
+
+			<SalesChart />
 		</Card>
 	);
 };
