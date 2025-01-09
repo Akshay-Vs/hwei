@@ -7,10 +7,10 @@ import ProductsLineChart from './products-chart';
 const ProductsChart = () => {
 	return (
 		<div>
-			<Card className="w-[42vw] h-full max-h-[15rem] space-y-1">
+			<Card className="w-[42vw] h-full max-h-[14rem] space-y-1">
 				<CardHeader className="p-0 gap-2">
 					<div className="flex items-center justify-between">
-						<h1 className="text-3xl font-medium inline-flex items-center">
+						<h1 className="text-2xl font-medium inline-flex items-center">
 							Inventory
 						</h1>
 					</div>

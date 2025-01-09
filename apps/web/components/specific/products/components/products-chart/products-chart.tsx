@@ -70,7 +70,11 @@ const ProductsLineChart = () => {
 	};
 
 	return (
-		<Line options={options} data={data} className="h-40 px-4 cursor-pointer" />
+		<Line
+			options={options}
+			data={data}
+			className="h-[9rem] px-4 cursor-pointer"
+		/>
 	);
 };
 
