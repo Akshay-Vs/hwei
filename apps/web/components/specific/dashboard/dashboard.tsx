@@ -4,6 +4,7 @@ import TopSellers from './components/top-sellers';
 import VisitsFrom from './components/visits-from/visits-from';
 import Revenue from './components/revenue';
 import ConversionRate from './components/conversion-rate/conversion-rate';
+import Sales from './components/sales';
 
 const Dashboard = () => {
 	return (
@@ -16,8 +17,9 @@ const Dashboard = () => {
 				</div>
 				<Revenue />
 			</div>
-			<div>
+			<div className="flex flex-col gap-8 pb-4">
 				<TopSellers />
+				<Sales />
 			</div>
 		</div>
 	);

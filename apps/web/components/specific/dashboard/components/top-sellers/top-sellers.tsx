@@ -1,5 +1,4 @@
 import ProductCard from '@/components/shared/card/product-card';
-import { Card, CardHeader } from '@hwei/ui/shadcn/card';
 import React from 'react';
 
 const TopSellers = () => {
@@ -34,10 +33,8 @@ const TopSellers = () => {
 		},
 	];
 	return (
-		<Card className="bg-transparent rounded-none p-0 flex flex-col gap-4">
-			<CardHeader>
-				<h1 className="text-2xl font-medium space-y-0">Top Sellers</h1>
-			</CardHeader>
+		<div className="bg-transparent rounded-none p-0 flex flex-col gap-4 h-fit w-full">
+			<h1 className="text-2xl font-medium space-y-0">Top Sellers</h1>
 
 			<div className="center justify-between gap-8">
 				{products.map((product) => (
@@ -52,7 +49,7 @@ const TopSellers = () => {
 					</ProductCard>
 				))}
 			</div>
-		</Card>
+		</div>
 	);
 };
 

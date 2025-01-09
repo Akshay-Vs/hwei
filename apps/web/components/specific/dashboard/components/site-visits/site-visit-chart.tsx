@@ -12,6 +12,8 @@ import {
 	ChartOptions,
 } from 'chart.js';
 
+import { lineOptions } from '@/configs/charts/line-chart-options';
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -24,44 +26,7 @@ ChartJS.register(
 
 const SiteVisitsGraph = () => {
 	const options: ChartOptions<'line'> = {
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			title: {
-				display: false,
-			},
-			tooltip: {
-				enabled: true,
-				mode: 'index',
-				intersect: false,
-				usePointStyle: true,
-				callbacks: {
-					labelPointStyle: () => {
-						return {
-							pointStyle: 'circle',
-							rotation: 0,
-						};
-					},
-				},
-			},
-			legend: {
-				position: 'top',
-				align: 'start',
-				labels: {
-					boxWidth: 8,
-					boxHeight: 8,
-					usePointStyle: true,
-					pointStyle: 'circle',
-					font: {
-						size: 16,
-						weight: 500,
-					},
-				},
-			},
-		},
-		interaction: {
-			intersect: false,
-		},
+		...lineOptions,
 		scales: {
 			x: {
 				display: true,
@@ -93,6 +58,7 @@ const SiteVisitsGraph = () => {
 			{
 				label: 'unique visits',
 				data: [100, 400, 500, 200, 600, 900, 340],
+				backgroundColor: '#ECB77B',
 				borderColor: '#EC8816',
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,
@@ -101,6 +67,7 @@ const SiteVisitsGraph = () => {
 			{
 				label: 'recurring visits',
 				data: [100, 600, 100, 800, 600, 100, 700],
+				backgroundColor: '#99A7D4',
 				borderColor: '#6780D2',
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,
