@@ -8,7 +8,7 @@ interface ProductCardProps extends PropsWithChildren {
 
 const ProductCard = ({ title, img, children }: ProductCardProps) => {
 	return (
-		<div className="flex flex-col gap-2 cursor-pointer flex-shrink h-fit w-fit">
+		<div className="flex flex-col gap-2 cursor-pointer flex-shrink w-52 h-full">
 			<Image
 				src={img}
 				alt={title}

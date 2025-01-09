@@ -48,7 +48,7 @@ const sidebarButtons = [
 const SidebarButtons = () => {
 	const path = usePathname();
 	return (
-		<div className="flex flex-col gap-12">
+		<div className="flex flex-col gap-12 full">
 			{sidebarButtons.map((button) => (
 				<Tooltip key={button.label}>
 					<TooltipTrigger key={button.label} asChild>

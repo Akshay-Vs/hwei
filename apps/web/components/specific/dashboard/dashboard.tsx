@@ -16,7 +16,7 @@ const Dashboard = () => {
 				</div>
 				<Revenue />
 			</div>
-			<div>
+			<div className="flex flex-col gap-4">
 				<TopSellers />
 			</div>
 		</div>
