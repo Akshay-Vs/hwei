@@ -1,5 +1,5 @@
 {
-	"extends": "@proximity/typescript-config/react-library.json",
+	"extends": "@hwei/typescript-config/react-library.json",
 	"compilerOptions": {
 		"module": "Node16",
 		"moduleResolution": "node16",

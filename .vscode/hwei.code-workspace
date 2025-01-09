@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "✨ hwei",
+			"path": ".."
+		},
+		{
+			"name": "🚀 web",
+			"path": "../apps/web"
+		},
+		{
+			"name": "📦 @hwei/tailwind-config",
+			"path": "../packages/tailwind-config"
+		},
+		{
+			"name": "📦 @hwei/ui",
+			"path": "../packages/ui"
+		}
+	],
+	"settings": {}
+}

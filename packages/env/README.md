@@ -43,14 +43,14 @@ LOG_LEVEL=debug
 ```json
 "dependencies": {
   ...other dependencies,
-  "@proximity/env": "workspace:*"
+  "@hwei/env": "workspace:*"
 }
 ```
 
 ### Usage in an application:
 
 ```ts
-import env from '@proximity/env';
+import env from '@hwei/env';
 
 // This will validate the environment and throw an error if invalid
 const config = env.loadEnv();
