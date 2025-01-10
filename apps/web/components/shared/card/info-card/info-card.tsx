@@ -5,9 +5,11 @@ import React from 'react';
 interface InfoCardProps {
 	title: string;
 	value: string | number;
-	affect: 'positive' | 'negetive' | 'neutral';
-	change: 'increase' | 'decrease' | 'neutral';
-	changeRate: number;
+	showChange?: boolean;
+	description?: string;
+	affect?: 'positive' | 'negetive' | 'neutral';
+	change?: 'increase' | 'decrease' | 'neutral';
+	changeRate?: number;
 }
 
 const InfoCard = ({
@@ -16,6 +18,8 @@ const InfoCard = ({
 	affect,
 	change,
 	changeRate,
+	description,
+	showChange = true,
 }: InfoCardProps) => {
 	const icon =
 		affect === 'positive' ? (
@@ -30,12 +34,18 @@ const InfoCard = ({
 		<Card className="h-full w-full flex items-center justify-evenly flex-col gap-5">
 			<h2 className="text-2xl font-medium">{title}</h2>
 			<p className="text-5xl font-medium">{value}</p>
-			<p className="text-base font-medium inline-flex justify-center items-center w-3/2 gap-2">
-				{icon}
-				{change === 'neutral'
-					? 'no change from last month'
-					: `${changeRate}% ${change} from last month`}
-			</p>
+			{showChange ? (
+				<p className="text-base font-medium inline-flex justify-center items-center w-3/2 gap-2">
+					{icon}
+					{change === 'neutral'
+						? 'no change from last month'
+						: `${changeRate}% ${change} from last month`}
+				</p>
+			) : (
+				<p className="text-base font-medium inline-flex justify-center items-center w-3/2 gap-2">
+					{description}
+				</p>
+			)}
 		</Card>
 	);
 };
