@@ -1,10 +1,10 @@
-import React from 'react';
 import InfoCard from '@/components/shared/card/info-card/info-card';
+import React from 'react';
 
-const MonthlySales = () => {
+const TotalSales = () => {
 	return (
 		<InfoCard
-			title="Monthly Sales"
+			title="Total Sales"
 			value="240"
 			change="increase"
 			affect="positive"
@@ -13,4 +13,4 @@ const MonthlySales = () => {
 	);
 };
 
-export default MonthlySales;
+export default TotalSales;
