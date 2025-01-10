@@ -24,7 +24,7 @@ import {
 } from '@hwei/ui/shadcn/tooltip';
 
 interface SearchInputProps {
-	onSearch: (query: string) => void;
+	onSearch: (query: string) => Promise<void>;
 }
 
 const FormSchema = z.object({
@@ -41,7 +41,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
 
 	const query = form.watch('query');
 
-	useDebouncedSearch({ onSearch, query });
+	const { loading, startLoading } = useDebouncedSearch({ onSearch, query });
 
 	return (
 		<Form {...form}>
@@ -69,16 +69,20 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
 							variant="ghost"
 							className="hover:bg-transparent"
 							onClick={(e) => {
-								e.preventDefault();
-								onSearch(query);
+								startLoading(async () => {
+									e.preventDefault();
+									e.stopPropagation();
+									await onSearch(query);
+								});
 							}}
+							loading={loading}
 						>
 							<Search className="w-6 h-6 text-xl text-stroke" strokeWidth={2} />
 						</Button>
 					</TooltipTrigger>
 
 					<TooltipContent>
-						<p className="text-sm font-semibold">Refresh</p>
+						<p className="text-sm font-semibold">Search</p>
 					</TooltipContent>
 				</Tooltip>
 			</form>

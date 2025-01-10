@@ -4,10 +4,14 @@ import React from 'react';
 const ProductSearch = () => {
 	return (
 		<SearchInput
-			onSearch={(query) => {
-				// Perform server-side search
-				console.log('Server query:', query);
-			}}
+			onSearch={async (query) =>
+				await new Promise((resolve) =>
+					setTimeout(() => {
+						console.log(query);
+						resolve();
+					}, 1000)
+				)
+			}
 		/>
 	);
 };
