@@ -4,6 +4,7 @@ import MonthlySales from './components/monthly-sales/monthly-sales';
 import Returns from './components/returns/returns';
 import Reviews from './components/reviews/reviews';
 import LowOnStocks from './components/low-on-stocks/low-on-stocks';
+import ProductsTable from './components/products-table/products-table';
 
 const Products = () => {
 	return (
@@ -15,7 +16,10 @@ const Products = () => {
 				<Returns />
 			</div>
 
-			<LowOnStocks />
+			<div className="col gap-16 full">
+				<LowOnStocks />
+				<ProductsTable />
+			</div>
 		</div>
 	);
 };

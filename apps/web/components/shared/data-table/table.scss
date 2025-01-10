@@ -1,0 +1,10 @@
+.th-rounded {
+	padding: 18px 32px;
+	&:first-child {
+		border-radius: 50px 0px 0px 50px;
+	}
+
+	&:last-child {
+		border-radius: 0px 50px 50px 0px;
+	}
+}

@@ -3,7 +3,7 @@ import React from 'react';
 
 const ProductsPage = () => {
 	return (
-		<div className="overflow-y-scroll max-h-[90vh] full">
+		<div className="overflow-y-scroll  full">
 			<Products />
 		</div>
 	);
