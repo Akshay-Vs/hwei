@@ -50,10 +50,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 			<button
 				className={cn(buttonVariants({ variant, size, className }))}
 				ref={ref}
+				disabled={loading}
 				{...props}
 			>
 				{loading ? (
-					<LoaderCircle className="text-inherit scale-150 animate-spin" />
+					<LoaderCircle className="text-inherit animate-spin" />
 				) : (
 					children
 				)}

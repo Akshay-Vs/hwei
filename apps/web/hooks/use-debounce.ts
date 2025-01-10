@@ -1,13 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 
 interface useDebouncedSearchProps {
-  onSearch?: (query: string) => void;
+  onSearch?: (query: string) => Promise<void>;
   debounceTime?: number;
   query: string;
 }
 
 const useDebouncedSearch = ({ query, onSearch, debounceTime = 300 }: useDebouncedSearchProps) => {
   const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [loading, startLoading] = useTransition();
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -19,9 +20,11 @@ const useDebouncedSearch = ({ query, onSearch, debounceTime = 300 }: useDebounce
 
   useEffect(() => {
     if (debouncedQuery) {
-      onSearch?.(debouncedQuery);
+      startLoading(async () => await onSearch?.(debouncedQuery))
     }
   }, [debouncedQuery, onSearch]);
+
+  return { loading, debouncedQuery };
 }
 
 export default useDebouncedSearch;
