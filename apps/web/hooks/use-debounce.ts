@@ -24,7 +24,7 @@ const useDebouncedSearch = ({ query, onSearch, debounceTime = 300 }: useDebounce
     }
   }, [debouncedQuery, onSearch]);
 
-  return { loading, debouncedQuery };
+  return { loading, debouncedQuery, startLoading };
 }
 
 export default useDebouncedSearch;

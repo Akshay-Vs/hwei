@@ -41,7 +41,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
 
 	const query = form.watch('query');
 
-	const { loading } = useDebouncedSearch({ onSearch, query });
+	const { loading, startLoading } = useDebouncedSearch({ onSearch, query });
 
 	return (
 		<Form {...form}>
@@ -69,8 +69,11 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
 							variant="ghost"
 							className="hover:bg-transparent"
 							onClick={(e) => {
-								e.preventDefault();
-								onSearch(query);
+								startLoading(async () => {
+									e.preventDefault();
+									e.stopPropagation();
+									await onSearch(query);
+								});
 							}}
 							loading={loading}
 						>
