@@ -12,6 +12,7 @@ import {
 	Package,
 	ShoppingCart,
 	Truck,
+	User,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -34,14 +35,14 @@ const sidebarButtons = [
 		href: '/orders',
 	},
 	{
-		label: 'Shipping',
-		icon: <Truck className="w-8 h-8 " strokeWidth={1.5} />,
-		href: '/shipping',
+		label: 'Users',
+		icon: <User className="w-8 h-8 " strokeWidth={1.5} />,
+		href: '/users',
 	},
 	{
-		label: 'Earnings',
+		label: 'Revenue',
 		icon: <DollarSign className="w-8 h-8" strokeWidth={1.5} />,
-		href: '/earnings',
+		href: '/revenue',
 	},
 ];
 
