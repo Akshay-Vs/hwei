@@ -20,6 +20,10 @@ body {
 	box-sizing: border-box;
 	text-rendering: optimizeSpeed;
 	background-color: $background;
+
+	-ms-overflow-style: none;
+	-moz-scrollbar-width: none;
+	scrollbar-width: none;
 }
 
 html {

@@ -1,6 +1,5 @@
 import { Button } from '@hwei/ui/shadcn/button';
 import { cn } from '@hwei/ui/utils/cn';
-import { LoaderCircle } from 'lucide-react';
 import React from 'react';
 
 interface IconButtonProps {
@@ -30,11 +29,7 @@ const IconButton = ({
 				className
 			)}
 		>
-			{loading ? (
-				<LoaderCircle className="text-inherit scale-150 animate-spin" />
-			) : (
-				<>{icon}</>
-			)}
+			{icon}
 		</Button>
 	);
 };

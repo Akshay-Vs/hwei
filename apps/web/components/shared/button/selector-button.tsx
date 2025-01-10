@@ -1,6 +1,5 @@
 import { Button } from '@hwei/ui/shadcn/button';
 import { cn } from '@hwei/ui/utils/cn';
-import { LoaderCircle } from 'lucide-react';
 import React, { PropsWithChildren } from 'react';
 
 interface SelectorButtonProps extends PropsWithChildren {
@@ -36,11 +35,7 @@ const SelectorButton = ({
 				className
 			)}
 		>
-			{loading ? (
-				<LoaderCircle className="text-inherit scale-150 animate-spin" />
-			) : (
-				<>{children}</>
-			)}
+			{children}
 		</Button>
 	);
 };
