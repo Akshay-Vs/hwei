@@ -28,7 +28,7 @@ const SelectorButton = ({
 			aria-busy={loading}
 			aria-current={selected}
 			className={cn(
-				'h-12 min-w-16 px-6 shadow-none text-base font-medium transition-all duration-300',
+				'h-12 min-w-16 px-6 shadow-none text-base font-medium transition-all duration-300 disabled:cursor-not-allowed',
 				selected
 					? 'border-accent/60 border-2 bg-accent/40 hover:bg-accent/60 text-secondary'
 					: 'border-secondary/60 border-2 bg-accent/5 hover:bg-secondary/90 focus-visible:bg-secondary/90 text-secondary focus-visible:text-white hover:text-white',
