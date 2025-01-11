@@ -22,7 +22,7 @@ import {
 	TableHeader,
 	TableRow,
 } from './table';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import SelectorButton from '../button/selector-button';
 
 interface DataTableProps<TData, TValue> {
@@ -84,9 +84,6 @@ export function DataTable<TData, TValue>({
 						<TableRow
 							key={row.id}
 							data-state={row.getIsSelected() && 'selected'}
-							onClick={() => {
-								const originalData = row.original as TData;
-							}}
 						>
 							{row.getVisibleCells().map((cell) => (
 								<TableCell key={cell.id} className="text-md">
