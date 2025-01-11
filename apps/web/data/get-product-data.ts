@@ -1,4 +1,7 @@
-export const getProducts = () => [
+import { InfoCardProps } from "@/components/shared/card/info-card/info-card";
+import { TCardInfo } from "@/types/card-info";
+
+export const getProducts = async () => [
   {
     id: '1',
     title: 'Yellow Sports Running Shoes',
@@ -101,3 +104,37 @@ export const getProducts = () => [
   },
 
 ];
+
+export const getProductsLength = async (): Promise<TCardInfo> => {
+  const products = await getProducts();
+  const len = products.length;
+  return {
+    value: len,
+    changeRate: 20,
+    change: 'increase',
+    affect: 'positive',
+  }
+}
+
+export const getAvgRating = async (): Promise<TCardInfo> => {
+  const products = await getProducts();
+  const ratings = products.map((product) => product.rating);
+  const sum = ratings.reduce((a, b) => a + b, 0);
+  const avg = sum / ratings.length;
+  return {
+    value: avg.toFixed(2),
+    changeRate: 10,
+    change: 'increase',
+    affect: 'positive',
+  };
+};
+
+export const getLowStocks = async (limit = 8) => {
+  const products = await getProducts();
+  const stockThreshold = 15;
+  const lowStockProducts = products.filter(
+    (product) => product.stock < stockThreshold
+  );
+
+  return { products: lowStockProducts.slice(0, limit), stockThreshold };
+}
