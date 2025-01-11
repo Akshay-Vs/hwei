@@ -8,7 +8,7 @@ const Reviews = () => {
 			title="Reviews"
 			value="7.4"
 			change="decrease"
-			affect="negetive"
+			affect="negative"
 			changeRate={10}
 		/>
 	);
