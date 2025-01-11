@@ -19,7 +19,7 @@ const InfoCard = ({
 	const icon =
 		affect === 'positive' ? (
 			<ArrowUpRight className="inline-block w-8 h-8 text-green-500" />
-		) : affect === 'negetive' ? (
+		) : affect === 'negative' ? (
 			<ArrowDownRight className="inline-block w-8 h-8 text-red-500" />
 		) : (
 			<Minus className="inline-block w-8 h-8 text-yellow-500" />
