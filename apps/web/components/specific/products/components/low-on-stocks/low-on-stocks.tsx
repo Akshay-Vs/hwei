@@ -19,8 +19,11 @@ const LowOnStocks = async () => {
 						className="w-44 h-44"
 					>
 						<p
-							className={`text-[16px] font-semibold ${product.stock < stockThreshold ? 'text-destructive' : 'text-secondary'}`}
-						>{`${product.stock} left`}</p>
+							className={`text-[16px] font-semibold flex items-center gap-2 ${product.stock < stockThreshold ? 'text-destructive' : 'text-secondary'}`}
+						>
+							{product.stock < stockThreshold && <span aria-hidden="true">⚠️</span>}
+							<span>{`${product.stock} left`}</span>
+						</p>
 					</ProductCard>
 				))}
 			</div>
