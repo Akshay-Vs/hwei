@@ -20,7 +20,7 @@ export const getTopSellers = async (
 	limit = 4
 ): Promise<TCardInfo & { products: Products[] }> => {
 	const products = await getProducts();
-	const topSellers = products.slice(0, 3);
+	const topSellers = products.slice(0, limit);
 	const sum = topSellers.reduce((a, b) => a + b.sales, 0);
 	return {
 		products: products.slice(0, limit),
