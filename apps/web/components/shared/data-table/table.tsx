@@ -6,7 +6,7 @@ const Table = React.forwardRef<
 	HTMLTableElement,
 	React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-	<div className="relative w-full overflow-auto">
+	<div className="relative w-full h-full overflow-auto">
 		<table
 			ref={ref}
 			className={cn('w-full caption-bottom text-sm', className)}
@@ -47,7 +47,7 @@ const TableFooter = React.forwardRef<
 	<tfoot
 		ref={ref}
 		className={cn(
-			'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
+			'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0 h-20 bottom-0',
 			className
 		)}
 		{...props}
@@ -95,7 +95,7 @@ const TableCell = React.forwardRef<
 	<td
 		ref={ref}
 		className={cn(
-			'px-8 py-4 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+			'px-8 py-[.85rem] align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
 			className
 		)}
 		{...props}

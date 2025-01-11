@@ -3,8 +3,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@hwei/ui/shadcn/button';
 import { ArrowUpDown } from 'lucide-react';
-import { Checkbox } from '@hwei/ui/shadcn/checkbox';
 import Image from 'next/image';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from '@hwei/ui/shadcn/tooltip';
 
 export type Products = {
 	id: string;
@@ -27,9 +31,16 @@ export const columns: ColumnDef<Products>[] = [
 				}}
 			>
 				Product
-				<ArrowUpDown
-					className={`w-5 h-5 ml-5 ${column.getIsSorted() === 'asc' ? 'text-accent mix-blend-multiply' : 'text-stroke'}`}
-				/>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<ArrowUpDown
+							className={`w-5 h-5 ml-5 ${column.getIsSorted() === 'asc' ? 'text-accent mix-blend-multiply' : 'text-stroke'}`}
+						/>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p className="text-sm font-semibold">Sort</p>
+					</TooltipContent>
+				</Tooltip>
 			</Button>
 		),
 
