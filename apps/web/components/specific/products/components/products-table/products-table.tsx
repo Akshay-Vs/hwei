@@ -3,7 +3,7 @@ import { Card } from '@hwei/ui/shadcn/card';
 import React, { useEffect, useState } from 'react';
 import ProductSearch from './product-search';
 import ProductAddButton from './product-add-button';
-import { columns, Products } from './columns';
+import { productColumns, Products } from './product-columns';
 import { getProducts } from '@/data/get-product-data';
 import { DataTable } from '../../../../shared/data-table/data-table';
 
@@ -24,7 +24,7 @@ const ProductsTable = () => {
 				<ProductAddButton />
 			</div>
 
-			<DataTable columns={columns} data={products} />
+			<DataTable columns={productColumns} data={products} />
 		</Card>
 	);
 };

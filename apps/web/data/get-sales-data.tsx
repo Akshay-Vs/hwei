@@ -1,7 +1,7 @@
 import { TCardInfo } from '@/types/card-info';
 import { getProducts } from './get-product-data';
 
-import { Products } from '@/components/specific/products/components/products-table/columns';
+import { Products } from '@/components/specific/products/components/products-table/product-columns';
 // TODO: change products import to prisma when it's ready
 
 export const getMonthlySales = async (): Promise<TCardInfo> => {

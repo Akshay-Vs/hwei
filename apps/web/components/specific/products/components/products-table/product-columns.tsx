@@ -9,6 +9,7 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from '@hwei/ui/shadcn/tooltip';
+import { formatPrice } from '@/utils/format-price';
 
 export type Products = {
 	id: string;
@@ -20,7 +21,7 @@ export type Products = {
 	image: string;
 };
 
-export const columns: ColumnDef<Products>[] = [
+export const productColumns: ColumnDef<Products>[] = [
 	{
 		accessorKey: 'title',
 		header: ({ column }) => (
@@ -69,6 +70,7 @@ export const columns: ColumnDef<Products>[] = [
 	{
 		accessorKey: 'price',
 		header: 'Price',
+		cell: ({ row }) => <p>{formatPrice(row.getValue('price'))}</p>,
 	},
 	{
 		accessorKey: 'stock',
