@@ -9,6 +9,8 @@ import {
 	ColumnFiltersState,
 	getFilteredRowModel,
 	PaginationState,
+	getSortedRowModel,
+	SortingState,
 } from '@tanstack/react-table';
 
 import {
@@ -31,6 +33,7 @@ export function DataTable<TData, TValue>({
 	data,
 }: DataTableProps<TData, TValue>) {
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [sorting, setSorting] = useState<SortingState>([]);
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 4,
@@ -44,9 +47,12 @@ export function DataTable<TData, TValue>({
 		getFilteredRowModel: getFilteredRowModel(),
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
+		onSortingChange: setSorting,
+		getSortedRowModel: getSortedRowModel(),
 		state: {
 			columnFilters,
 			pagination,
+			sorting,
 		},
 	});
 
