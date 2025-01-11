@@ -1,15 +1,10 @@
+import { TCardInfo } from '@/types/card-info';
 import { Card } from '@hwei/ui/shadcn/card';
 import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-react';
 import React from 'react';
 
-interface InfoCardProps {
+export interface InfoCardProps extends TCardInfo {
 	title: string;
-	value: string | number;
-	showChange?: boolean;
-	description?: string;
-	affect?: 'positive' | 'negetive' | 'neutral';
-	change?: 'increase' | 'decrease' | 'neutral';
-	changeRate?: number;
 }
 
 const InfoCard = ({
