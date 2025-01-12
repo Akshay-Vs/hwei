@@ -65,7 +65,7 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 		header: 'Products',
 		cell: ({ row }) => (
 			<div className="flex gap-2">
-				{row.getValue<TProduct[]>('products').map((product: any) => (
+				{row.getValue<TProduct[]>('products').map((product: TProduct) => (
 					<div key={product.id} className="flex items-center gap-4">
 						<Image
 							src={product.image}

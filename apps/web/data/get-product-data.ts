@@ -130,7 +130,7 @@ export const getAvgRating = async (): Promise<TCardInfo> => {
 
 export const getLowStocks = async (limit = 8) => {
   const products = await getProducts();
-  const stockThreshold = 1005;
+  const stockThreshold = 15;
   const lowStockProducts = products.filter(
     (product) => product.stock < stockThreshold
   );
