@@ -112,7 +112,7 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 									? 'text-accent mix-blend-multiply'
 									: 'text-stroke'
 							}`}
-							aria-label="Sort by username"
+							aria-label="Sort by order date"
 						/>
 					</TooltipTrigger>
 					<TooltipContent>
