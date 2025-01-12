@@ -41,7 +41,7 @@ export function SalesChart() {
 		<Bar
 			options={barOptions}
 			data={data}
-			className="max-h-[94%] cursor-pointer"
+			className="max-h-[30rem] w-full cursor-pointer"
 		/>
 	);
 }

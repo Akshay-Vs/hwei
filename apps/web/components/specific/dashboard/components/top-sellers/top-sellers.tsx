@@ -8,10 +8,10 @@ const TopSellers = async () => {
 	const { stockThreshold } = await getLowStocks();
 
 	return (
-		<div className="bg-transparent rounded-none p-0 flex flex-col gap-4 h-fit w-full">
-			<h1 className="text-2xl font-medium space-y-0">Top Sellers</h1>
+		<div className="bg-transparent rounded-none flex flex-col gap-4 h-fit w-full">
+			<h1 className="text-2xl font-medium space-y-0 px-4">Top Sellers</h1>
 
-			<div className="center justify-between gap-8">
+			<div className="center justify-between gap-6">
 				{products.map((product) => (
 					<ProductCard
 						key={product.id}

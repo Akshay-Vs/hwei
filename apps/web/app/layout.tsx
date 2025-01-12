@@ -27,7 +27,7 @@ const RootLayout = ({
 	return (
 		<html lang="en">
 			<body
-				className={`${kantumruy_pro.variable} antialiased px-5 w-full overflow-x-hidden`}
+				className={`${kantumruy_pro.variable} antialiased px-5 w-[calc(100vw-2px)]`}
 			>
 				<TooltipProvider>
 					<Nav />
