@@ -3,6 +3,7 @@ import OrdersChart from './components/orders-chart';
 import OrdersPending from './components/orders-pending/orders-pending';
 import TotalSales from './components/total-sales/total-sales';
 import OnTransit from './components/on-transit/on-transit';
+import OrdersTable from './components/orders-table/orders-table';
 
 const Orders = () => {
 	return (
@@ -13,6 +14,8 @@ const Orders = () => {
 				<OrdersPending />
 				<OnTransit />
 			</div>
+
+			<OrdersTable />
 		</div>
 	);
 };
