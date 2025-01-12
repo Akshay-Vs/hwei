@@ -7,7 +7,7 @@ import RouteTitle from './components/route-title/route-title';
 
 const Nav = () => {
 	return (
-		<nav className="flex justify-between items-center fixed top-0 px-5 left-0 w-full h-28 bg-background z-10">
+		<nav className="flex justify-between items-center fixed top-0 px-5 left-0 w-full h-28 bg-background/70 backdrop-blur-xl z-10 transform-gpu">
 			<div className="full flex items-center gap-24 full">
 				<ProfileDropdown />
 				<RouteTitle />

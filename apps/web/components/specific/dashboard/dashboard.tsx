@@ -8,7 +8,7 @@ import Sales from './components/sales';
 
 const Dashboard = () => {
 	return (
-		<div className="flex full gap-8">
+		<div className="flex full gap-4 p-0">
 			<div className="flex flex-col gap-4">
 				<SiteVisits />
 				<div className="center gap-4">
@@ -17,7 +17,7 @@ const Dashboard = () => {
 				</div>
 				<Revenue />
 			</div>
-			<div className="flex flex-col gap-8 pb-4">
+			<div className="flex h-fit w-full flex-col gap-4">
 				<TopSellers />
 				<Sales />
 			</div>

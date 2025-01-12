@@ -12,7 +12,6 @@ import {
 import { formatPrice } from '@/utils/format-price';
 import { TOrder } from '@/types/order';
 import { TProduct } from '@/types/product';
-import { Fragment } from 'react';
 
 export const ordersColumn: ColumnDef<TOrder>[] = [
 	{
@@ -50,22 +49,33 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 					alt={row.original.user.name}
 					width={50}
 					height={50}
-					className="rounded-full h-10 w-10"
+					className="rounded-full h-10 w-10 object-center object-cover"
 				/>
-				<p className="font-semibold text-secondary/80">
-					{row.getValue('username')}
-				</p>
+				<div className="flex flex-col">
+					<p className="text-secondary">{row.getValue('username')}</p>
+					<p className="text-secondary text-sm">{row.original.user.email}</p>
+				</div>
 			</div>
 		),
 		enableSorting: true,
 		enableHiding: false,
 	},
 	{
+		accessorKey: 'address',
+		accessorFn: (row) => row.user.address,
+		header: 'Address',
+		cell: ({ row }) => (
+			<div className="flex flex-col">
+				<p className="text-base text-secondary">{row.getValue('address')}</p>
+			</div>
+		),
+	},
+	{
 		accessorKey: 'products',
 		header: 'Products',
 		cell: ({ row }) => (
 			<div className="flex gap-2">
-				{row.getValue<TProduct[]>('products').map((product: any) => (
+				{row.getValue<TProduct[]>('products').map((product: TProduct) => (
 					<div key={product.id} className="flex items-center gap-4">
 						<Image
 							src={product.image}
@@ -74,10 +84,6 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 							height={100}
 							className="rounded w-14 h-14"
 						/>
-						{/* <div className="flex w-full justify-between gap-2">
-							<p className="text-lg font-semibold">{product.title}</p>
-							<p className="text-muted-foreground">x{product.quantity}</p>
-						</div> */}
 					</div>
 				))}
 			</div>
@@ -90,7 +96,31 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 	},
 	{
 		accessorKey: 'orderDate',
-		header: 'Order Date',
+		header: ({ column }) => (
+			<Button
+				variant={'ghost'}
+				onClick={() => {
+					column.toggleSorting(column.getIsSorted() === 'asc');
+				}}
+			>
+				<p className="font-semibold">Order Date</p>
+				<Tooltip>
+					<TooltipTrigger asChild>
+						<ArrowUpDown
+							className={`w-5 h-5 ml-5 ${
+								column.getIsSorted() === 'asc'
+									? 'text-accent mix-blend-multiply'
+									: 'text-stroke'
+							}`}
+							aria-label="Sort by order date"
+						/>
+					</TooltipTrigger>
+					<TooltipContent>
+						<p className="text-sm font-semibold">Sort</p>
+					</TooltipContent>
+				</Tooltip>
+			</Button>
+		),
 		cell: ({ row }) => (
 			<p>{new Date(row.getValue('orderDate')).toLocaleDateString()}</p>
 		),
