@@ -16,7 +16,7 @@ const Products = () => {
 				<Reviews />
 			</div>
 
-			<div className="col gap-16 full pb-4">
+			<div className="col gap-16 full">
 				<LowOnStocks />
 				<ProductsTable />
 			</div>

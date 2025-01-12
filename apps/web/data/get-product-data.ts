@@ -1,4 +1,3 @@
-import { InfoCardProps } from "@/components/shared/card/info-card/info-card";
 import { TCardInfo } from "@/types/card-info";
 
 export const getProducts = async () => [
@@ -131,7 +130,7 @@ export const getAvgRating = async (): Promise<TCardInfo> => {
 
 export const getLowStocks = async (limit = 8) => {
   const products = await getProducts();
-  const stockThreshold = 15;
+  const stockThreshold = 1005;
   const lowStockProducts = products.filter(
     (product) => product.stock < stockThreshold
   );
