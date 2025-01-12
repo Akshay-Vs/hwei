@@ -6,6 +6,8 @@ export const orders = [
     user: {
       name: 'Evelin Violet',
       avatar: 'https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0',
+      email: 'evelin.violet@example.com',
+      address: '123 Main St, Anytown, USA',
     },
     products: [
       {
@@ -32,6 +34,8 @@ export const orders = [
     user: {
       name: 'Evelin Violet',
       avatar: 'https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0',
+      email: 'evelin.violet@example.com',
+      address: '123 Main St, Anytown, USA',
     },
     products: [
       {
@@ -58,6 +62,8 @@ export const orders = [
     user: {
       name: 'Evelin Violet',
       avatar: 'https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0',
+      email: 'evelin.violet@example.com',
+      address: '123 Main St, Anytown, USA',
     },
     products: [
       {
@@ -77,6 +83,8 @@ export const orders = [
     user: {
       name: 'Evelin Violet',
       avatar: 'https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0',
+      email: 'evelin.violet@example.com',
+      address: '123 Main St, Anytown, USA',
     },
     products: [
       {

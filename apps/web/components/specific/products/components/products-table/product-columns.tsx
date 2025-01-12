@@ -31,7 +31,8 @@ export const productColumns: ColumnDef<Products>[] = [
 					column.toggleSorting(column.getIsSorted() === 'asc');
 				}}
 			>
-				Product
+				<p className="font-semibold">Product</p>
+
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<ArrowUpDown
