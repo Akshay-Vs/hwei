@@ -27,17 +27,15 @@ const RootLayout = ({
 	return (
 		<html lang="en">
 			<body
-				className={`${kantumruy_pro.variable} antialiased px-5 py-4 h-screen w-[calc(100vw-2px)] flex flex-col gap-5 transition-all duration-300 transform-gpu`}
+				className={`${kantumruy_pro.variable} antialiased px-5 w-[calc(100vw-2px)]`}
 			>
-				<div className="fixed top-0 left-0">
-					<NextTopLoader color="#f0b073" height={5} />
-				</div>
 				<TooltipProvider>
 					<Nav />
-					<div className="flex gap-5 full">
-						<Sidebar />
-						{children}
+					<Sidebar />
+					<div className="absolute top-0 left-0">
+						<NextTopLoader color="#f0b073" height={5} />
 					</div>
+					{children}
 				</TooltipProvider>
 			</body>
 		</html>

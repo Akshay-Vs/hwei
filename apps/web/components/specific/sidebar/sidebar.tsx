@@ -4,8 +4,8 @@ import SidebarButtons from './sidebar-buttons';
 
 const Sidebar = () => {
 	return (
-		<aside className="h-full w-fit max-w-28 relative pt-4 pb-6">
-			<div className="shadow-[rgba(0,_0,_0,_0.08)_0px_25px_50px_-12px] bg-highlight rounded-base full flex flex-col justify-between items-center gap-5 px-5 py-6">
+		<aside className="h-[calc(100vh-7rem)] w-24 mt-28 fixed top-0 left-5 z-20 center">
+			<div className="shadow-[rgba(0,_0,_0,_0.08)_0px_25px_50px_-12px] bg-highlight rounded-base flex flex-col justify-between items-center px-5 py-6 gap-5 h-[96%]">
 				<SidebarButtons />
 				<Logo />
 			</div>

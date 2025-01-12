@@ -47,7 +47,7 @@ const TableFooter = React.forwardRef<
 	<tfoot
 		ref={ref}
 		className={cn(
-			'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0 h-20 bottom-0',
+			'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0 bottom-0',
 			className
 		)}
 		{...props}
@@ -62,7 +62,7 @@ const TableRow = React.forwardRef<
 	<tr
 		ref={ref}
 		className={cn(
-			'border-b border-accent/50 cursor-pointer hover:border-accent text-xl transition-colors data-[state=selected]:bg-muted m-12',
+			'border-b-2 border-border text-lg transition-colors data-[state=selected]:bg-muted m-12',
 			className
 		)}
 		{...props}
@@ -79,7 +79,7 @@ const TableHead = React.forwardRef<
 	<th
 		ref={ref}
 		className={cn(
-			'h-10 px-6 py-4 bg-[#E7EAEB] text-left  text-secondary font-medium align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] w-24',
+			'px-6 bg-[#E7EAEB] text-left  text-secondary font-semibold align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] w-24',
 			'th-rounded',
 			className
 		)}
@@ -95,7 +95,7 @@ const TableCell = React.forwardRef<
 	<td
 		ref={ref}
 		className={cn(
-			'px-8 py-[.85rem] align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+			'px-8 py-[.8rem] font-semibold align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
 			className
 		)}
 		{...props}
