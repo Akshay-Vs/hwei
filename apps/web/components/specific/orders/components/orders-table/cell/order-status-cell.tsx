@@ -3,43 +3,32 @@ import { Button } from '@hwei/ui/shadcn/button';
 import { Row } from '@tanstack/react-table';
 import React from 'react';
 
-const OrderStatusCell = ({ row }: { row: Row<TOrder> }) => {
+type StatusStyles = {
+	[key: string]: string;
+};
+
+const STATUS_STYLES: StatusStyles = {
+	delivered: 'bg-emerald-100 border-emerald-400 text-emerald-900',
+	shipped: 'bg-violet-100 border-violet-400 text-violet-900',
+	processing: 'bg-yellow-100 border-yellow-400 text-yellow-900',
+	default: 'bg-red-100 border-red-400 text-red-900',
+};
+
+interface OrderStatusCellProps {
+	row: Row<TOrder>;
+}
+
+const OrderStatusCell: React.FC<OrderStatusCellProps> = ({ row }) => {
+	const status = row.getValue('status') as string;
+	const statusStyle = STATUS_STYLES[status] || STATUS_STYLES.default;
+
 	return (
 		<Button
-const STATUS_STYLES = {
-  delivered: {
-    bg: 'bg-emerald-100',
-    border: 'border-emerald-400',
-    text: 'text-emerald-900'
-  },
-  shipped: {
-    bg: 'bg-violet-100',
-    border: 'border-violet-400',
-    text: 'text-violet-900'
-  },
-  processing: {
-    bg: 'bg-yellow-100',
-    border: 'border-yellow-400',
-    text: 'text-yellow-900'
-  },
-  default: {
-    bg: 'bg-red-100',
-    border: 'border-red-400',
-    text: 'text-red-900'
-  }
-} as const;
-
-type OrderStatus = keyof typeof STATUS_STYLES;
-
-className={`center gap-2 h-10 w-fit rounded-lg border hover:contrast-[95%] hover:bg-none ${
-  Object.entries(STATUS_STYLES[row.getValue('status') as OrderStatus] ?? STATUS_STYLES.default)
-    .map(([_, value]) => value)
-    .join(' ')
-}`}
+			className={`center gap-2 h-10 w-fit rounded-lg border hover:contrast-[95%] hover:bg-none ${statusStyle}`}
 			variant="outline"
 		>
 			<p className="font-medium text-lg leading-none text-inherit pb-[2px] px-4">
-				{row.getValue('status')}
+				{status}
 			</p>
 		</Button>
 	);
