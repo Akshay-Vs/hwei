@@ -20,7 +20,7 @@ const Dropdown = ({ isOpen, children, className }: DropdownProps) => {
 			role="dialog"
 			aria-modal="true"
 		>
-			{children}
+			{isOpen && children}
 		</div>
 	);
 };
