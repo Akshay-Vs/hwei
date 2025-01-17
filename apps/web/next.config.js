@@ -23,6 +23,10 @@ const nextConfig = {
         hostname: 'utfs.io',
         port: '',
         pathname: '/**',
+      }, {
+        hostname: '23ujkrayxy.ufs.sh',
+        port: '',
+        pathname: '/**',
       },
     ]
   }

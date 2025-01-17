@@ -35,7 +35,7 @@ const AccountSelector = () => {
 
 					<IconButton
 						icon={<ChevronDown className="text-inherit" />}
-						label="My Account"
+						label="Switch Account"
 						onClick={(e) => {
 							e.stopPropagation();
 							toggleDropdown();

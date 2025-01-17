@@ -35,7 +35,7 @@ const DropdownBackdrop = ({
 	if (!isOpen) return null;
 	return (
 		<div
-			className="top-0 left-0 absolute h-screen w-screen"
+			className="top-0 left-0 bg-black/10 absolute h-screen w-screen"
 			onClick={(e) => {
 				e.stopPropagation();
 				setIsOpen(false);
