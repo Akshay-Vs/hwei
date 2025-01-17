@@ -7,8 +7,10 @@ const TooltipProvider = TooltipPrimitive.Provider;
 
 const Tooltip = TooltipPrimitive.Root;
 
-const TooltipTrigger = TooltipPrimitive.Trigger;
-
+const TooltipTrigger =
+	TooltipPrimitive.Trigger as React.ForwardRefExoticComponent<
+		TooltipPrimitive.TooltipTriggerProps & React.RefAttributes<HTMLDivElement>
+	>;
 const TooltipContent = React.forwardRef<
 	React.ComponentRef<typeof TooltipPrimitive.Content>,
 	React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>

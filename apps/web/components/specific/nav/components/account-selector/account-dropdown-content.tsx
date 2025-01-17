@@ -43,9 +43,11 @@ const AccountDropdownContent = ({ isOpen }: { isOpen: boolean }) => {
 				{actions.map((action) => (
 					<Button
 						variant="outline"
-						className="h-12 w-full bg-background flex-1 hover:bg-secondary/10"
+						className="h-12 w-full bg-background flex-1 hover:bg-secondary/10 border border-black/20"
 						key={action.label}
 						onClick={action.action}
+						aria-label={action.label}
+						tabIndex={isOpen ? 0 : -1}
 					>
 						<p className="text-sm font-semibold text-black">{action.label}</p>
 					</Button>

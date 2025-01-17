@@ -4,11 +4,6 @@ import Image from 'next/image';
 
 import { ChevronDown } from 'lucide-react';
 import IconButton from '@/components/shared/button/icon-button';
-import {
-	Tooltip,
-	TooltipContent,
-	TooltipTrigger,
-} from '@hwei/ui/shadcn/tooltip';
 
 import AccountDropdownContent from './account-dropdown-content';
 
@@ -35,18 +30,11 @@ const AccountSelector = () => {
 					<p className="text-lg font-medium">Evelin Violet</p>
 				</div>
 
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<IconButton
-							icon={<ChevronDown className="text-inherit" />}
-							ariaLabel="My Account"
-							onClick={toggleDropdown}
-						/>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p className="text-sm font-semibold">My Account</p>
-					</TooltipContent>
-				</Tooltip>
+				<IconButton
+					icon={<ChevronDown className="text-inherit" />}
+					label="My Account"
+					onClick={toggleDropdown}
+				/>
 			</div>
 			<AccountDropdownContent isOpen={isOpen} />
 		</div>

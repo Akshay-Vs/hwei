@@ -12,6 +12,8 @@ const Dropdown = ({
 					: 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
 			}
         `}
+			role="dialog"
+			aria-modal="true"
 		>
 			{children}
 		</div>
