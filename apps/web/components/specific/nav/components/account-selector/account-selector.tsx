@@ -15,7 +15,7 @@ const AccountSelector = () => {
 	};
 
 	return (
-		<div className="relative h-fit w-fit z-50">
+		<div className="relative h-fit w-fit z-50" onClick={toggleDropdown}>
 			<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
 				<Image
 					src="https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0"
@@ -33,7 +33,10 @@ const AccountSelector = () => {
 				<IconButton
 					icon={<ChevronDown className="text-inherit" />}
 					label="My Account"
-					onClick={toggleDropdown}
+					onClick={(e) => {
+						e.stopPropagation();
+						toggleDropdown();
+					}}
 				/>
 			</div>
 			<AccountDropdownContent isOpen={isOpen} />
