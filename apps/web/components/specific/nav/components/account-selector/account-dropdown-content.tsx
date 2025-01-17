@@ -1,4 +1,4 @@
-import Dropdown from '@/components/shared/dropdown/dropdown';
+import { Dropdown } from '@/components/shared/dropdown/dropdown';
 import { Button } from '@hwei/ui/shadcn/button';
 import { Separator } from '@hwei/ui/shadcn/separator';
 import Image from 'next/image';
@@ -25,7 +25,7 @@ const AccountDropdownContent = ({ isOpen }: { isOpen: boolean }) => {
 	];
 
 	return (
-		<Dropdown isOpen={isOpen}>
+		<Dropdown isOpen={isOpen} className="w-96">
 			<div className="full center flex-col gap-1 text-center">
 				<Image
 					src="https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0"
@@ -43,7 +43,7 @@ const AccountDropdownContent = ({ isOpen }: { isOpen: boolean }) => {
 				{actions.map((action) => (
 					<Button
 						variant="outline"
-						className="h-12 w-full bg-background flex-1 hover:bg-secondary/10 border border-black/20"
+						className="h-12 w-full bg-background flex-1 hover:bg-secondary/10 border border-black/20 rounded-full"
 						key={action.label}
 						onClick={action.action}
 						aria-label={action.label}
