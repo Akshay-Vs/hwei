@@ -1,17 +1,22 @@
+import { cn } from '@hwei/ui/utils/cn';
 import React, { PropsWithChildren } from 'react';
 
-const Dropdown = ({
-	isOpen,
-	children,
-}: { isOpen: boolean } & PropsWithChildren) => {
+interface DropdownProps extends PropsWithChildren {
+	isOpen: boolean;
+	className?: string;
+}
+
+const Dropdown = ({ isOpen, children, className }: DropdownProps) => {
 	return (
 		<div
-			className={`absolute top-full flex flex-col gap-2 rounded-3xl left-0 w-96 h-fit z-[89] p-4 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu ${
+			className={cn(
+				'absolute top-full flex flex-col gap-2 rounded-base left-0 w-full h-fit z-[89] p-5 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu',
+
 				isOpen
 					? 'opacity-100 scale-100 translate-y-4'
-					: 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-			}
-        `}
+					: 'opacity-0 scale-95 -translate-y-2 pointer-events-none',
+				className
+			)}
 			role="dialog"
 			aria-modal="true"
 		>
@@ -20,4 +25,23 @@ const Dropdown = ({
 	);
 };
 
-export default Dropdown;
+const DropdownBackdrop = ({
+	isOpen,
+	setIsOpen,
+}: {
+	isOpen: boolean;
+	setIsOpen: (isOpen: boolean) => void;
+}) => {
+	if (!isOpen) return null;
+	return (
+		<div
+			className="top-0 left-0 absolute h-screen w-screen"
+			onClick={(e) => {
+				e.stopPropagation();
+				setIsOpen(false);
+			}}
+		/>
+	);
+};
+
+export { DropdownBackdrop, Dropdown };
