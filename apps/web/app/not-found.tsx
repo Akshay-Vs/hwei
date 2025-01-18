@@ -1,4 +1,4 @@
-const page = () => {
+const NotFound = () => {
 	return (
 		<div className="screen center flex-col gap-8">
 			<h1 className="text-[10rem]">Oops!</h1>
