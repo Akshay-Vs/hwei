@@ -4,8 +4,10 @@ import React from 'react';
 
 const OrderAddressCell = ({ row }: { row: Row<TOrder> }) => {
 	return (
-		<div className="flex flex-col">
-			<p className="text-base text-secondary">{row.getValue('address')}</p>
+		<div className="center w-full pl-2 flex-col">
+			<p className="text-base text-secondary text-left">
+				{row.getValue('address')}
+			</p>
 		</div>
 	);
 };
