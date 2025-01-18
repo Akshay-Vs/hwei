@@ -2,7 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 
 import { Dropdown } from '@/components/shared/dropdown/dropdown';
-import { Button } from '@hwei/ui/shadcn/button';
 import { Separator } from '@hwei/ui/shadcn/separator';
 
 import AccountDropdownActions from './account-dropdown-actions';

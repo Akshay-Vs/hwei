@@ -13,7 +13,7 @@ const OrderUserCell = ({ row }: { row: Row<TOrder> }) => {
 				height={50}
 				className="rounded-full h-10 w-10 object-center object-cover"
 			/>
-			<div className="flex flex-col">
+			<div className="flex flex-col text-left">
 				<p className="text-secondary">{row.getValue('username')}</p>
 				<p className="text-secondary text-sm">{row.original.user.email}</p>
 			</div>

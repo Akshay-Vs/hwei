@@ -12,6 +12,9 @@ import OrderUserCell from './cell/order-user-cell';
 
 import OrderDateHeader from './header/order-date-header';
 import OrderUserHeader from './header/order-user-header';
+import { EllipsisVertical } from 'lucide-react';
+import { Button } from '@hwei/ui/shadcn/button';
+import OrderCellActions from './cell/order-cell-actions';
 
 export const ordersColumn: ColumnDef<TOrder>[] = [
 	{
@@ -47,5 +50,10 @@ export const ordersColumn: ColumnDef<TOrder>[] = [
 		accessorKey: 'status',
 		header: 'Status',
 		cell: ({ row }) => <OrderStatusCell row={row} />,
+	},
+	{
+		accessorKey: 'action',
+		header: 'Action',
+		cell: ({ row }) => <OrderCellActions data={row.original} />,
 	},
 ];
