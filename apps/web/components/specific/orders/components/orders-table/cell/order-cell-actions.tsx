@@ -64,7 +64,7 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 			label: 'Cancel order',
 			icon: <Ban className="w-4 h-4" />,
 			onClick: (data: TOrder) => onDelete(data.orderId),
-			varient: 'destructive',
+			variant: 'destructive',
 		},
 	];
 
