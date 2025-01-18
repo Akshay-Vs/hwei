@@ -18,7 +18,11 @@ const AccountSelector = () => {
 	return (
 		<>
 			<DropdownBackdrop isOpen={isOpen} setIsOpen={setIsOpen} />
-			<div className="relative h-fit w-fit z-50" onClick={toggleDropdown}>
+			<div
+				className="relative h-fit w-fit z-50"
+				onClick={toggleDropdown}
+				tabIndex={-1} // only allow clicks to trigger dropdown
+			>
 				<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
 					<Image
 						src="https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0"

@@ -36,6 +36,7 @@ const DropdownBackdrop = ({
 	return (
 		<div
 			className="top-0 left-0 bg-black/10 absolute h-screen w-screen"
+			tabIndex={-1}
 			onClick={(e) => {
 				e.stopPropagation();
 				setIsOpen(false);
