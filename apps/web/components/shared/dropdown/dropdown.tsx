@@ -10,7 +10,7 @@ const Dropdown = ({ isOpen, children, className }: DropdownProps) => {
 	return (
 		<div
 			className={cn(
-				'absolute top-full flex flex-col gap-2 rounded-base left-0 w-full h-fit z-[89] p-5 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu',
+				'absolute top-full flex flex-col gap-2 rounded-[3.125rem] left-0 w-full h-fit z-[89] p-5 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu',
 
 				isOpen
 					? 'opacity-100 scale-100 translate-y-4'
@@ -28,14 +28,19 @@ const Dropdown = ({ isOpen, children, className }: DropdownProps) => {
 const DropdownBackdrop = ({
 	isOpen,
 	setIsOpen,
+	className,
 }: {
 	isOpen: boolean;
+	className?: string;
 	setIsOpen: (isOpen: boolean) => void;
 }) => {
 	if (!isOpen) return null;
 	return (
 		<div
-			className="top-0 left-0 bg-black/10 absolute h-screen w-screen"
+			className={cn(
+				'top-0 left-0 bg-black/10 absolute h-screen w-screen',
+				className
+			)}
 			tabIndex={-1}
 			onClick={(e) => {
 				e.stopPropagation();
