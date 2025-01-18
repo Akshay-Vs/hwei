@@ -7,4 +7,4 @@ const NotFound = () => {
 	);
 };
 
-export default page;
+export default NotFound;
