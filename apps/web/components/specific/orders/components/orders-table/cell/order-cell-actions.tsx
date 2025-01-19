@@ -38,7 +38,12 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const actions = [
+	const actions: {
+		label: string;
+		icon: React.ReactNode;
+		onClick: (data: TOrder) => void;
+		variant?: 'default' | 'destructive';
+	}[] = [
 		{
 			label: 'Show details',
 			icon: <ArrowUpRightSquare className="w-4 h-4" />,
@@ -84,13 +89,16 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 
 				<Dropdown
 					isOpen={isOpen}
+					onClose={() => setIsOpen(false)}
+					labelledBy="order-actions"
+					describedBy="order-actions-desc order-actions-ins"
 					className="w-fit -translate-x-1/2 rounded-[30px] p-3"
 				>
 					<h4 className="text-lg font-semibold">Actions</h4>
 					{actions.map((action) => (
 						<Button
-							variant="ghost"
-							className="flex w-full justify-start items-center gap-4 hover:bg-secondary/5 "
+							variant={action.variant || 'ghost'}
+							className={`flex w-full justify-start items-center gap-4 ${action.variant !== 'destructive' && 'hover:bg-secondary/5'}`}
 							onClick={() => action.onClick(data)}
 							key={action.label}
 						>

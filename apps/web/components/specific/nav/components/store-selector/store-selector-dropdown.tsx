@@ -1,10 +1,11 @@
 import { Dropdown } from '@/components/shared/dropdown/dropdown';
+import { DropdownProps } from '@/types/dropdown-props';
 import { Button } from '@hwei/ui/shadcn/button';
 import { Separator } from '@hwei/ui/shadcn/separator';
 import { Armchair, PlusCircle, Shirt, Store } from 'lucide-react';
 import React from 'react';
 
-const StoreSelectorDropdown = ({ isOpen }: { isOpen: boolean }) => {
+const StoreSelectorDropdown = ({ isOpen, onClose }: DropdownProps) => {
 	const stores = [
 		{
 			name: 'Clothing Store',
@@ -24,7 +25,13 @@ const StoreSelectorDropdown = ({ isOpen }: { isOpen: boolean }) => {
 	];
 
 	return (
-		<Dropdown isOpen={isOpen} className="w-fit -translate-x-1/2 left-1/2 gap-4">
+		<Dropdown
+			isOpen={isOpen}
+			onClose={onClose}
+			labelledBy="store-selector"
+			describedBy="store-selector-desc store-selector-ins"
+			className="w-fit -translate-x-1/2 left-1/2 gap-4"
+		>
 			<div className="center flex-col gap-2">
 				{stores.map((store) => (
 					<Button

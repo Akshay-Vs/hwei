@@ -9,9 +9,11 @@ interface IconButtonProps {
 	disabled?: boolean;
 	className?: string;
 	label: string;
+	id?: string;
 }
 
 const IconButton = ({
+	id,
 	onClick,
 	icon,
 	loading,
@@ -21,6 +23,7 @@ const IconButton = ({
 }: IconButtonProps) => {
 	return (
 		<Button
+			id={id}
 			onClick={onClick}
 			disabled={disabled || loading}
 			aria-label={label}

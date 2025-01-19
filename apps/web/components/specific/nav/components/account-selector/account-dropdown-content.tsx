@@ -6,8 +6,9 @@ import { Separator } from '@hwei/ui/shadcn/separator';
 
 import AccountDropdownActions from './account-dropdown-actions';
 import AddNewAccount from './add-new-account';
+import { DropdownProps } from '@/types/dropdown-props';
 
-const AccountDropdownContent = ({ isOpen }: { isOpen: boolean }) => {
+const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 	const users = [
 		{
 			id: 'LAGS087OUYAGs',
@@ -27,7 +28,13 @@ const AccountDropdownContent = ({ isOpen }: { isOpen: boolean }) => {
 	];
 
 	return (
-		<Dropdown isOpen={isOpen} className="w-96 gap-4">
+		<Dropdown
+			isOpen={isOpen}
+			onClose={onClose}
+			labelledBy="account-selector"
+			describedBy="account-selector-desc account-selector-ins"
+			className="w-96 gap-4"
+		>
 			{users.map((user) => (
 				<div
 					className={`w-full flex items-center gap-4 p-4 rounded-base cursor-pointer transition-all duration-300 ${user.isSelected ? 'bg-accent/10 hover:bg-accent/20' : 'hover:bg-accent/5'}`}
