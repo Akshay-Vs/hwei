@@ -15,6 +15,7 @@ import {
 } from '@/components/shared/dropdown/dropdown';
 import { Button } from '@hwei/ui/shadcn/button';
 import { TOrder } from '@/types/order';
+import SrOnly from '@/components/shared/aria/sr-only';
 
 interface CellActionProps {
 	data: TOrder;
@@ -77,6 +78,7 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 		<Fragment>
 			<div className="w-full center relative">
 				<Button
+					id="order-actions"
 					variant="ghost"
 					size="icon"
 					className="py-2 w-12 hover:bg-secondary/5"
@@ -91,7 +93,7 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 					isOpen={isOpen}
 					onClose={() => setIsOpen(false)}
 					labelledBy="order-actions"
-					describedBy="order-actions-desc order-actions-ins"
+					describedBy="order-actions-desc"
 					className="w-fit -translate-x-1/2 rounded-[30px] p-3"
 				>
 					<h4 className="text-lg font-semibold">Actions</h4>
@@ -108,6 +110,11 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 					))}
 				</Dropdown>
 			</div>
+
+			<SrOnly id="order-actions-desc">
+				This menu provides actions for managing the this order
+			</SrOnly>
+
 			<DropdownBackdrop
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}

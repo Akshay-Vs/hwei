@@ -29,7 +29,7 @@ const StoreSelectorDropdown = ({ isOpen, onClose }: DropdownProps) => {
 			isOpen={isOpen}
 			onClose={onClose}
 			labelledBy="store-selector"
-			describedBy="store-selector-desc store-selector-ins"
+			describedBy="store-selector-desc"
 			className="w-fit -translate-x-1/2 left-1/2 gap-4"
 		>
 			<div className="center flex-col gap-2">

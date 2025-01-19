@@ -36,12 +36,6 @@ const AccountSelector = () => {
 						This dropdown lists all accounts you are currently logged into,
 						along with actions available for the active account.
 					</SrOnly>
-
-					<SrOnly id="account-selector-ins">
-						Use the Escape key to close the dropdown menu after focusing on it.
-						Navigate through the menu using the Tab key and Shift+Tab for
-						reverse navigation.
-					</SrOnly>
 				</div>
 				<AccountDropdownContent
 					isOpen={isOpen}

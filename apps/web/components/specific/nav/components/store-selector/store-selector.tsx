@@ -38,12 +38,6 @@ const StoreSelector = () => {
 					This dropdown lists all stores you have access to.
 				</SrOnly>
 
-				<SrOnly id="store-selector-ins">
-					Use the Escape key to close the dropdown menu after focusing on it.
-					Navigate through the menu using the Tab key and Shift+Tab for reverse
-					navigation.
-				</SrOnly>
-
 				<StoreSelectorDropdown
 					isOpen={isOpen}
 					onClose={() => setIsOpen(false)}
