@@ -18,7 +18,7 @@ const AccountSelector = () => {
 	return (
 		<>
 			<DropdownBackdrop isOpen={isOpen} setIsOpen={setIsOpen} />
-			<div className="relative h-fit w-fit z-50">
+			<div className="relative h-fit w-fit">
 				<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
 					<AccountSelectorUser />
 

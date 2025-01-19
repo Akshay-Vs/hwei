@@ -45,7 +45,7 @@ const Dropdown = ({
 			<div
 				ref={dropdownRef}
 				className={cn(
-					'absolute top-full flex flex-col gap-2 rounded-[3.125rem] left-0 w-full h-fit z-[89] p-5 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu',
+					'absolute top-full flex flex-col gap-2 rounded-[3.125rem] left-0 w-full h-fit z-50 p-5 bg-card/80 backdrop-blur-2xl shadow-lg transition-all duration-300 ease-in-out transform-gpu',
 					isOpen
 						? 'opacity-100 scale-100 translate-y-4'
 						: 'opacity-0 scale-95 -translate-y-2 pointer-events-none',
@@ -94,7 +94,7 @@ const DropdownBackdrop = ({
 	return (
 		<div
 			className={cn(
-				'fixed top-0 left-0 bg-black/10 h-screen w-screen',
+				'fixed top-0 left-0 bg-black/10 h-screen w-screen z-10',
 				className
 			)}
 			role="presentation"
