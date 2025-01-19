@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
-
 import { ChevronDown } from 'lucide-react';
-import IconButton from '@/components/shared/button/icon-button';
 
+import IconButton from '@/components/shared/button/icon-button';
+import AccountSelectorUser from './account-selector-user';
 import AccountDropdownContent from './account-dropdown-content';
+import SrOnly from '@/components/shared/aria/sr-only';
 import { DropdownBackdrop } from '@/components/shared/dropdown/dropdown';
 
 const AccountSelector = () => {
@@ -18,26 +18,12 @@ const AccountSelector = () => {
 	return (
 		<>
 			<DropdownBackdrop isOpen={isOpen} setIsOpen={setIsOpen} />
-			<div
-				className="relative h-fit w-fit z-50"
-				onClick={toggleDropdown}
-				tabIndex={-1} // only allow clicks to trigger dropdown
-			>
+			<div className="relative h-fit w-fit z-50">
 				<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
-					<Image
-						src="https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0"
-						width={86}
-						height={86}
-						alt="Profile"
-						className="w-16 h-16 rounded-full object-center object-cover"
-					/>
-
-					<div>
-						<p className="text-sm font-normal">Welcome</p>
-						<p className="text-lg font-medium">Evelin Violet</p>
-					</div>
+					<AccountSelectorUser />
 
 					<IconButton
+						id="account-selector"
 						icon={<ChevronDown className="text-inherit" />}
 						label="Switch Account"
 						onClick={(e) => {
@@ -45,8 +31,22 @@ const AccountSelector = () => {
 							toggleDropdown();
 						}}
 					/>
+
+					<SrOnly id="account-selector-desc">
+						This dropdown lists all accounts you are currently logged into,
+						along with actions available for the active account.
+					</SrOnly>
+
+					<SrOnly id="account-selector-ins">
+						Use the Escape key to close the dropdown menu after focusing on it.
+						Navigate through the menu using the Tab key and Shift+Tab for
+						reverse navigation.
+					</SrOnly>
 				</div>
-				<AccountDropdownContent isOpen={isOpen} />
+				<AccountDropdownContent
+					isOpen={isOpen}
+					onClose={() => setIsOpen(false)}
+				/>
 			</div>
 		</>
 	);

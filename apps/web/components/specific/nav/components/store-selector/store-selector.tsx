@@ -5,6 +5,7 @@ import { ChevronDown } from 'lucide-react';
 import React, { useState } from 'react';
 import StoreSelectorDropdown from './store-selector-dropdown';
 import { DropdownBackdrop } from '@/components/shared/dropdown/dropdown';
+import SrOnly from '@/components/shared/aria/sr-only';
 
 const StoreSelector = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,8 @@ const StoreSelector = () => {
 					className="w-fit min-w-32 max-w-52 h-16 py-0 px-8 flex items-center justify-center bg-secondary"
 					tooltip="Switch Store"
 					onClick={toggleDropdown}
+					id="store-selector"
+					aria-describedby="Open Store Selector Dropdown"
 				>
 					<p className="text-lg font-semibold text-center line-clamp-1">
 						My Store
@@ -31,7 +34,20 @@ const StoreSelector = () => {
 					/>
 				</Button>
 
-				<StoreSelectorDropdown isOpen={isOpen} />
+				<SrOnly id="store-selector-desc">
+					This dropdown lists all stores you have access to.
+				</SrOnly>
+
+				<SrOnly id="store-selector-ins">
+					Use the Escape key to close the dropdown menu after focusing on it.
+					Navigate through the menu using the Tab key and Shift+Tab for reverse
+					navigation.
+				</SrOnly>
+
+				<StoreSelectorDropdown
+					isOpen={isOpen}
+					onClose={() => setIsOpen(false)}
+				/>
 			</div>
 		</>
 	);
