@@ -24,6 +24,7 @@ import {
 } from './table';
 import { useState } from 'react';
 import SelectorButton from '../button/selector-button';
+import { cn } from '@hwei/ui/utils/cn';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -38,7 +39,7 @@ export function DataTable<TData, TValue>({
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
-		pageSize: 16,
+		pageSize: 6,
 	});
 
 	const table = useReactTable({
@@ -59,7 +60,7 @@ export function DataTable<TData, TValue>({
 	});
 
 	return (
-		<div className="full p-4 rounded-base border-2 border-border">
+		<div className="full p-4 rounded-base border-2 border-border min-h-[50vh]">
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
@@ -102,7 +103,15 @@ export function DataTable<TData, TValue>({
 					)}
 				</TableBody>
 
-				<TableFooter className="border-accent">
+				<TableFooter
+					className={cn(
+						'border-accent bg-transparent',
+						table.getRowModel().rows.length ===
+							table.getFilteredRowModel().rows.length
+							? 'hidden'
+							: ''
+					)}
+				>
 					<TableRow>
 						<TableCell colSpan={columns.length}>
 							<div className="flex justify-between items-center">

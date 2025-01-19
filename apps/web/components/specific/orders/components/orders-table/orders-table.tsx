@@ -18,7 +18,7 @@ const OrdersTable = () => {
 	}, []);
 
 	return (
-		<Card className="w-full !h-full min-h-[88.4vh] max-h-screen flex flex-col gap-8">
+		<Card className="w-full h-fit flex flex-col gap-8 mb-8">
 			<div className="flex items-center justify-between w-full h-14">
 				<ProductSearch />
 			</div>
