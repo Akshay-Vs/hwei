@@ -1,7 +1,7 @@
 import { TCardInfo } from '@/types/card-info-type';
 import { getProducts } from './get-product-data';
 
-import { Products } from '@/components/specific/products/components/products-table/product-columns';
+import { TProduct } from '@/types/product-type';
 // TODO: change products import to prisma when it's ready
 
 export const getMonthlySales = async (): Promise<TCardInfo> => {
@@ -18,7 +18,7 @@ export const getMonthlySales = async (): Promise<TCardInfo> => {
 
 export const getTopSellers = async (
 	limit = 4
-): Promise<TCardInfo & { products: Products[] }> => {
+): Promise<TCardInfo & { products: TProduct[] }> => {
 	const products = await getProducts();
 	const topSellers = products.slice(0, limit);
 	const sum = topSellers.reduce((a, b) => a + b.sales, 0);
