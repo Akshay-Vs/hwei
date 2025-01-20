@@ -1,7 +1,8 @@
+import Users from '@/components/specific/users/users';
 import React from 'react';
 
-const ShippingPage = () => {
-	return <div>Shipping</div>;
+const UsersPage = () => {
+	return <Users />;
 };
 
-export default ShippingPage;
+export default UsersPage;
