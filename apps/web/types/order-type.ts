@@ -10,6 +10,6 @@ export type TOrder = {
   total: number;
   orderDate: string;
   updatedAt?: string;
-  quantity: string;
+  quantity: number;
   status: TOrderStatus;
 };

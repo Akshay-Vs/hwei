@@ -96,7 +96,7 @@ export const orders = [
         quantity: 1,
       },
     ],
-    total: 189.96,
+    total: 39.99,
     orderDate: '2025-01-07T09:20:00Z',
     status: 'cancelled',
   }] as TOrder[];
