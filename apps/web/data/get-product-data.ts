@@ -1,6 +1,7 @@
 import { TCardInfo } from "@/types/card-info-type";
+import { TProduct } from "@/types/product-type";
 
-export const getProducts = async () => [
+export const getProducts = async (): Promise<TProduct[]> => [
   {
     id: '1',
     title: 'Yellow Sports Running Shoes',
@@ -100,8 +101,7 @@ export const getProducts = async () => [
     price: 59.99,
     rating: 4.7,
     sales: 245,
-  },
-
+  }
 ];
 
 export const getProductsLength = async (): Promise<TCardInfo> => {
