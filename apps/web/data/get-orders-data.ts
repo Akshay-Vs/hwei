@@ -87,13 +87,7 @@ export const orders = [
       address: '123 Main St, Anytown, USA',
     },
     products: [
-      {
-        id: '1',
-        title: 'Yellow Sports Running Shoes',
-        image: 'https://utfs.io/f/u628d5y0J6C1XsGgi6FQnH0wSx3JCMmKG5fDdjVpYL8rXaiy',
-        price: 49.99,
-        quantity: 1,
-      },
+
       {
         id: '3',
         title: 'Brown Sports Running Shoes',
@@ -102,11 +96,10 @@ export const orders = [
         quantity: 1,
       },
     ],
-    total: 89.98,
+    total: 189.96,
     orderDate: '2025-01-07T09:20:00Z',
     status: 'cancelled',
-  },
-] as TOrder[];
+  }] as TOrder[];
 
 
 export const getOrders = async (): Promise<TOrder[]> => orders;

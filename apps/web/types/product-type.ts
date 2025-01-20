@@ -7,3 +7,11 @@ export type TProduct = {
   rating: number;
   sales: number;
 };
+
+export type TOrderedProduct = {
+  id: string,
+  title: string,
+  image: string,
+  price: number
+  quantity: number,
+}
