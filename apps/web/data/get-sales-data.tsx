@@ -1,4 +1,4 @@
-import { TCardInfo } from '@/types/card-info';
+import { TCardInfo } from '@/types/card-info-type';
 import { getProducts } from './get-product-data';
 
 import { Products } from '@/components/specific/products/components/products-table/product-columns';

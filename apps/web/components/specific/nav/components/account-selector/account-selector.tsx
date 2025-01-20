@@ -18,7 +18,7 @@ const AccountSelector = () => {
 	return (
 		<>
 			<DropdownBackdrop isOpen={isOpen} setIsOpen={setIsOpen} />
-			<div className="relative h-fit w-fit z-50">
+			<div className="relative h-fit w-fit">
 				<div className="border-2 border-highlight h-fit w-72 p-1 rounded-base flex justify-between items-center cursor-pointer">
 					<AccountSelectorUser />
 
@@ -35,12 +35,6 @@ const AccountSelector = () => {
 					<SrOnly id="account-selector-desc">
 						This dropdown lists all accounts you are currently logged into,
 						along with actions available for the active account.
-					</SrOnly>
-
-					<SrOnly id="account-selector-ins">
-						Use the Escape key to close the dropdown menu after focusing on it.
-						Navigate through the menu using the Tab key and Shift+Tab for
-						reverse navigation.
 					</SrOnly>
 				</div>
 				<AccountDropdownContent

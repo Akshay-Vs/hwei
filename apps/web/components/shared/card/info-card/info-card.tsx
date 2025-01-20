@@ -1,4 +1,4 @@
-import { TCardInfo } from '@/types/card-info';
+import { TCardInfo } from '@/types/card-info-type';
 import { Card } from '@hwei/ui/shadcn/card';
 import { ArrowDownRight, ArrowUpRight, Minus } from 'lucide-react';
 import React from 'react';

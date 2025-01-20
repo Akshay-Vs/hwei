@@ -1,5 +1,5 @@
-import { TOrder } from '@/types/order';
-import { TProduct } from '@/types/product';
+import { TOrder } from '@/types/order-type';
+import { TProduct } from '@/types/product-type';
 import { Row } from '@tanstack/react-table';
 import Image from 'next/image';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { TOrder } from '@/types/order';
+import { TOrder } from '@/types/order-type';
 import { Row } from '@tanstack/react-table';
 import React from 'react';
 

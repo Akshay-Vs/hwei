@@ -17,7 +17,7 @@ const StoreSelector = () => {
 	return (
 		<>
 			<DropdownBackdrop isOpen={isOpen} setIsOpen={setIsOpen} />
-			<div className="relative h-fit w-fit z-50">
+			<div className="relative h-fit w-fit">
 				<Button
 					className="w-fit min-w-32 max-w-52 h-16 py-0 px-8 flex items-center justify-center bg-secondary"
 					tooltip="Switch Store"
@@ -36,12 +36,6 @@ const StoreSelector = () => {
 
 				<SrOnly id="store-selector-desc">
 					This dropdown lists all stores you have access to.
-				</SrOnly>
-
-				<SrOnly id="store-selector-ins">
-					Use the Escape key to close the dropdown menu after focusing on it.
-					Navigate through the menu using the Tab key and Shift+Tab for reverse
-					navigation.
 				</SrOnly>
 
 				<StoreSelectorDropdown

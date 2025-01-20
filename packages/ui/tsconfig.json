@@ -1,8 +1,8 @@
 {
 	"extends": "@hwei/typescript-config/react-library.json",
 	"compilerOptions": {
-		"module": "Node16",
-		"moduleResolution": "node16",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
 		"target": "ESNext",
 		"lib": ["DOM", "DOM.Iterable", "ESNext"],
 		"baseUrl": ".",

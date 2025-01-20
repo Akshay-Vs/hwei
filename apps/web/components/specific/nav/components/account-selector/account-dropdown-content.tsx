@@ -32,7 +32,7 @@ const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 			isOpen={isOpen}
 			onClose={onClose}
 			labelledBy="account-selector"
-			describedBy="account-selector-desc account-selector-ins"
+			describedBy="account-selector-desc"
 			className="w-96 gap-4"
 		>
 			{users.map((user) => (
