@@ -14,7 +14,7 @@ import {
 	DropdownBackdrop,
 } from '@/components/shared/dropdown/dropdown';
 import { Button } from '@hwei/ui/shadcn/button';
-import { TOrder } from '@/types/order';
+import { TOrder } from '@/types/order-type';
 import SrOnly from '@/components/shared/aria/sr-only';
 
 interface CellActionProps {

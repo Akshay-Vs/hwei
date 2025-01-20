@@ -1,4 +1,4 @@
-import { TCardInfo } from "@/types/card-info";
+import { TCardInfo } from "@/types/card-info-type";
 
 export const getProducts = async () => [
   {

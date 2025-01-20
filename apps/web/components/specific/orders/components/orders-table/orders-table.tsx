@@ -1,14 +1,14 @@
 'use client';
 import { Card } from '@hwei/ui/shadcn/card';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { DataTable } from '../../../../shared/data-table/data-table';
 import { ordersColumn } from './orders-columns';
-import { TOrder } from '@/types/order';
 import { getOrders } from '@/data/get-orders-data';
 import ProductSearch from '@/components/specific/products/components/products-table/product-search';
+import { useOrderStore } from '@/stores/order-store';
 
 const OrdersTable = () => {
-	const [orders, setOrders] = useState<TOrder[]>([]);
+	const { orders, setOrders } = useOrderStore();
 
 	useEffect(() => {
 		(async () => {

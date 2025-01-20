@@ -7,7 +7,7 @@ import {
 	Tooltip,
 } from '@hwei/ui/shadcn/tooltip';
 import { Column } from '@tanstack/react-table';
-import { TOrder } from '@/types/order';
+import { TOrder } from '@/types/order-type';
 
 const OrderUserHeader = ({ column }: { column: Column<TOrder> }) => {
 	return (

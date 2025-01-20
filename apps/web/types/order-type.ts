@@ -8,7 +8,7 @@ export type TOrder = {
   user: TUser;
   products: TProduct[];
   total: number;
-  orderDate: Date;
-  updatedAt?: Date;
+  orderDate: string;
+  updatedAt?: string;
   status: TOrderStatus;
 };

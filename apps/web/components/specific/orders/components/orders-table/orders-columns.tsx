@@ -1,9 +1,9 @@
 'use client';
 
-import { TOrder } from '@/types/order';
+import { TOrder } from '@/types/order-type';
 import { ColumnDef } from '@tanstack/react-table';
 
-import OrderStatusCell from './cell/order-status-cell';
+import OrderStatusCell from './cell/order-status-cell/order-status-cell';
 import OrderProductsCell from './cell/order-products-cell';
 import OrderAddressCell from './cell/order-address.cell';
 import OrderDateCell from './cell/order-date-cell';
