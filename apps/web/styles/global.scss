@@ -12,6 +12,16 @@ $text-secondary: #484848;
 // 	background: #ff646472;
 // }
 
+@mixin bg-gradient-light {
+	background: linear-gradient(
+		227deg,
+		rgba(248, 217, 182, 0.527) 0%,
+		rgba(188, 199, 229, 0.295) 36%,
+		rgba(231, 234, 235, 1) 79%,
+		rgba(218, 187, 152, 0.253) 100%
+	);
+}
+
 :root,
 html,
 body {
@@ -27,11 +37,14 @@ body {
 }
 
 html {
+	@include bg-gradient-light();
 	font-size: 100%;
 }
 
 body {
+	@include bg-gradient-light();
 	font-family: Arial, Helvetica, sans-serif;
+	height: 100%;
 }
 
 ::-webkit-scrollbar {
