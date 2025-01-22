@@ -26,7 +26,7 @@ const InfoCard = ({
 		);
 
 	return (
-		<Card className="h-full w-full flex items-center justify-evenly flex-col gap-5 shadow-[-10px_-10px_30px_4px_rgba(239 183 120,0.1),_10px_10px_30px_4px_rgba(239 183 120,0.15)]">
+		<Card className="min-h-full w-full flex items-center justify-evenly flex-col gap-5 shadow-[-10px_-10px_30px_4px_rgba(239 183 120,0.1),_10px_10px_30px_4px_rgba(239 183 120,0.15)]">
 			<h2 className="text-2xl font-medium">{title}</h2>
 			<p className="text-5xl font-medium">{value}</p>
 			{showChange ? (

@@ -4,16 +4,17 @@ import OrdersPending from './components/orders-pending/orders-pending';
 import TotalSales from './components/total-sales/total-sales';
 import OnTransit from './components/on-transit/on-transit';
 import OrdersTable from './components/orders-table/orders-table';
+import InfoHeader from '@/components/shared/header/info-header';
 
 const Orders = () => {
 	return (
 		<div className="flex flex-col full gap-8">
-			<div className="flex gap-4 w-full max-h-[15rem]">
+			<InfoHeader>
 				<OrdersChart />
 				<TotalSales />
 				<OrdersPending />
 				<OnTransit />
-			</div>
+			</InfoHeader>
 
 			<OrdersTable />
 		</div>
