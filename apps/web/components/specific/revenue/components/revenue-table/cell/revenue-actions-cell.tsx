@@ -3,42 +3,34 @@ import React, { Fragment, useState, useTransition } from 'react';
 import {
 	ArrowUpRightSquare,
 	Copy,
-	Trash2,
 	Edit,
 	EllipsisVertical,
+	Ban,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@hwei/ui/shadcn/button';
 
 import SrOnly from '@/components/shared/aria/sr-only';
-import { TProduct } from '@/types/product-type';
 import {
 	Dropdown,
 	DropdownBackdrop,
 } from '@/components/shared/dropdown/dropdown';
-import { useToast } from '@/hooks/use-toast';
+import { TTransaction } from '@/types/transaction-type';
 
 interface CellActionProps {
-	data: TProduct;
+	data: TTransaction;
 }
 
-const ProductActionsCell = ({ data }: CellActionProps) => {
+const RevenueActionsCell = ({ data }: CellActionProps) => {
 	const [loading, startLoading] = useTransition();
 	const [isOpen, setIsOpen] = useState(false);
-
 	const router = useRouter();
-	const { toast } = useToast();
 
 	const onCopy = (id: string) => {
 		navigator.clipboard.writeText(id);
-		setIsOpen(false);
-		toast({
-			title: 'Copied to clipboard',
-			description: 'Product id has been copied to clipboard',
-		});
 	};
 
-	const onDelete = async (id: string) => {};
+	const onDisable = async (id: string) => {};
 
 	const toogleDropdown = () => {
 		setIsOpen((prev) => !prev);
@@ -47,28 +39,28 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 	const actions: {
 		label: string;
 		icon: React.ReactNode;
-		onClick: (data: TProduct) => void;
+		onClick: (data: TTransaction) => void;
 		variant?: 'default' | 'destructive';
 	}[] = [
 		{
-			label: 'Show product',
+			label: 'View user',
 			icon: <ArrowUpRightSquare className="w-4 h-4" />,
-			onClick: (data: TProduct) => router.push(`/admin/product/${data.id}`),
+			onClick: (data: TTransaction) => router.push(`/admin/product/${data.id}`),
 		},
 		{
-			label: 'Edit product',
+			label: 'Edit user',
 			icon: <Edit className="w-4 h-4" />,
-			onClick: (data: TProduct) => router.push(`/admin/product/${data.id}`),
+			onClick: (data: TTransaction) => router.push(`/admin/product/${data.id}`),
 		},
 		{
-			label: 'Copy product id',
+			label: 'Copy user id',
 			icon: <Copy className="w-4 h-4" />,
-			onClick: (data: TProduct) => onCopy(data.id),
+			onClick: (data: TTransaction) => onCopy(data.id),
 		},
 		{
-			label: 'delete product',
-			icon: <Trash2 className="w-4 h-4" />,
-			onClick: (data: TProduct) => onDelete(data.id),
+			label: 'Disable user',
+			icon: <Ban className="w-4 h-4" />,
+			onClick: (data: TTransaction) => onDisable(data.id),
 			variant: 'destructive',
 		},
 	];
@@ -93,7 +85,7 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 					onClose={() => setIsOpen(false)}
 					labelledBy="product-actions"
 					describedBy="product-actions-desc"
-					className="w-fit  rounded-[30px] p-3"
+					className="w-fit  rounded-[30px] -translate-x-1/2 p-3"
 				>
 					<h4 className="text-lg font-semibold">Actions</h4>
 					{actions.map((action) => (
@@ -123,4 +115,4 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 	);
 };
 
-export default ProductActionsCell;
+export default RevenueActionsCell;

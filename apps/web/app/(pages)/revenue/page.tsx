@@ -1,7 +1,8 @@
 import React from 'react';
+import Revenue from '@/components/specific/revenue/revenue';
 
-const EarrningsPage = () => {
-	return <div>Earnings</div>;
+const RevenuePage = () => {
+	return <Revenue />;
 };
 
-export default EarrningsPage;
+export default RevenuePage;
