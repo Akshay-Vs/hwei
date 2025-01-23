@@ -11,6 +11,10 @@
 			"@/*": ["./*"]
 		}
 	},
-	"include": ["."],
+	"include": [
+		".",
+		"../../apps/web/hooks/use-toast.ts",
+		"../../apps/web/components/shared/toaster/toaster.tsx"
+	],
 	"exclude": ["dist", "build", "node_modules"]
 }
