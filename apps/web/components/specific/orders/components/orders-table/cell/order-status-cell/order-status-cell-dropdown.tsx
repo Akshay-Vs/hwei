@@ -55,7 +55,7 @@ export const OrderStatusCellDropdown: React.FC<
 	const buttonStyles = React.useMemo(
 		() => ({
 			base: 'center h-10 w-full px-6 rounded-lg border hover:contrast-95 hover:bg-none',
-			text: 'font-medium text-lg leading-none text-inherit pb-0.5',
+			text: 'font-medium text-base leading-none text-inherit pb-0.5',
 		}),
 		[]
 	);
@@ -65,21 +65,22 @@ export const OrderStatusCellDropdown: React.FC<
 			isOpen={isOpen}
 			onClose={onClose}
 			labelledBy={DROPDOWN_TEST_ID}
-			className="w-44 -translate-x-1/2 left-1/2 rounded-3xl p-3"
+			className="w-fit -translate-x-1/2 left-1/2 p-3"
 			data-testid={DROPDOWN_TEST_ID}
 		>
-			<h4 className="text-lg font-semibold">Update status</h4>
-			{availableStatuses.map((status) => (
-				<Button
-					key={status}
-					className={`${buttonStyles.base} ${STATUS_STYLES[status]}`}
-					variant="outline"
-					onClick={() => handleStatusUpdate(status)}
-					data-testid={`${DROPDOWN_TEST_ID}-button-${status}`}
-				>
-					<p className={buttonStyles.text}>{status}</p>
-				</Button>
-			))}
+			<div className="center gap-2">
+				{availableStatuses.map((status) => (
+					<Button
+						key={status}
+						className={`${buttonStyles.base} ${STATUS_STYLES[status]}`}
+						variant="outline"
+						onClick={() => handleStatusUpdate(status)}
+						data-testid={`${DROPDOWN_TEST_ID}-button-${status}`}
+					>
+						<p className={buttonStyles.text}>{status}</p>
+					</Button>
+				))}
+			</div>
 		</Dropdown>
 	);
 };
