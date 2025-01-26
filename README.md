@@ -5,7 +5,7 @@ Hwei is an open-source, production-grade, headless e-commerce solution tailored 
 
 ---
 
-<img align="center" src="https://utfs.io/f/u628d5y0J6C1lwTCffpXfd65WIlEAaO0KcYF1eMr7kTQtzvZ">
+<img align="center" src="https://23ujkrayxy.ufs.sh/f/u628d5y0J6C1rb1zmEbpDskW2xn8qAhzMdCXYuTb0B6VOFPm">
 
 ## Features
 
