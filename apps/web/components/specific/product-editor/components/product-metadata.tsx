@@ -2,7 +2,6 @@
 import TextArea from '@/components/shared/input/text-area';
 import TextInput from '@/components/shared/input/text-input';
 import { useProductForm } from '@/hooks/use-product-form';
-import { Card, CardHeader } from '@hwei/ui/shadcn/card';
 import {
 	FormField,
 	FormItem,
@@ -12,16 +11,12 @@ import {
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
 import React from 'react';
+import EditorCard from './editor-card';
 
 const ProductMetadata = () => {
 	const { form } = useProductForm();
 	return (
-		<Card className="h-fit w-full gap-4">
-			<CardHeader className="p-0 gap-2 w-full">
-				<h1 className="text-xl font-medium inline-flex items-center">
-					Product Metadata
-				</h1>
-			</CardHeader>
+		<EditorCard title="Product Metadata" className="bg-highlight/50">
 			<div className="p-2 h-full">
 				<FormField
 					control={form.control}
@@ -53,7 +48,7 @@ const ProductMetadata = () => {
 					)}
 				/>
 			</div>
-		</Card>
+		</EditorCard>
 	);
 };
 
