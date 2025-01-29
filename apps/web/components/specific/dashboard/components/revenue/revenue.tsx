@@ -19,7 +19,7 @@ const Revenue = () => {
 
 	return (
 		<div>
-			<Card className="w-[42vw] h-full max-h-[16rem] space-y-1">
+			<Card className="w-full max-w- h-full max-h-[16rem] space-y-1">
 				<CardHeader className="p-0 gap-2">
 					<div className="flex items-center justify-between">
 						<h1 className="text-3xl font-medium inline-flex items-center">

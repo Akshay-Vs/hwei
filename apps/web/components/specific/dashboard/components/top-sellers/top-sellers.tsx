@@ -11,7 +11,7 @@ const TopSellers = async () => {
 		<div className="bg-transparent rounded-none flex flex-col gap-4 h-fit w-full">
 			<h1 className="text-2xl font-medium space-y-0 px-4">Top Sellers</h1>
 
-			<div className="center justify-between gap-6">
+			<div className="center justify-between gap-4">
 				{products.map((product) => (
 					<ProductCard
 						key={product.id}

@@ -16,7 +16,7 @@ const Sales = () => {
 	};
 
 	return (
-		<Card className="h-full w-full">
+		<Card className="h-full w-full min-h-[35.7rem]">
 			<CardHeader className="p-0 gap-2 w-full">
 				<div className="flex items-center justify-between">
 					<h1 className="text-3xl font-medium inline-flex items-center">
