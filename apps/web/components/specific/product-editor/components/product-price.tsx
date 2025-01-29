@@ -11,6 +11,7 @@ import {
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
 import React, { useEffect } from 'react';
+import EditorCard from './editor-card';
 
 const ProductPrice = () => {
 	const { form } = useProductForm();
@@ -40,10 +41,7 @@ const ProductPrice = () => {
 	};
 
 	return (
-		<Card className="h-fit w-full gap-4 bg-highlight/20">
-			<CardHeader className="p-0 gap-2 w-full">
-				<h1 className="text-xl font-medium inline-flex items-center">Price</h1>
-			</CardHeader>
+		<EditorCard title="Price">
 			<div className="p-2 grid grid-cols-2 gap-4">
 				<FormField
 					control={form.control}
@@ -126,7 +124,7 @@ const ProductPrice = () => {
 					)}
 				/>
 			</div>
-		</Card>
+		</EditorCard>
 	);
 };
 
