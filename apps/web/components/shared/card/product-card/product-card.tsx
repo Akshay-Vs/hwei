@@ -1,5 +1,6 @@
 import { cn } from '@hwei/ui/utils/cn';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { PropsWithChildren } from 'react';
 
 interface ProductCardProps extends PropsWithChildren {
@@ -17,9 +18,10 @@ const ProductCard = ({
 	clamp = 2,
 }: ProductCardProps) => {
 	return (
-		<div
+		<Link
+			href="/products/editor"
 			className={cn(
-				'flex flex-col gap-2 cursor-pointer flex-shrink w-52 h-full',
+				'flex flex-col gap-2 cursor-pointer flex-shrink w-full max-w-60 h-full',
 				className
 			)}
 		>
@@ -28,15 +30,15 @@ const ProductCard = ({
 				alt={title}
 				width={200}
 				height={200}
-				className="rounded-[30px] w-52 h-48 object-cover object-center hover:shadow-sm transition-all duration-300"
+				className="rounded-[30px] w-full h-full object-cover object-center hover:shadow-sm transition-all duration-300"
 			/>
-			<div className="flex flex-col justify-between">
-				<h2 className={`text-xl font-medium line-clamp-${clamp} max-w-52`}>
+			<div className="flex flex-col justify-between px-2">
+				<h2 className={`text-xl font-medium line-clamp-${clamp} w-full`}>
 					{title}
 				</h2>
 				{children}
 			</div>
-		</div>
+		</Link>
 	);
 };
 

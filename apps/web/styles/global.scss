@@ -48,6 +48,8 @@ body {
 	width: 100%;
 }
 
+// Scrollbar
+
 ::-webkit-scrollbar {
 	height: 0px;
 	width: 0px;
@@ -70,6 +72,19 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background: #555;
 }
+
+// Input autofill
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: $text-secondary;
+	transition: background-color 0s ease-in-out 0s; //? fallback for older chromium browsers
+	box-shadow: inset 0 0 20px 20px #0000;
+}
+
+// Global classes
 
 .rounded-base {
 	@apply rounded-[3.125rem];
