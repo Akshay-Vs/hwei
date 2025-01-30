@@ -4,7 +4,7 @@ import React from 'react';
 import ProductMetadata from './components/product-metadata';
 import { useProductForm } from '@/hooks/use-product-form';
 import ProductPrice from './components/product-price';
-import EditorPreview from './components/editor-preview';
+import EditorPreview from './components/editor-preview/editor-preview';
 import ProductCategory from './components/product-category';
 
 const ProductEditor = () => {
