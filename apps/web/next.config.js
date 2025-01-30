@@ -27,6 +27,10 @@ const nextConfig = {
         hostname: '23ujkrayxy.ufs.sh',
         port: '',
         pathname: '/**',
+      }, {
+        hostname: 'images.pexels.com',
+        port: '',
+        pathname: '/**',
       },
     ]
   }
