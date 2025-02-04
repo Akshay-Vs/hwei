@@ -1,8 +1,5 @@
 FROM node:18-alpine AS base
 
-# This Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
-# Make sure you update both files!
-
 FROM base AS builder
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk update && apk add --no-cache libc6-compat
@@ -11,34 +8,23 @@ RUN apk update && apk add --no-cache libc6-compat
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-RUN corepack prepare pnpm@latest --activate
+RUN corepack prepare pnpm@9.12.0 --activate
 
 # Set working directory
 WORKDIR /app
 
-# Install turbo globally with pnpm
-RUN pnpm add -g turbo
+# Copy root workspace files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-COPY . .
-RUN turbo prune web --docker
+# Copy all packages and configs
+COPY packages ./packages
+COPY apps/web ./apps/web
 
-FROM base AS installer
-RUN apk update && apk add --no-cache libc6-compat
-WORKDIR /app
-
-# Setup pnpm in this stage too
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-RUN corepack prepare pnpm@latest --activate
-
-# First install dependencies
-COPY --from=builder /app/out/json/ .
+# Install all dependencies
 RUN pnpm install --frozen-lockfile
 
-# Build the project
-COPY --from=builder /app/out/full/ .
-RUN pnpm turbo build
+# Build all required packages in the correct order
+RUN pnpm -r --filter web build
 
 FROM base AS runner
 WORKDIR /app
@@ -49,8 +35,11 @@ RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
 # Copy built application
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+COPY --from=builder /app/apps/web/.next/standalone ./
+COPY --from=builder /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder /app/apps/web/public ./apps/web/public
 
-CMD node apps/web/server.js
+# Copy all workspace dependencies
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@hwei ./node_modules/@hwei
+
+CMD ["node", "apps/web/server.js"]

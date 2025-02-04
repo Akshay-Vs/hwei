@@ -43,6 +43,11 @@ const sidebarButtons = [
 
 const SidebarButtons = () => {
 	const path = usePathname();
+
+	const isActive = (href: string) => {
+		return path.split('/')[1] === href.split('/')[1];
+	};
+
 	return (
 		<div className="flex flex-col gap-12 full">
 			{sidebarButtons.map((button) => (
@@ -56,7 +61,7 @@ const SidebarButtons = () => {
 						variant="ghost"
 						size="icon"
 						aria-label={button.label}
-						aria-current={path === button.href}
+						aria-current={isActive(button.href) ? 'page' : undefined}
 						aria-controls="sidebar-menu"
 						tooltip={button.label}
 						tabIndex={-1}
@@ -64,7 +69,7 @@ const SidebarButtons = () => {
 						<div
 							className={cn(
 								'rounded-full p-4 transition-all duration-300',
-								path === button.href
+								isActive(button.href)
 									? 'text-accent bg-secondary'
 									: 'text-secondary hover:bg-accent/20 hover:text-secondary/80'
 							)}
