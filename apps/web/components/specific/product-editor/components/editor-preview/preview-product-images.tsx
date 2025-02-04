@@ -15,25 +15,25 @@ const PreviewProductImages = () => {
 		setCurrentImage(image);
 	};
 	return (
-		<div className="flex gap-4 full">
+		<div className="flex gap-4 h-[60%]">
 			{currentImage && (
 				<>
-					<div className="w-full h-[60%] shadow-accent overflow-hidden rounded-3xl">
+					<div className="full shadow-accent overflow-hidden rounded-3xl">
 						<Image
-							width={720}
-							height={720}
+							width={730}
+							height={550}
 							alt="Product Image"
 							src={currentImage}
 							className="shadow-md full object-cover object-center hover:scale-110 transition-transform duration-300"
 						/>
 					</div>
 
-					<div className="flex flex-col gap-4 h-[60%] overflow-auto pb-2">
+					<div className="flex flex-col gap-4 h-full overflow-auto pb-2">
 						{images.map((image, index) => (
 							<Image
 								key={index}
-								width={720}
-								height={720}
+								width={208}
+								height={208}
 								alt="Product Image"
 								src={image}
 								className={`full max-h-52 max-w-52  aspect-square shadow-md shadow-accent rounded-3xl object-cover object-center cursor-pointer ${
