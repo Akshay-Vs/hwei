@@ -31,7 +31,7 @@ const OrderCellActions = ({ data }: CellActionProps) => {
 		navigator.clipboard.writeText(id);
 	};
 
-	const onDelete = async (id: string) => {};
+	const onDelete = (id: string) => {};
 
 	const onPrint = (id: string) => {};
 

@@ -38,7 +38,7 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 		});
 	};
 
-	const onDelete = async (id: string) => {};
+	const onDelete = (id: string) => {};
 
 	const toogleDropdown = () => {
 		setIsOpen((prev) => !prev);

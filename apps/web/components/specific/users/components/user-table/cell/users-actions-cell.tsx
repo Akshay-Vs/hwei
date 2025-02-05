@@ -30,7 +30,7 @@ const UsersActionsCell = ({ data }: CellActionProps) => {
 		navigator.clipboard.writeText(id);
 	};
 
-	const onDisable = async (id: string) => {};
+	const onDisable = (id: string) => {};
 
 	const toogleDropdown = () => {
 		setIsOpen((prev) => !prev);
