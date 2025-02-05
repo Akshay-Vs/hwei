@@ -13,7 +13,6 @@
 		"@hookform/resolvers": "^3.10.0",
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.11",
-		"@tailwindcss/postcss": "^4.0.3",
 		"@tanstack/react-table": "^8.20.6",
 		"chart.js": "^4.4.7",
 		"chartjs": "^0.3.24",
@@ -39,7 +38,7 @@
 		"postcss": "^8.5.1",
 		"sass": "^1.83.4",
 		"serwist": "^9.0.11",
-		"tailwindcss": "^4.0.3",
+		"tailwindcss": "3.4.17",
 		"typescript": "5.7.3"
 	}
 }
