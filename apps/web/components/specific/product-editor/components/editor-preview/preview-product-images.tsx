@@ -33,10 +33,10 @@ const PreviewProductImages = () => {
 							<Image
 								key={index}
 								width={208}
-								height={208}
+								height={128}
 								alt="Product Image"
 								src={image}
-								className={`full max-h-52 max-w-52  aspect-square shadow-md shadow-accent rounded-3xl object-cover object-center cursor-pointer ${
+								className={`full min-h-32 max-w-52  aspect-square shadow-md shadow-accent rounded-3xl object-cover object-center cursor-pointer ${
 									currentImage === image ? 'border-2 border-accent' : ''
 								}`}
 								onClick={() => handleImageClick(image)}
