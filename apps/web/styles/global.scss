@@ -55,23 +55,23 @@ body {
 	width: 0px;
 }
 
-.horizontal-scroll {
+* {
 	-ms-overflow-style: none;
 	-moz-scrollbar-width: none;
 	scrollbar-width: none;
 }
 
-::-webkit-scrollbar-track {
-	background: $background;
-}
+// ::-webkit-scrollbar-track {
+// 	background: $background;
+// }
 
-::-webkit-scrollbar-thumb {
-	background: $text-secondary;
-}
+// ::-webkit-scrollbar-thumb {
+// 	background: $text-secondary;
+// }
 
-::-webkit-scrollbar-thumb:hover {
-	background: #555;
-}
+// ::-webkit-scrollbar-thumb:hover {
+// 	background: #555;
+// }
 
 // Input autofill
 input:-webkit-autofill,
