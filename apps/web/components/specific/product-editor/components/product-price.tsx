@@ -1,7 +1,7 @@
 'use client';
+import React, { useEffect } from 'react';
 import TextInput from '@/components/shared/input/text-input';
 import { useProductForm } from '@/hooks/use-product-form';
-import { Card, CardHeader } from '@hwei/ui/shadcn/card';
 import {
 	FormField,
 	FormItem,
@@ -10,7 +10,6 @@ import {
 	FormDescription,
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
-import React, { useEffect } from 'react';
 import EditorCard from './editor-card';
 
 const ProductPrice = () => {

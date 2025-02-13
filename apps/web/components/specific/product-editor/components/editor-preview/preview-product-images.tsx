@@ -15,7 +15,7 @@ const PreviewProductImages = () => {
 		setCurrentImage(image);
 	};
 	return (
-		<div className="flex gap-4 h-[60%]">
+		<div className="flex gap-4 h-[32rem]">
 			{currentImage && (
 				<>
 					<div className="full shadow-accent overflow-hidden rounded-3xl">
