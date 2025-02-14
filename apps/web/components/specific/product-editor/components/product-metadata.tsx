@@ -23,9 +23,14 @@ const ProductMetadata = () => {
 					name="name"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel htmlFor="product-name">Name</FormLabel>
 							<FormControl>
-								<TextInput type="text" placeholder="Product name" {...field} />
+								<TextInput
+									id="product-name"
+									type="text"
+									placeholder="Product name"
+									{...field}
+								/>
 							</FormControl>
 							<FormDescription />
 							<FormMessage />

@@ -12,9 +12,11 @@ export const productSchema = z
 			.positive({ message: 'Sale price must be greater than 0' }),
 		minimumOrder: z
 			.number()
+			.int({ message: 'Minimum order must be an integer' })
 			.nonnegative({ message: 'Minimum order cannot be negative' }),
 		maximumOrder: z
 			.number()
+			.int({ message: 'Maximum order must be an integer' })
 			.nonnegative({ message: 'Maximum order cannot be negative' }),
 		category: z.string().min(1, { message: 'Category is required' }),
 		tags: z.array(z.string()).default([]),
