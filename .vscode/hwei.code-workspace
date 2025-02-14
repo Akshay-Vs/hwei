@@ -17,5 +17,7 @@
 			"path": "../packages/ui"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"terminal.explorerKind": "external"
+	}
 }

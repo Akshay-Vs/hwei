@@ -11,7 +11,7 @@ import PreviewVariants from './preview-variant';
 
 const EditorPreview = () => {
 	return (
-		<div className="flex flex-col gap-6 h-[56rem] w-3/5 sticky top-32">
+		<div className="flex flex-col gap-6 h-[88vh] w-3/5 sticky top-32">
 			<Card className="h-full w-full gap-4 flex flex-col overflow-auto">
 				<PreviewProductImages />
 

@@ -10,6 +10,7 @@ import Nav from '@/components/specific/nav/nav';
 import Sidebar from '@/components/specific/sidebar/sidebar';
 import { myMetadata, myViewport } from '@/pwa';
 import NextTopLoader from 'nextjs-toploader';
+import ModalProvider from '@/components/shared/modal/modal-provider';
 
 const kantumruy_pro = Kantumruy_Pro({
 	variable: '--font-kantumruy-pro',
@@ -32,8 +33,9 @@ const RootLayout = ({
 				<TooltipProvider>
 					<Nav />
 					<Sidebar />
-					<div className="absolute top-0 left-0">
+					<div className="absolute top-0 left-0 z-50">
 						<NextTopLoader color="#f0b073" height={5} />
+						<ModalProvider />
 					</div>
 					{children}
 				</TooltipProvider>

@@ -1,10 +1,17 @@
+'use client';
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
 const PreviewHeading = () => {
+	const { watch } = useFormContext();
 	return (
-		<h1 className="text-4xl font-semibold line-clamp-3">
-			Running Shoes for Men & Women
-		</h1>
+		<label
+			className="text-4xl font-semibold line-clamp-3"
+			htmlFor="product-name"
+			aria-live="polite"
+		>
+			{watch('name') || 'Product Name'}
+		</label>
 	);
 };
 

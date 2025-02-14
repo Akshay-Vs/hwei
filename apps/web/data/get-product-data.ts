@@ -7,7 +7,7 @@ export const getProducts = async (): Promise<TProduct[]> => [
     title: 'Yellow Sports Running Shoes',
     image:
       'https://utfs.io/f/u628d5y0J6C1XsGgi6FQnH0wSx3JCMmKG5fDdjVpYL8rXaiy',
-    stock: 47,
+    stock: 7,
     price: 49.99,
     rating: 4.2,
     sales: 120,
