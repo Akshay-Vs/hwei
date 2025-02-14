@@ -1,17 +1,25 @@
 import { z } from 'zod';
 
-export const productShema = z
+export const productSchema = z
 	.object({
-		name: z.string().min(1, 'Name is required'),
-		description: z.string().min(1, 'Description is required'),
-		unitPrice: z.number().min(1, 'Unit price is required'),
-		salePrice: z.number().min(1, 'Sale price is required'),
-		minimumOrder: z.number().min(0),
-		maximumOrder: z.number().min(0),
-		category: z.string(),
-		tags: z.string().array(),
+		name: z.string().min(1, { message: 'Name is required' }),
+		description: z.string().min(1, { message: 'Description is required' }),
+		unitPrice: z
+			.number()
+			.positive({ message: 'Unit price must be greater than 0' }),
+		salePrice: z
+			.number()
+			.positive({ message: 'Sale price must be greater than 0' }),
+		minimumOrder: z
+			.number()
+			.nonnegative({ message: 'Minimum order cannot be negative' }),
+		maximumOrder: z
+			.number()
+			.nonnegative({ message: 'Maximum order cannot be negative' }),
+		category: z.string().min(1, { message: 'Category is required' }),
+		tags: z.array(z.string()).default([]),
 	})
-	.refine((data) => data.maximumOrder >= data.minimumOrder, {
+	.refine(({ minimumOrder, maximumOrder }) => maximumOrder >= minimumOrder, {
 		message: 'Maximum order must be greater than or equal to minimum order',
 		path: ['maximumOrder'],
 	});

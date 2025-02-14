@@ -1,7 +1,5 @@
-'use client';
 import React, { useEffect } from 'react';
 import TextInput from '@/components/shared/input/text-input';
-import { useProductForm } from '@/hooks/use-product-form';
 import {
 	FormField,
 	FormItem,
@@ -11,31 +9,31 @@ import {
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
 import EditorCard from './editor-card';
+import { useFormContext } from 'react-hook-form';
 
 const ProductPrice = () => {
-	const { form } = useProductForm();
+	const { control, watch, setValue, getValues } = useFormContext(); // ✅ Use only context
 
 	// get both minimum and maximum order values
-	const minimumOrder = Number(form.watch('minimumOrder'));
-	const maximumOrder = Number(form.getValues('maximumOrder'));
+	const minimumOrder = Number(watch('minimumOrder'));
+	const maximumOrder = Number(getValues('maximumOrder'));
 
 	useEffect(() => {
-		// If minimum order is greater than maximum order, update maximum order to match minimum order
 		if (
 			(minimumOrder && maximumOrder && minimumOrder > maximumOrder) ||
 			maximumOrder === 0
 		) {
-			form.setValue('maximumOrder', Number(minimumOrder));
+			setValue('maximumOrder', Number(minimumOrder));
 		}
-	}, [minimumOrder, maximumOrder, form]);
+	}, [minimumOrder, maximumOrder, setValue]);
 
 	const handleMinOrderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = Number(e.target.value);
-		form.setValue('minimumOrder', value);
+		setValue('minimumOrder', value);
 
-		const currentMax = form.getValues('maximumOrder');
+		const currentMax = getValues('maximumOrder');
 		if (currentMax && value > Number(currentMax)) {
-			form.setValue('maximumOrder', value);
+			setValue('maximumOrder', value);
 		}
 	};
 
@@ -43,7 +41,7 @@ const ProductPrice = () => {
 		<EditorCard title="Price">
 			<div className="p-2 grid grid-cols-2 gap-4">
 				<FormField
-					control={form.control}
+					control={control}
 					name="unitPrice"
 					render={({ field }) => (
 						<FormItem>
@@ -53,7 +51,8 @@ const ProductPrice = () => {
 									type="number"
 									placeholder="$99.99"
 									min={0}
-									{...field}
+									value={field.value || ''}
+									onChange={(e) => field.onChange(Number(e.target.value) || 0)}
 								/>
 							</FormControl>
 							<FormDescription />
@@ -63,7 +62,7 @@ const ProductPrice = () => {
 				/>
 
 				<FormField
-					control={form.control}
+					control={control}
 					name="salePrice"
 					render={({ field }) => (
 						<FormItem>
@@ -73,7 +72,8 @@ const ProductPrice = () => {
 									type="number"
 									placeholder="$99.99"
 									min={0}
-									{...field}
+									value={field.value || ''}
+									onChange={(e) => field.onChange(Number(e.target.value) || 0)}
 								/>
 							</FormControl>
 							<FormDescription />
@@ -83,7 +83,7 @@ const ProductPrice = () => {
 				/>
 
 				<FormField
-					control={form.control}
+					control={control}
 					name="minimumOrder"
 					render={({ field }) => (
 						<FormItem>
@@ -104,7 +104,7 @@ const ProductPrice = () => {
 				/>
 
 				<FormField
-					control={form.control}
+					control={control}
 					name="maximumOrder"
 					render={({ field }) => (
 						<FormItem>
@@ -114,7 +114,8 @@ const ProductPrice = () => {
 									type="number"
 									placeholder="000"
 									min={minimumOrder || 0}
-									{...field}
+									value={field.value || ''}
+									onChange={(e) => field.onChange(Number(e.target.value) || 0)}
 								/>
 							</FormControl>
 							<FormDescription />

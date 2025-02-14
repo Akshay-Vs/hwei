@@ -1,7 +1,6 @@
 'use client';
 import TextArea from '@/components/shared/input/text-area';
 import TextInput from '@/components/shared/input/text-input';
-import { useProductForm } from '@/hooks/use-product-form';
 import {
 	FormField,
 	FormItem,
@@ -12,14 +11,15 @@ import {
 } from '@hwei/ui/shadcn/form';
 import React from 'react';
 import EditorCard from './editor-card';
+import { useFormContext } from 'react-hook-form';
 
 const ProductMetadata = () => {
-	const { form } = useProductForm();
+	const { control } = useFormContext();
 	return (
 		<EditorCard title="Product Metadata" className="bg-highlight/50">
 			<div className="p-2 h-full">
 				<FormField
-					control={form.control}
+					control={control}
 					name="name"
 					render={({ field }) => (
 						<FormItem>
@@ -34,7 +34,7 @@ const ProductMetadata = () => {
 				/>
 
 				<FormField
-					control={form.control}
+					control={control}
 					name="description"
 					render={({ field }) => (
 						<FormItem>

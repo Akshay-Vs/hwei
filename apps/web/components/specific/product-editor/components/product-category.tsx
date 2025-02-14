@@ -11,15 +11,16 @@ import {
 } from '@hwei/ui/shadcn/form';
 import React from 'react';
 import EditorCard from './editor-card';
+import { useFormContext } from 'react-hook-form';
 
 const ProductCategory = () => {
-	const { form } = useProductForm();
+	const { control } = useFormContext();
 
 	return (
 		<EditorCard title="Grouping">
 			<div className="p-2 flex flex-col gap-4">
 				<FormField
-					control={form.control}
+					control={control}
 					name="category"
 					render={({ field }) => (
 						<FormItem>
@@ -38,7 +39,7 @@ const ProductCategory = () => {
 				/>
 
 				<FormField
-					control={form.control}
+					control={control}
 					name="tags"
 					render={({ field }) => (
 						<FormItem>

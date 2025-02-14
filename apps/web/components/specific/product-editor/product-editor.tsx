@@ -7,13 +7,23 @@ import ProductPrice from './components/product-price';
 import EditorPreview from './components/editor-preview/editor-preview';
 import ProductCategory from './components/product-category';
 import ProductVariants from './components/product-variants';
+import { productSchema } from '@/schemas/product-schema';
+import { z } from 'zod';
 
 const ProductEditor = () => {
 	const { form } = useProductForm();
+
+	const handleSubmit = (values: z.infer<typeof productSchema>) => {
+		alert();
+		console.log('submit', values);
+	};
 	return (
 		<div className="flex flex-col gap-4 full">
 			<Form {...form}>
-				<form className="flex gap-4 w-full h-full">
+				<form
+					className="flex gap-4 w-full h-full"
+					onSubmit={form.handleSubmit(handleSubmit)}
+				>
 					<div className="flex flex-col gap-4 w-1/2 h-full">
 						<ProductMetadata />
 						<ProductPrice />
