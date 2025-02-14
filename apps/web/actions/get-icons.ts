@@ -7,7 +7,7 @@ export async function getIcons(query: string) {
 
 	const filteredIcons = allIcons
 		.filter((icon) => icon.toLowerCase().includes(query.toLowerCase()))
-		.slice(0, 10); // Limit to 10 results
+		.slice(0, 6); // Limit to 6 results
 
 	return filteredIcons;
 }
