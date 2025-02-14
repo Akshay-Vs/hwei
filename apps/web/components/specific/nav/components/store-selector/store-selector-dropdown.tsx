@@ -1,4 +1,5 @@
 import { Dropdown } from '@/components/shared/dropdown/dropdown';
+import { useStoreModal } from '@/stores/store-modal-store';
 import { DropdownProps } from '@/types/dropdown-props';
 import { Button } from '@hwei/ui/shadcn/button';
 import { Separator } from '@hwei/ui/shadcn/separator';
@@ -24,6 +25,7 @@ const StoreSelectorDropdown = ({ isOpen, onClose }: DropdownProps) => {
 		},
 	];
 
+	const { onOpen } = useStoreModal();
 	return (
 		<Dropdown
 			isOpen={isOpen}
@@ -49,6 +51,10 @@ const StoreSelectorDropdown = ({ isOpen, onClose }: DropdownProps) => {
 			<Button
 				variant="secondary"
 				className="flex items-center gap-4 py-6 w-full"
+				onClick={() => {
+					onOpen();
+					onClose();
+				}}
 			>
 				<PlusCircle className="w-5 h-5 text-white" />
 				<p className="text-lg font-medium text-white">Add Store</p>
