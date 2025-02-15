@@ -2,6 +2,8 @@ import React from 'react';
 import { Kantumruy_Pro } from 'next/font/google';
 
 import { TooltipProvider } from '@hwei/ui/shadcn/tooltip';
+import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'sonner';
 
 import '@hwei/ui/styles.css';
 import '@/styles/global.scss';
@@ -9,7 +11,6 @@ import '@/styles/global.scss';
 import Nav from '@/components/specific/nav/nav';
 import Sidebar from '@/components/specific/sidebar/sidebar';
 import { myMetadata, myViewport } from '@/pwa';
-import NextTopLoader from 'nextjs-toploader';
 import ModalProvider from '@/components/shared/modal/modal-provider';
 
 const kantumruy_pro = Kantumruy_Pro({
@@ -36,6 +37,7 @@ const RootLayout = ({
 					<div className="absolute top-0 left-0 z-50">
 						<NextTopLoader color="#f0b073" height={5} />
 						<ModalProvider />
+						<Toaster />
 					</div>
 					{children}
 				</TooltipProvider>
