@@ -5,10 +5,10 @@ import InputWrapper from './components/input-wrapper';
 const TextInput = forwardRef<
 	HTMLInputElement,
 	InputHTMLAttributes<HTMLInputElement>
->(({ ...props }) => {
+>(({ ...props }, ref) => {
 	return (
 		<InputWrapper>
-			<Input {...props} className="full !text-lg" />
+			<Input ref={ref} {...props} className="full !text-lg" />
 		</InputWrapper>
 	);
 });
