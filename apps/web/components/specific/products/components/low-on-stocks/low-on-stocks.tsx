@@ -16,7 +16,7 @@ const LowOnStocks = async () => {
 						title={product.title}
 						img={product.image}
 						clamp={1}
-						className="w-44 h-44"
+						className="w-44 h-full"
 					>
 						<p
 							className={`text-[16px] font-semibold flex items-center gap-2 ${product.stock < stockThreshold ? 'text-destructive' : 'text-secondary'}`}
