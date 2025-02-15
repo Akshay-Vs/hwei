@@ -16,7 +16,7 @@ import {
 	Dropdown,
 	DropdownBackdrop,
 } from '@/components/shared/dropdown/dropdown';
-import { useToast } from '@/hooks/use-toast';
+import { Toast } from '@/utils/toast';
 
 interface CellActionProps {
 	data: TProduct;
@@ -27,14 +27,13 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const router = useRouter();
-	const { toast } = useToast();
 
 	const onCopy = (id: string) => {
 		navigator.clipboard.writeText(id);
 		setIsOpen(false);
-		toast({
-			title: 'Copied to clipboard',
-			description: 'Product id has been copied to clipboard',
+		Toast({
+			type: 'success',
+			message: 'Product id has been copied to clipboard',
 		});
 	};
 
