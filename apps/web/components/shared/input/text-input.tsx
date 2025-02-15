@@ -1,13 +1,16 @@
 import { Input } from '@hwei/ui/shadcn/input';
-import React, { InputHTMLAttributes } from 'react';
+import React, { forwardRef, InputHTMLAttributes } from 'react';
 import InputWrapper from './components/input-wrapper';
 
-const TextInput = ({ ...props }: InputHTMLAttributes<HTMLInputElement>) => {
+const TextInput = forwardRef<
+	HTMLInputElement,
+	InputHTMLAttributes<HTMLInputElement>
+>(({ ...props }, ref) => {
 	return (
 		<InputWrapper>
-			<Input {...props} className="full !text-lg" />
+			<Input ref={ref} {...props} className="full !text-lg" />
 		</InputWrapper>
 	);
-};
+});
 
 export default TextInput;

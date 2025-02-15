@@ -1,13 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { getIcons } from '@/actions/get-icons';
 import TextInput from './text-input';
+import { Button } from '@hwei/ui/shadcn/button';
 
 export default function IconSelector() {
 	const [search, setSearch] = useState('');
 	const [icons, setIcons] = useState<string[]>([]);
 	const [selectedIcon, setSelectedIcon] = useState('');
 	const [focusedIndex, setFocusedIndex] = useState(-1);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		if (!search) {
@@ -17,7 +20,7 @@ export default function IconSelector() {
 		}
 
 		const fetchIcons = async () => {
-			const results = await getIcons(search);
+			const results = await getIcons(search, 6);
 			setIcons(results);
 			setFocusedIndex(results.length > 0 ? 0 : -1);
 		};
@@ -59,10 +62,18 @@ export default function IconSelector() {
 	return (
 		<>
 			<div className="flex items-center gap-2">
-				<div className="flex flex-col items-center bg-slate-100/50 border border-accent p-2 h-[3.25rem] w-14 center rounded-xl">
+				<Button
+					variant="ghost"
+					type="button"
+					tooltip={selectedIcon || 'Store Icon'}
+					className="flex flex-col items-center bg-slate-100/50 border border-accent p-2 h-[3.25rem] w-14 center rounded-xl"
+					onClick={() => inputRef.current?.focus()}
+					tabIndex={-1}
+				>
 					<IconComponent className="h-6 w-6" />
-				</div>
+				</Button>
 				<TextInput
+					ref={inputRef}
 					type="text"
 					placeholder={
 						selectedIcon
@@ -75,18 +86,17 @@ export default function IconSelector() {
 					onKeyDown={handleKeyDown}
 				/>
 			</div>
-			<div className="w-[90%] overflow-auto max-h-60 ml-12">
+			<div className="w-[90%] overflow-auto h-fit ml-12">
 				{icons.map((icon, index) => {
 					const Icon = LucideIcons[
 						icon as keyof typeof LucideIcons
 					] as React.ElementType;
 					return (
-						<div
+						<Button
+							variant="ghost"
 							key={icon}
-							className={`flex items-center gap-2 p-2 cursor-pointer rounded-xl px-4 ${
-								index === focusedIndex
-									? 'bg-slate-100'
-									: 'hover:bg-slate-100/50'
+							className={`flex items-center justify-start gap-2 cursor-pointer rounded-xl px-4 h-10 my-1 w-full ${
+								index === focusedIndex ? 'bg-gray-200' : 'hover:bg-gray-200/50'
 							}`}
 							onClick={() => {
 								setSelectedIcon(icon);
@@ -95,7 +105,7 @@ export default function IconSelector() {
 						>
 							<Icon size={20} />
 							<span>{icon}</span>
-						</div>
+						</Button>
 					);
 				})}
 			</div>

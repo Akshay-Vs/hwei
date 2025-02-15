@@ -14,7 +14,6 @@ import {
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
 
-import { Input } from '@hwei/ui/shadcn/input';
 import { Button } from '@hwei/ui/shadcn/button';
 import { useStoreModal } from '@/stores/store-modal-store';
 import { Toast } from '@/utils/toast';
@@ -58,12 +57,17 @@ const StoreModal = () => {
 		});
 	};
 
+	const onClose = () => {
+		store.onClose();
+		form.reset();
+	};
+
 	return (
 		<Modal
 			title="Create Store"
 			description="Create a new store"
 			isOpen={store.isOpen}
-			onClose={store.onClose}
+			onClose={onClose}
 		>
 			<div>
 				<div className="space-y-4 pb-4 py-2">
@@ -97,7 +101,7 @@ const StoreModal = () => {
 								<Button
 									variant="outline"
 									className="h-12 px-4"
-									onClick={store.onClose}
+									onClick={onClose}
 									disabled={loading}
 								>
 									Cancel

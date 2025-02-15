@@ -1,3 +1,4 @@
+import { Button } from '@hwei/ui/shadcn/button';
 import { cn } from '@hwei/ui/utils/cn';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -25,7 +26,8 @@ const PreviewVariants = () => {
 	return (
 		<div className="flex gap-2 w-full py-3">
 			{variants.map((variant) => (
-				<div
+				<Button
+					variant="ghost"
 					className="h-16 w-16 col-center gap-2 cursor-pointer"
 					onClick={() => setSelected(variant.id)}
 					key={variant.id}
@@ -41,7 +43,7 @@ const PreviewVariants = () => {
 						)}
 					/>
 					<p className="text-base text-center">{variant.label}</p>
-				</div>
+				</Button>
 			))}
 		</div>
 	);
