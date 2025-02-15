@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { getIcons } from '@/actions/get-icons';
 import TextInput from './text-input';
@@ -9,6 +9,8 @@ export default function IconSelector() {
 	const [icons, setIcons] = useState<string[]>([]);
 	const [selectedIcon, setSelectedIcon] = useState('');
 	const [focusedIndex, setFocusedIndex] = useState(-1);
+
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		if (!search) {
@@ -63,12 +65,15 @@ export default function IconSelector() {
 				<Button
 					variant="ghost"
 					type="button"
-					tooltip={selectedIcon}
+					tooltip={selectedIcon || 'Store Icon'}
 					className="flex flex-col items-center bg-slate-100/50 border border-accent p-2 h-[3.25rem] w-14 center rounded-xl"
+					onClick={() => inputRef.current?.focus()}
+					tabIndex={-1}
 				>
 					<IconComponent className="h-6 w-6" />
 				</Button>
 				<TextInput
+					ref={inputRef}
 					type="text"
 					placeholder={
 						selectedIcon
