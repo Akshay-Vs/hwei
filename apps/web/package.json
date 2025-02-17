@@ -10,7 +10,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
-		"@hookform/resolvers": "^4.0.0",
+		"@hookform/resolvers": "^4.1.0",
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.11",
 		"@tanstack/react-table": "^8.20.6",
