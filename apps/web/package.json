@@ -14,7 +14,7 @@
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.11",
 		"@tanstack/react-table": "^8.20.6",
-		"axios": "^1.7.9",
+		"axios": "^1.8.2",
 		"chart.js": "^4.4.7",
 		"chartjs": "^0.3.24",
 		"lucide-react": "^0.475.0",
