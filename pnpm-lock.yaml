@@ -274,7 +274,7 @@ importers:
         specifier: workspace:*
         version: link:../tailwind-config
       '@radix-ui/react-checkbox':
-        specifier: ^1.1.3
+        specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@19.0.3(@types/react@19.0.8))(@types/react@19.0.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.6
