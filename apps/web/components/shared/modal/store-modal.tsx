@@ -15,14 +15,15 @@ import {
 } from '@hwei/ui/shadcn/form';
 
 import { Button } from '@hwei/ui/shadcn/button';
-import { useStoreModal } from '@/stores/store-modal-store';
+import { useStoreModal } from '@/stores/modal-store/store-modal-store';
 import { Toast } from '@/utils/toast';
 import Modal from './modal';
 import TextInput from '../input/text-input';
-import IconSelector from '../input/icon-selector';
+import IconSelector from '../input/icon-selector/icon-selector';
 
 const formSchema = z.object({
-	name: z.string().min(1),
+	name: z.string().min(1, { message: 'Name is required' }),
+	icon: z.string(),
 });
 
 const StoreModal = () => {
@@ -35,10 +36,12 @@ const StoreModal = () => {
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			name: '',
+			icon: 'Store',
 		},
 	});
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		console.log(values);
 		startLoading(async () => {
 			try {
 				const res = await axios.post('/api/stores', values);
@@ -95,7 +98,12 @@ const StoreModal = () => {
 								)}
 							/>
 
-							<IconSelector />
+							<IconSelector
+								value={form.watch('icon')}
+								onChange={(icon: string) => {
+									form.setValue('icon', icon);
+								}}
+							/>
 
 							<div className="space-x-2 gap-4 pt-2 flex items-center justify-end w-full">
 								<Button

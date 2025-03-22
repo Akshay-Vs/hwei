@@ -1,14 +1,15 @@
 'use client';
-import { Form } from '@hwei/ui/shadcn/form';
 import React from 'react';
+import { Form } from '@hwei/ui/shadcn/form';
+import { z } from 'zod';
+
 import ProductMetadata from './components/product-metadata';
 import { useProductForm } from '@/hooks/use-product-form';
 import ProductPrice from './components/product-price';
 import EditorPreview from './components/editor-preview/editor-preview';
 import ProductCategory from './components/product-category';
-import ProductVariants from './components/product-variants';
+import ProductVariants from './components/product-varient/product-variants';
 import { productSchema } from '@/schemas/product-schema';
-import { z } from 'zod';
 
 const ProductEditor = () => {
 	const { form } = useProductForm();

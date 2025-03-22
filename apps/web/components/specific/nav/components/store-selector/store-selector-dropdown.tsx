@@ -1,5 +1,5 @@
 import { Dropdown } from '@/components/shared/dropdown/dropdown';
-import { useStoreModal } from '@/stores/store-modal-store';
+import { useStoreModal } from '@/stores/modal-store/store-modal-store';
 import { DropdownProps } from '@/types/dropdown-props';
 import { Button } from '@hwei/ui/shadcn/button';
 import { Separator } from '@hwei/ui/shadcn/separator';
