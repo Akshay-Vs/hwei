@@ -28,7 +28,6 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"stores/modal-store/varient-modal-store.ts",
 		"types/modal-store.-typets"
 	],
 	"exclude": ["node_modules"]

@@ -8,8 +8,8 @@ import { useProductForm } from '@/hooks/use-product-form';
 import ProductPrice from './components/product-price';
 import EditorPreview from './components/editor-preview/editor-preview';
 import ProductCategory from './components/product-category';
-import ProductVariants from './components/product-varient/product-variants';
 import { productSchema } from '@/schemas/product-schema';
+import ProductVariants from './components/product-varient/product-variants';
 
 const ProductEditor = () => {
 	const { form } = useProductForm();
