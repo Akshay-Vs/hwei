@@ -13,7 +13,7 @@ const EditorCard = ({
 	return (
 		<Card
 			className={cn(
-				'h-fit w-full gap-4 bg-highlight/20 focus-within:bg-highlight/70 transition-colors duration-300',
+				'h-fit w-full gap-4 bg-highlight/20 focus-within:bg-highlight/70 active:bg-highlight/70 hover:bg-highlight/50 transition-colors duration-300',
 				className
 			)}
 		>
