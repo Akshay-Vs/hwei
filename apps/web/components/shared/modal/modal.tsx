@@ -72,7 +72,7 @@ const Modal = ({
 		>
 			<Card
 				className={cn(
-					'h-fit w-fit min-w-[32rem] px-8 py-6 backdrop-brightness-150 cursor-default z-[999]',
+					'h-fit w-fit min-w-[32rem] px-8 py-6 bg-highlight backdrop-brightness-90 cursor-default z-[999]',
 					className
 				)}
 				onClick={(e) => e.stopPropagation()}
