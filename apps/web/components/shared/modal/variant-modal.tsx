@@ -37,6 +37,7 @@ const VariantModal = () => {
 		startLoading(async () => {
 			// Add your submission logic here
 			console.log(values);
+			form.reset();
 			store.onClose();
 		});
 	};
