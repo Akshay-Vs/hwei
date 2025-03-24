@@ -1,5 +1,5 @@
 import React from 'react';
-import EditorCard from '../editor-card';
+import EditorCard from '../editor-fields/editor-card';
 import AddVariant from './add-variant';
 import VariantItems from './variant-items';
 

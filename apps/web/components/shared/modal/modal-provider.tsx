@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react';
 import StoreModal from './store-modal';
 import VariantModal from './variant-modal';
-import VariantItemModal from './variant-item-modal';
+import VariantItemModal from '../../specific/product-editor/components/varient-item-model/variant-item-modal';
 
 const ModalProvider = () => {
 	return (
