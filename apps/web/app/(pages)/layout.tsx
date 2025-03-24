@@ -1,6 +1,17 @@
+import React, { PropsWithChildren, Suspense } from 'react';
+import { extractRouterConfig } from 'uploadthing/server';
+import { NextSSRPlugin } from '@uploadthing/react/next-ssr-plugin';
+import { connection } from 'next/server';
+
 import Blob from '@/components/shared/visual/blob';
-import React, { PropsWithChildren } from 'react';
 import { Toaster } from '@/components/shared/toaster';
+import { uploadFileRouter } from '../../utils/uploadthing/core';
+
+async function UTSSR() {
+	await connection();
+
+	return <NextSSRPlugin routerConfig={extractRouterConfig(uploadFileRouter)} />;
+}
 
 const layout = ({ children }: PropsWithChildren) => {
 	return (
@@ -11,6 +22,11 @@ const layout = ({ children }: PropsWithChildren) => {
 
 			<Blob />
 			<Toaster />
+
+			<Suspense>
+				<UTSSR />
+			</Suspense>
+			
 			<div className="full z-[2]">{children}</div>
 		</main>
 	);
