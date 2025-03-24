@@ -7,6 +7,7 @@ import { useVarientItem } from '../../hooks/use-varient-item';
 import NameInput from './name-input';
 import ImageInput from './image-input';
 import SubmitButton from './submit-button';
+import StockAvailableInput from './stock-available-input';
 
 const VariantItemModal = () => {
 	const { varientItemModelForm: form, store, onSubmit } = useVarientItem();
@@ -22,6 +23,7 @@ const VariantItemModal = () => {
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 						<NameInput/>
+						<StockAvailableInput />
 						<ImageInput/>
 						<SubmitButton/>
 					</form>
