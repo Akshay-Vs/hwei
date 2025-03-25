@@ -22,7 +22,7 @@ const UploadPreview = ({ image, handleDeleteImage }: UploadPreviewProps) => {
 			<Image
 				src={image}
 				alt="Variant item image"
-				className="w-full h-full object-contain rounded-2xl object-center relative z-10"
+				className="w-full h-full object-contain rounded-2xl  object-center relative z-10"
 				width={420}
 				height={256}
 				loading="eager"
