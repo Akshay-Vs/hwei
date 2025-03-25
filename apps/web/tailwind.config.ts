@@ -15,4 +15,7 @@ const config: Pick<Config, "content" | "presets" | "theme"> = {
   presets: [sharedConfig],
 };
 
-export default config;
+import { withUt } from "uploadthing/tw";
+
+export default withUt(config)
+

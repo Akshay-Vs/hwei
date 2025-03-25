@@ -14,6 +14,7 @@
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.11",
 		"@tanstack/react-table": "^8.20.6",
+		"@uploadthing/react": "^7.3.0",
 		"axios": "^1.8.2",
 		"chart.js": "^4.4.7",
 		"chartjs": "^0.3.24",
@@ -25,6 +26,7 @@
 		"react-dom": "^19.0.0",
 		"react-hook-form": "^7.54.2",
 		"sonner": "^1.7.4",
+		"uploadthing": "^7.6.0",
 		"zod": "^3.24.1",
 		"zustand": "^5.0.3"
 	},

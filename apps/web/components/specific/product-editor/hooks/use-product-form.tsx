@@ -14,6 +14,7 @@ export const useProductForm = () => {
 			minimumOrder: 0,
 			maximumOrder: 0,
 			category: '',
+			brand: '',
 			tags: [],
 		},
 	});

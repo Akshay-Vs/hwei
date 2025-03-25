@@ -39,6 +39,7 @@ const RootLayout = ({
 						<ModalProvider />
 						<Toaster />
 					</div>
+
 					{children}
 				</TooltipProvider>
 			</body>

@@ -1,7 +1,7 @@
 'use client';
 import React, { useTransition } from 'react';
 import Modal from './modal';
-import { useVariantModal } from '@/stores/modal-store/varient-modal-store';
+import { useVariantModal } from '@/stores/modal-store/variant-modal-store';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -37,6 +37,7 @@ const VariantModal = () => {
 		startLoading(async () => {
 			// Add your submission logic here
 			console.log(values);
+			form.reset();
 			store.onClose();
 		});
 	};

@@ -7,25 +7,37 @@ const withSerwist = withSerwistInit({
 
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ["@hwei/ui"],
-  output: "standalone",
+  transpilePackages: ['@hwei/ui'],
+  output: 'standalone',
   images: {
     remotePatterns: [
       {
         hostname: 'utfs.io',
         port: '',
         pathname: '/**',
-      }, {
-        hostname: '23ujkrayxy.ufs.sh',
+      },
+      {
+        hostname: 'utfs.sh',
         port: '',
         pathname: '/**',
-      }, {
+      },
+      {
+        hostname: '*.utfs.sh',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        hostname: '*.ufs.sh',
+        port: '',
+        pathname: '/**',
+      },
+      {
         hostname: 'images.pexels.com',
         port: '',
         pathname: '/**',
       },
-    ]
-  }
+    ],
+  },
 };
 
 export default withSerwist(nextConfig);

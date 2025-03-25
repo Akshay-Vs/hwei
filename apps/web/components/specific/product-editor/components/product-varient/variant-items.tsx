@@ -3,7 +3,7 @@ import { cn } from '@hwei/ui/utils/cn';
 import { Plus } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react'
-import AddVarientItem from './add-varient-item';
+import AddVariantItem from './add-variant-item';
 
 const variants = [
   {
@@ -24,7 +24,7 @@ const variants = [
 ];
 
 
-const VarientItems = () => {
+const VariantItems = () => {
   return (
     <div className="flex gap-2 full items-start h-16">
     {variants.map((variant) => (
@@ -45,9 +45,9 @@ const VarientItems = () => {
       </div>
     ))}
 
-    <AddVarientItem />
+    <AddVariantItem />
   </div>
   )
 }
 
-export default VarientItems
+export default VariantItems

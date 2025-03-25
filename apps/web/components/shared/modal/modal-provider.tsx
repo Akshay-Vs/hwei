@@ -1,13 +1,15 @@
 'use client';
 import React, { Fragment } from 'react';
 import StoreModal from './store-modal';
-import VarientModal from './variant-modal';
+import VariantModal from './variant-modal';
+import VariantItemModal from '@/components/specific/product-editor/modals/varient-item-model/variant-item-modal';
 
 const ModalProvider = () => {
 	return (
 		<Fragment>
 			<StoreModal />
-			<VarientModal />
+			<VariantModal />
+			<VariantItemModal />
 		</Fragment>
 	);
 };
