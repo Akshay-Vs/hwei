@@ -1,4 +1,4 @@
-import { TUseModalStore } from '@/types/modal-store.-type';
+import { TUseModalStore } from '@/types/modal-store-type';
 import { StateCreator } from 'zustand';
 
 export const createModalStore: StateCreator<TUseModalStore> = (set) => ({
