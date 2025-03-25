@@ -4,7 +4,7 @@ import { Form } from '@hwei/ui/shadcn/form';
 import { z } from 'zod';
 
 import ProductMetadata from './components/editor-fields/product-metadata';
-import { useProductForm } from '@/hooks/use-product-form';
+import { useProductForm } from '@/components/specific/product-editor/hooks/use-product-form';
 import ProductPrice from './components/editor-fields/product-price';
 import EditorPreview from './components/editor-preview/editor-preview';
 import ProductCategory from './components/editor-fields/product-category';

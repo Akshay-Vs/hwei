@@ -7,11 +7,11 @@ import {
 } from '@hwei/ui/shadcn/form';
 
 import TextInput from '../../../../shared/input/text-input';
-import { useVarientItem } from '../../hooks/use-varient-item';
+import { useFormContext } from 'react-hook-form';
 import { TBaseLoading } from '@/types/base-props';
 
-const NameInput = () => {
-	const { varientItemModelForm: form, loading } = useVarientItem();
+const NameInput = ({loading}: TBaseLoading) => {
+	const form = useFormContext();
 
 	return (
 		<FormField

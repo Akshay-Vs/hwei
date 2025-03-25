@@ -6,10 +6,11 @@ import {
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
 import React from 'react';
-import { useVarientItem } from '../../hooks/use-varient-item';
+import { useFormContext } from 'react-hook-form';
+import { TBaseLoading } from '@/types/base-props';
 
-const StockAvailableInput = () => {
-	const { varientItemModelForm: form, loading } = useVarientItem();
+const StockAvailableInput = ({loading}:TBaseLoading) => {
+	const form = useFormContext();
 	return (
 		<FormField
 			control={form.control}
