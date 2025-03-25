@@ -1,4 +1,4 @@
-import { TUseModalStore } from '@/types/modal-store.-type';
+import { TUseModalStore } from '@/types/modal-store-type';
 import { create } from 'zustand';
 import { createModalStore } from './create-modal-store';
 
