@@ -9,7 +9,7 @@ export const useVarientForm = () => {
 		defaultValues: {
 			label: '',
 			stock: 0,
-			image: undefined,
+			image: '',
 		},
 	});
 
