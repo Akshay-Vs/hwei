@@ -9,7 +9,7 @@
 	},
 	"devDependencies": {
 		"@hwei/typescript-config": "workspace:*",
-		"tailwindcss": "^3.4.17"
+		"tailwindcss": "3.4.17"
 	},
 	"keywords": [],
 	"author": "active-matrix",
