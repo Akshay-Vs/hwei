@@ -9,8 +9,9 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { TBaseLoading } from '@/types/base-props';
 
-const StockAvailableInput = ({loading}:TBaseLoading) => {
+const StockAvailableInput = ({ loading }: TBaseLoading) => {
 	const form = useFormContext();
+
 	return (
 		<FormField
 			control={form.control}
@@ -22,8 +23,9 @@ const StockAvailableInput = ({loading}:TBaseLoading) => {
 						<TextInput
 							type="number"
 							placeholder="stock available"
+							onChange={(e) => field.onChange(Number(e.target.value) || 0)}
+							value={field.value ?? 0}
 							disabled={loading}
-							{...field}
 						/>
 					</FormControl>
 					<FormMessage />
