@@ -23,7 +23,9 @@ const resizeIcon = (icon: ReactElement) => {
 	return icon;
 };
 
-const LoadingIndicator = () => <LucideLoader2 className="animate-spin" />;
+export const LoadingIndicator = () => (
+	<LucideLoader2 className="animate-spin" />
+);
 
 const ClerkSSO: React.FC<SSOProps> = ({
 	provider,
@@ -37,7 +39,7 @@ const ClerkSSO: React.FC<SSOProps> = ({
 		<Connection name={provider} asChild>
 			<Button
 				disabled={isGlobalLoading}
-				className="p-0"
+				className="p-0 w-9 h-9"
 				aria-label={tooltip}
 				tooltip={tooltip}
 				variant="ghost"
