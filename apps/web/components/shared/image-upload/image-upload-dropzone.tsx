@@ -20,7 +20,7 @@ const ImageUploadDropzone = ({loading, endpoint="productImage", onClientUploadCo
 			onUploadError={onUploadError}
 			appearance={{
 				button:
-					'bg-primary text-primary-foreground hover:bg-primary/90 data-[state=disabled]:bg-primary/70 data-[state=ready]:bg-primary data-[state=readying]:bg-primary/70 data-[state=uploading]:bg-secondary/80 after:bg-secondary focus-within:ring-primary rounded-base',
+					'bg-primary text-primary-foreground hover:bg-primary/90 data-[state=disabled]:bg-primary/70 data-[state=ready]:bg-primary data-[state=readying]:bg-primary/70 data-[state=uploading]:bg-secondary/80 after:bg-secondary focus-within:ring-primary !rounded-base',
 				container: 'rounded-[1rem] h-64 w-full',
 			}}
 		/>
