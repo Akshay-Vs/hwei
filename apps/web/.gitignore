@@ -57,3 +57,5 @@ tsconfig.tsbuildinfo
 
 # pnpm ci
 .pnpm-store
+# clerk configuration (can include secrets)
+/.clerk/
