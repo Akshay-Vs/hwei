@@ -7,7 +7,8 @@
 		"build": "next build",
 		"dev": "next dev --turbopack",
 		"lint": "eslint . --max-warnings 0",
-		"start": "next start"
+		"start": "next start",
+		"serve": "next build && next start"
 	},
 	"dependencies": {
 		"@clerk/elements": "^0.23.6",
