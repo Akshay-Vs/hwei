@@ -26,7 +26,7 @@ const ImageUploadDropzone = ({
 			appearance={{
 				button:
 					'bg-primary text-primary-foreground hover:bg-primary/90 data-[state=disabled]:bg-primary/70 data-[state=ready]:bg-primary data-[state=readying]:bg-primary/70 data-[state=uploading]:bg-secondary/80 after:bg-secondary focus-within:ring-primary rounded-r-base rounded-l-base',
-				container: 'rounded-r-2xl rounded-l-2xl h-64 w-full',
+				container: 'rounded-r-2xl rounded-l-2xl h-64 w-full cursor-pointer',
 			}}
 		/>
 	);
