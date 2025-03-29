@@ -2,7 +2,6 @@
 
 import { Connection, Loading } from '@clerk/elements/common';
 import { Button } from '@hwei/ui/shadcn/button';
-import { LucideLoader2 } from 'lucide-react';
 import { cloneElement, isValidElement, ReactElement, useMemo } from 'react';
 import { IconBaseProps } from 'react-icons/lib';
 
@@ -22,10 +21,6 @@ const resizeIcon = (icon: ReactElement) => {
 	}
 	return icon;
 };
-
-export const LoadingIndicator = () => (
-	<LucideLoader2 className="animate-spin" />
-);
 
 const ClerkSSO: React.FC<SSOProps> = ({
 	provider,
