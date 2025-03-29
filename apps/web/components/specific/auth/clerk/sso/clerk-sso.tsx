@@ -1,5 +1,6 @@
 'use client';
 
+import { LoadingSpinner } from '@/components/shared/micro-components/loading-spinner';
 import { Connection, Loading } from '@clerk/elements/common';
 import { Button } from '@hwei/ui/shadcn/button';
 import { cloneElement, isValidElement, ReactElement, useMemo } from 'react';
@@ -40,7 +41,7 @@ const ClerkSSO: React.FC<SSOProps> = ({
 				variant="ghost"
 			>
 				<Loading scope={`provider:${provider}`}>
-					{(isLoading) => (isLoading ? <LoadingIndicator /> : resizedIcon)}
+					{(isLoading) => (isLoading ? <LoadingSpinner /> : resizedIcon)}
 				</Loading>
 			</Button>
 		</Connection>
