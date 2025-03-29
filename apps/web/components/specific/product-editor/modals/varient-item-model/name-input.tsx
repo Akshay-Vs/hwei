@@ -4,13 +4,14 @@ import {
 	FormItem,
 	FormControl,
 	FormMessage,
+	FormLabel,
 } from '@hwei/ui/shadcn/form';
 
 import TextInput from '../../../../shared/input/text-input';
 import { useFormContext } from 'react-hook-form';
 import { TBaseLoading } from '@/types/base-props';
 
-const NameInput = ({loading}: TBaseLoading) => {
+const NameInput = ({ loading }: TBaseLoading) => {
 	const form = useFormContext();
 
 	return (
@@ -19,9 +20,9 @@ const NameInput = ({loading}: TBaseLoading) => {
 			name="label"
 			render={({ field }) => (
 				<FormItem>
-					<label>Label</label>
+					<FormLabel>Label</FormLabel>
 					<FormControl>
-						<TextInput 
+						<TextInput
 							type="text"
 							placeholder="Item label"
 							disabled={loading}

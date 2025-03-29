@@ -4,6 +4,7 @@ import {
 	FormItem,
 	FormControl,
 	FormMessage,
+	FormLabel,
 } from '@hwei/ui/shadcn/form';
 
 import ImageUploadDropzone from '@/components/shared/image-upload/image-upload-dropzone';
@@ -27,6 +28,7 @@ const ImageInput = ({ loading }: TBaseLoading) => {
 					name="image"
 					render={() => (
 						<FormItem>
+							<FormLabel>Thumbnail Image</FormLabel>
 							<FormControl>
 								<ImageUploadDropzone
 									onClientUploadComplete={onClientUploadComplete}

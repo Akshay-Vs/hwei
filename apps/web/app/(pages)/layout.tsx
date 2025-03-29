@@ -6,6 +6,8 @@ import { connection } from 'next/server';
 import Blob from '@/components/shared/visual/blob';
 import { Toaster } from '@/components/shared/toaster';
 import { uploadFileRouter } from '../../utils/uploadthing/core';
+import Nav from '@/components/specific/nav/nav';
+import Sidebar from '@/components/specific/sidebar/sidebar';
 
 async function UTSSR() {
 	await connection();
@@ -15,20 +17,24 @@ async function UTSSR() {
 
 const layout = ({ children }: PropsWithChildren) => {
 	return (
-		<main className="flex flex-col gap-4 text-3xl text-secondary py-4 transition-all duration-300 min-w-[calc(100vw-8rem)] min-h-[calc(100vh-6rem)] ml-24 pl-4 mt-24">
-			<div className="absolute top-1/2 right-64 z-[1]">
-				<div className="fixed top-1/2 left-1/2 w-[84vw] h-[46vh] rounded-full bg-accent opacity-10 blur-[200px]" />
-			</div>
+		<>
+			<Nav />
+			<Sidebar />
+			<main className="flex flex-col gap-4 text-3xl text-secondary py-4 transition-all duration-300 min-w-[calc(100vw-8rem)] min-h-[calc(100vh-6rem)] ml-24 pl-4 mt-24">
+				<div className="absolute top-1/2 right-64 z-[1]">
+					<div className="fixed top-1/2 left-1/2 w-[84vw] h-[46vh] rounded-full bg-accent opacity-10 blur-[200px]" />
+				</div>
 
-			<Blob />
-			<Toaster />
+				<Blob />
+				<Toaster />
 
-			<Suspense>
-				<UTSSR />
-			</Suspense>
-			
-			<div className="full z-[2]">{children}</div>
-		</main>
+				<Suspense>
+					<UTSSR />
+				</Suspense>
+
+				<div className="full z-[2]">{children}</div>
+			</main>
+		</>
 	);
 };
 

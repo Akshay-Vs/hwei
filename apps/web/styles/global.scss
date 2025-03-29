@@ -90,6 +90,14 @@ input:-webkit-autofill:active {
 	@apply rounded-[3.125rem];
 }
 
+.rounded-r-base {
+	@apply rounded-r-[3.125rem];
+}
+
+.rounded-l-base {
+	@apply rounded-l-[3.125rem];
+}
+
 .center {
 	@apply flex justify-center items-center;
 }
