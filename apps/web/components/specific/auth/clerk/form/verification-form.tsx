@@ -64,7 +64,7 @@ const VerificationForm = () => {
 		if (isSignedIn) {
 			router.push('/');
 		}
-	}, [isSignedIn]);
+	}, [isSignedIn, router]);
 
 	return (
 		<div className="w-full col gap-16">
