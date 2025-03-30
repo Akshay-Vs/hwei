@@ -25,7 +25,7 @@ import { resolveClerkError } from '../utils/resolve-clerk-error';
 import { useRouter } from 'next/navigation';
 
 const SignInForm = () => {
-	const { formSuccess, formError, setFormSuccess, setFormError, setStep } =
+	const { formSuccess, formError, setFormSuccess, setFormError } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();
 	const [isPending, startPending] = useTransition();
