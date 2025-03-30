@@ -2,12 +2,12 @@
 import Logo from '@/components/shared/branding/logo';
 import SignUpForm from '@/components/specific/auth/clerk/form/signup-form';
 import VerificationForm from '@/components/specific/auth/clerk/form/verification-form';
-import { useSignUpFlowStore } from '@/components/specific/auth/clerk/stores/signup-flow-store';
+import { useAuthFlowStore } from '@/components/specific/auth/clerk/stores/auth-flow-store';
 import { Card, CardHeader, CardContent } from '@hwei/ui/shadcn/card';
 import React from 'react';
 
 const SignUpPage = () => {
-	const { step } = useSignUpFlowStore();
+	const { step } = useAuthFlowStore();
 
 	return (
 		<div className="full relative">

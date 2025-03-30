@@ -21,9 +21,9 @@ export default function SignInPage() {
 					<SignInForm />
 				</CardContent>
 
-				<CardFooter className="w-full center absolute bottom-4 right-0">
+				{/* <CardFooter className="w-full center absolute bottom-4 right-0">
 					<p className="text-center text-xs">Designed and developed by akvs</p>
-				</CardFooter>
+				</CardFooter> */}
 			</Card>
 		</div>
 	);

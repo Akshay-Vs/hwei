@@ -14,16 +14,16 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signupSchemaVerification } from '../schemas/signup-schema';
 import { useSignUp } from '@clerk/nextjs';
-import { useSignUpFlowStore } from '../stores/signup-flow-store';
+import { useAuthFlowStore } from '../stores/auth-flow-store';
 import { useRouter } from 'next/navigation';
-import { ClerkAPIError } from '@clerk/types';
 import { FormError, FormSuccess } from '../elements/form-status';
+import { resolveClerkError } from '../utils/resolve-clerk-error';
 
 const VerificationForm = () => {
 	const { isLoaded, signUp, setActive } = useSignUp();
 	const [isPending, startPending] = useTransition();
 	const { setStep, formSuccess, formError, setFormError, setFormSuccess } =
-		useSignUpFlowStore();
+		useAuthFlowStore();
 	const router = useRouter();
 
 	const form = useForm({
@@ -55,17 +55,7 @@ const VerificationForm = () => {
 				setFormSuccess('Successfully verified email address');
 				router.push('/');
 			} catch (error: any) {
-				if (error && typeof error === 'object' && 'errors' in error) {
-					const clerkError = error as { errors: ClerkAPIError[] };
-
-					if (clerkError.errors && clerkError.errors.length > 0) {
-						setFormError(clerkError?.errors[0]?.message);
-					} else {
-						setFormError('An unknown error occurred');
-					}
-				} else {
-					setFormError('An unexpected error occurred');
-				}
+				resolveClerkError({ error, setFormError });
 			}
 		});
 	};

@@ -1,21 +1,21 @@
 import { create } from 'zustand';
 
-type signupFlow = 'start' | 'password' | 'verification';
+type authFlow = 'start' | 'password' | 'verification';
 
-type signupFlowStore = {
-	step: signupFlow;
-	setStep: (step: signupFlow) => void;
+type authFlowStore = {
+	step: authFlow;
+	setStep: (step: authFlow) => void;
 	formError: string | undefined;
 	setFormError: (error: string | undefined) => void;
 	formSuccess: string | undefined;
 	setFormSuccess: (success: string | undefined) => void;
 };
 
-export const useSignUpFlowStore = create<signupFlowStore>((set) => ({
+export const useAuthFlowStore = create<authFlowStore>((set) => ({
 	step: 'start',
 	formError: undefined,
 	formSuccess: undefined,
-	setStep: (step: signupFlow) => set({ step }),
+	setStep: (step: authFlow) => set({ step }),
 	setFormError: (error: string | undefined) => set({ formError: error }),
 	setFormSuccess: (success: string | undefined) =>
 		set({ formSuccess: success }),
