@@ -1,5 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-console.log("Middleware hit")
 
 const isPublicRoute = createRouteMatcher(['/auth(.*)', '/api/uploadthing(.*)'])
 
