@@ -1,5 +1,5 @@
 import React from 'react';
-import FacebookSSO from '../sso/faceboot-sso';
+import FacebookSSO from '../sso/facebook-sso';
 import GithubSSO from '../sso/github-sso';
 import GoogleSSO from '../sso/google-sso';
 import { Root } from '@clerk/elements/sign-in';
