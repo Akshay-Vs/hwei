@@ -9,11 +9,11 @@ import {
 	FormControl,
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
-import React, { useTransition } from 'react';
+import React, { useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signupSchemaVerification } from '../schemas/signup-schema';
-import { useSignUp } from '@clerk/nextjs';
+import { useAuth, useSignUp } from '@clerk/nextjs';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
 import { useRouter } from 'next/navigation';
 import { FormError, FormSuccess } from '../elements/form-status';
@@ -25,6 +25,7 @@ const VerificationForm = () => {
 	const { setStep, formSuccess, formError, setFormError, setFormSuccess } =
 		useAuthFlowStore();
 	const router = useRouter();
+	const { isSignedIn } = useAuth();
 
 	const form = useForm({
 		resolver: zodResolver(signupSchemaVerification),
@@ -53,12 +54,17 @@ const VerificationForm = () => {
 				});
 				await setActive({ session: signUp.createdSessionId });
 				setFormSuccess('Successfully verified email address');
-				router.push('/');
 			} catch (error: any) {
 				resolveClerkError({ error, setFormError });
 			}
 		});
 	};
+
+	useEffect(() => {
+		if (isSignedIn) {
+			router.push('/');
+		}
+	}, [isSignedIn]);
 
 	return (
 		<div className="w-full col gap-16">

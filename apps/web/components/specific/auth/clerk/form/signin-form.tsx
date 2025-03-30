@@ -1,8 +1,8 @@
-import React, { useTransition } from 'react';
+import React, { useEffect, useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@hwei/ui/shadcn/button';
 import { useForm } from 'react-hook-form';
-import { useSignIn } from '@clerk/nextjs';
+import { useAuth, useSignIn } from '@clerk/nextjs';
 import { z } from 'zod';
 import {
 	Form,
@@ -25,11 +25,12 @@ import { resolveClerkError } from '../utils/resolve-clerk-error';
 import { useRouter } from 'next/navigation';
 
 const SignInForm = () => {
-	const { formSuccess, formError, setFormSuccess, setFormError } =
+	const { formSuccess, formError, setFormSuccess, setFormError, setStep } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();
 	const [isPending, startPending] = useTransition();
 	const router = useRouter();
+	const { isSignedIn } = useAuth();
 
 	const form = useForm({
 		resolver: zodResolver(signinSchema),
@@ -59,12 +60,17 @@ const SignInForm = () => {
 
 				setFormSuccess('Signed in successfully');
 				setActive({ session: signIn.createdSessionId });
-				router.push('/');
 			} catch (error) {
 				resolveClerkError({ error, setFormError });
 			}
 		});
 	};
+
+	useEffect(() => {
+		if (isSignedIn) {
+			router.push('/');
+		}
+	}, [isSignedIn]);
 
 	return (
 		<div className="w-full col gap-8">
