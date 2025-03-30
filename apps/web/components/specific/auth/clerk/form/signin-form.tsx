@@ -15,7 +15,7 @@ import {
 
 import TextInput from '@/components/shared/input/text-input';
 
-import { signinSchema } from '../schemas/signin-schema copy';
+import { signinSchema } from '../schemas/signin-schema';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
 import { FormSuccess, FormError } from '../elements/form-status';
 import CreateAcc from '../elements/create-acc';
