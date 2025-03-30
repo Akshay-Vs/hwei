@@ -4,6 +4,7 @@ import {
 	FormItem,
 	FormControl,
 	FormMessage,
+	FormLabel,
 } from '@hwei/ui/shadcn/form';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -18,7 +19,7 @@ const StockAvailableInput = ({ loading }: TBaseLoading) => {
 			name="stock"
 			render={({ field }) => (
 				<FormItem>
-					<label>Stock available</label>
+					<FormLabel>Stock available</FormLabel>
 					<FormControl>
 						<TextInput
 							type="number"
