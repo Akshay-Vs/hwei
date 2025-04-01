@@ -377,8 +377,8 @@ importers:
   services/auth:
     dependencies:
       '@auth/express':
-        specifier: ^0.8.4
-        version: 0.8.4(express@4.21.2)
+        specifier: ^0.9.0
+        version: 0.9.0(express@4.21.2)
       '@hwei/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -445,8 +445,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@auth/core@0.37.4':
-    resolution: {integrity: sha512-HOXJwXWXQRhbBDHlMU0K/6FT1v+wjtzdKhsNg0ZN7/gne6XPsIrjZ4daMcFnbq0Z/vsAbYBinQhhua0d77v7qw==}
+  '@auth/core@0.38.0':
+    resolution: {integrity: sha512-ClHl44x4cY3wfJmHLpW+XrYqED0fZIzbHmwbExltzroCjR5ts3DLTWzADRba8mJFYZ8JIEJDa+lXnGl0E9Bl7Q==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -459,10 +459,10 @@ packages:
       nodemailer:
         optional: true
 
-  '@auth/express@0.8.4':
-    resolution: {integrity: sha512-6D38JtAI/ttGv8juc69r4Y7ozE2Un6Ayvu5+Sx2N41E+FPyISnWIvTrvO8MO7ltbHI8yErhQaE327jDsP9JglQ==}
+  '@auth/express@0.9.0':
+    resolution: {integrity: sha512-86ud3XKcSr956giFN0YTdlGwbg9g5rsmUtcekxVZ0hy/M2Wv20bT4SXRj7kSWruGYmFYKlCFJeWarrZIFY5qrA==}
     peerDependencies:
-      express: ^4.18.2
+      express: ^4.18.2 || ^5.0.0
 
   '@babel/code-frame@7.26.2':
     resolution: {integrity: sha512-RJlIHRueQgwWitWgF8OdFYGZX328Ax5BCemNGlqHfplnRT9ESi8JkFlvaVYbS+UubVY6dpv87Fs2u5M29iNFVQ==}
@@ -4141,8 +4141,8 @@ packages:
   jju@1.4.0:
     resolution: {integrity: sha512-8wb9Yw966OSxApiCt0K3yNJL8pnNeIv+OEq2YMidz4FKP6nonSRoOXc80iXY4JaN2FC11B9qsNmDsm+ZOfMROA==}
 
-  jose@5.10.0:
-    resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
+  jose@6.0.10:
+    resolution: {integrity: sha512-skIAxZqcMkOrSwjJvplIPYrlXGpxTPnro2/QWTDCxAdWQrSTV5/KqspMWmi5WAx5+ULswASJiZ0a+1B/Lxt9cw==}
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -4589,8 +4589,8 @@ packages:
     resolution: {integrity: sha512-4dv+fE9hrK+xTaCygOLh/kQeFzbFr7UqSyHvBDbrQq8Hg52sAkV2vTsyH3Z42hoeaKpbhM7udhL8Y4GYbl6TGQ==}
     engines: {node: '>=4.0'}
 
-  oauth4webapi@3.3.1:
-    resolution: {integrity: sha512-ZwX7UqYrP3Lr+Glhca3a1/nF2jqf7VVyJfhGuW5JtrfDUxt0u+IoBPzFjZ2dd7PJGkdM6CFPVVYzuDYKHv101A==}
+  oauth4webapi@3.3.2:
+    resolution: {integrity: sha512-hCJgDQayOLpBxdDpzShK/SI3C1PVnkj4CcKLOGyQm23Lk5V+qYPH+LtQlu8YO29MswBry/FBVlwWBnWgQvaFdA==}
 
   oauth@0.10.0:
     resolution: {integrity: sha512-1orQ9MT1vHFGQxhuy7E/0gECD3fd2fCC+PIX+/jgmU/gI3EpRocXtmtvxCO5x3WZ443FLTLFWNDjl5MPJf9u+Q==}
@@ -5937,17 +5937,17 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@auth/core@0.37.4':
+  '@auth/core@0.38.0':
     dependencies:
       '@panva/hkdf': 1.2.1
-      jose: 5.10.0
-      oauth4webapi: 3.3.1
+      jose: 6.0.10
+      oauth4webapi: 3.3.2
       preact: 10.24.3
       preact-render-to-string: 6.5.11(preact@10.24.3)
 
-  '@auth/express@0.8.4(express@4.21.2)':
+  '@auth/express@0.9.0(express@4.21.2)':
     dependencies:
-      '@auth/core': 0.37.4
+      '@auth/core': 0.38.0
       express: 4.21.2
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
@@ -10165,7 +10165,7 @@ snapshots:
 
   jju@1.4.0: {}
 
-  jose@5.10.0: {}
+  jose@6.0.10: {}
 
   joycon@3.1.1: {}
 
@@ -10566,7 +10566,7 @@ snapshots:
       statuses: 1.5.0
       type-is: 1.6.18
 
-  oauth4webapi@3.3.1: {}
+  oauth4webapi@3.3.2: {}
 
   oauth@0.10.0: {}
 
