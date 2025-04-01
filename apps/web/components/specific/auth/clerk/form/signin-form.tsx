@@ -42,7 +42,6 @@ const SignInForm = () => {
 	});
 
 	const onSubmit = (values: z.infer<typeof signinSchema>) => {
-		console.log(values);
 		if (!isLoaded) {
 			return;
 		}

@@ -11,6 +11,14 @@ import { DropdownProps } from '@/types/dropdown-props';
 import { useAuth, useClerk } from '@clerk/nextjs';
 import ClickableDiv from '@/components/shared/clickable/clickable-div';
 
+type UserData = {
+	id: string;
+	name: string;
+	image: string;
+	email: string;
+	isSelected: boolean;
+};
+
 const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 	const { client, setActive } = useClerk();
 	const { sessionId, isLoaded } = useAuth();
@@ -20,16 +28,21 @@ const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 
 	const availableSession = client.sessions;
 
-	const users = availableSession.map((session) => {
-		if (!session.user) return null;
-		return {
-			id: session.id,
-			name: session.user.fullName,
-			image: session.user.imageUrl,
-			email: session.user.emailAddresses[0]?.toString(),
-			isSelected: session.id === sessionId,
-		};
-	});
+	const users: UserData[] = availableSession
+		.map((session) => {
+			const user = session.user;
+			if (!user || !user.fullName) return null;
+
+			return {
+				id: session.id,
+				name: user.fullName,
+				image: user.imageUrl,
+				email: user.emailAddresses[0]?.toString() || '',
+				isSelected: session.id === sessionId,
+			};
+		})
+		.filter((user): user is UserData => user !== null)
+		.sort((a, b) => a.name.localeCompare(b.name));
 
 	const selectedUser = (id: string) => {
 		startPending(async () => await setActive({ session: id }));
