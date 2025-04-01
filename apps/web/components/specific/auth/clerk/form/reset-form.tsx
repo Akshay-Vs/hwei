@@ -135,6 +135,8 @@ const ResetForm = () => {
 		});
 	};
 
+	// TODO: Add resend code functionality
+
 	return (
 		<div className="w-full col gap-16">
 			<h1 className="text-center text-3xl">Reset Password</h1>

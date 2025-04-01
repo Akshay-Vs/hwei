@@ -19,7 +19,7 @@ const AccountDropdownActions = () => {
 		},
 	];
 	return (
-		<div className="flex w-full justify-end px-4">
+		<div className="flex w-fit justify-end">
 			{actions.map((action) => (
 				<Tooltip key={action.label}>
 					<TooltipTrigger asChild>
