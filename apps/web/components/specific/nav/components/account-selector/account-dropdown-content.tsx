@@ -1,5 +1,6 @@
+'use client';
 import Image from 'next/image';
-import React from 'react';
+import React, { useTransition } from 'react';
 
 import { Dropdown } from '@/components/shared/dropdown/dropdown';
 import { Separator } from '@hwei/ui/shadcn/separator';
@@ -7,25 +8,32 @@ import { Separator } from '@hwei/ui/shadcn/separator';
 import AccountDropdownActions from './account-dropdown-actions';
 import AddNewAccount from './add-new-account';
 import { DropdownProps } from '@/types/dropdown-props';
+import { useAuth, useClerk } from '@clerk/nextjs';
+import ClickableDiv from '@/components/shared/clickable/clickable-div';
 
 const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
-	const users = [
-		{
-			id: 'LAGS087OUYAGs',
-			name: 'Evelin Violet',
-			email: 'evelin@gmail.com',
-			image:
-				'https://utfs.io/f/u628d5y0J6C1JoULTTGePIhzvZk7l1rq9wNsymFSYQAnLOT0',
-			isSelected: true,
-		},
-		{
-			id: 'ASASd87987987',
-			name: 'Vector Eco',
-			email: 'vector@gmail.com',
-			image:
-				'https://23ujkrayxy.ufs.sh/f/u628d5y0J6C1Fzz7UKUwCKLh4vqwZaVBckdHsNE2bJnG9SOz',
-		},
-	];
+	const { client, setActive } = useClerk();
+	const { sessionId, isLoaded } = useAuth();
+	const [isPending, startPending] = useTransition();
+
+	if (!isLoaded) return null;
+
+	const availableSession = client.sessions;
+
+	const users = availableSession.map((session) => {
+		if (!session.user) return null;
+		return {
+			id: session.id,
+			name: session.user.fullName,
+			image: session.user.imageUrl,
+			email: session.user.emailAddresses[0]?.toString(),
+			isSelected: session.id === sessionId,
+		};
+	});
+
+	const selectedUser = (id: string) => {
+		startPending(async () => await setActive({ session: id }));
+	};
 
 	return (
 		<Dropdown
@@ -35,28 +43,37 @@ const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 			describedBy="account-selector-desc"
 			className="w-96 gap-4"
 		>
-			{users.map((user) => (
-				<div
-					className={`w-full flex items-center gap-4 p-4 rounded-base cursor-pointer transition-all duration-300 ${user.isSelected ? 'bg-accent/10 hover:bg-accent/20' : 'hover:bg-accent/5'}`}
-					key={user.id}
-				>
-					<Image
-						src={user.image}
-						width={50}
-						height={50}
-						alt={`${user.name}'s profile picture`}
-						className="w-12 h-12 rounded-full object-center object-cover"
-					/>
-					<div className="flex flex-col">
-						<p className="text-base font-semibold text-secondary">
-							{user.name}
-						</p>
-						<p className="text-sm font-normal text-secondary">{user.email}</p>
-					</div>
+			{users.map((user) => {
+				if (!user) return null;
+				return (
+					<ClickableDiv
+						className={`w-full flex items-center gap-1 p-4 rounded-base cursor-pointer transition-all duration-300 ${user.isSelected ? 'bg-accent/20 hover:bg-accent/30' : 'hover:bg-accent/5'}`}
+						key={user.id}
+						onClick={() => selectedUser(user.id)}
+						aria-label={`${user.name}'s account`}
+						aria-pressed={user.isSelected}
+						loading={isPending}
+					>
+						<Image
+							src={user.image}
+							width={50}
+							height={50}
+							alt={`${user.name}'s profile picture`}
+							className="w-12 h-12 rounded-full mr-2 object-center object-cover"
+						/>
+						<div className="flex flex-col flex-1 overflow-hidden w-48">
+							<p className="text-base font-semibold text-secondary truncate">
+								{user.name}
+							</p>
+							<p className="text-sm font-normal text-secondary truncate">
+								{user.email}
+							</p>
+						</div>
 
-					{user.isSelected === true ? <AccountDropdownActions /> : null}
-				</div>
-			))}
+						{user.isSelected === true ? <AccountDropdownActions /> : null}
+					</ClickableDiv>
+				);
+			})}
 
 			<Separator className="opacity-30" />
 			<AddNewAccount />
