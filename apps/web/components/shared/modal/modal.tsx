@@ -78,8 +78,8 @@ const Modal = ({
 				onClick={(e) => e.stopPropagation()}
 			>
 				<CardHeader className="pb-4">
-					<h1 className="text-2xl">{title}</h1>
-					<p className="text-sm">{description}</p>
+					{title && <h1 className="text-2xl">{title}</h1>}
+					{description && <p className="text-sm">{description}</p>}
 				</CardHeader>
 				{children}
 			</Card>
