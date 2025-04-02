@@ -23,9 +23,9 @@ import SocialProviders from '../elements/social-providers';
 import ResetPassword from '../elements/reset-password';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 import PasswordInput from '@/components/shared/input/password-input';
-import { mode } from '@/types/component-mode';
+import { TMode } from '@/types/component-mode';
 
-const SignInForm = ({ mode }: { mode: mode }) => {
+const SignInForm = ({ mode }: { mode: TMode }) => {
 	const { formSuccess, formError, setFormSuccess, setFormError } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();

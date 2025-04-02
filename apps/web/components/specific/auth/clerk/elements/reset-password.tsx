@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import { mode } from '@/types/component-mode';
+import { TMode } from '@/types/component-mode';
 import { Button } from '@hwei/ui/shadcn/button';
 import { useAuthModal } from '@/stores/modal-store/auth-modal-store';
 
-const ResetPassword = ({ mode }: { mode: mode }) => {
+const ResetPassword = ({ mode }: { mode: TMode }) => {
 	const authModal = useAuthModal();
 	if (mode === 'modal')
 		return (

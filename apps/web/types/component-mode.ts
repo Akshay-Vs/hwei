@@ -1,1 +1,1 @@
-export type mode = 'modal' | 'page';
+export type TMode = 'modal' | 'page';

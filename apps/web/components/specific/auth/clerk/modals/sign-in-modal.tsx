@@ -2,12 +2,12 @@ import Logo from '@/components/shared/branding/logo';
 import { Card, CardHeader, CardContent } from '@hwei/ui/shadcn/card';
 import React from 'react';
 import SignInForm from '../form/signin-form';
-import { mode } from '@/types/component-mode';
+import { TMode } from '@/types/component-mode';
 
 interface SignInModalProps {
 	showLogo?: boolean;
 	title?: string;
-	mode?: mode;
+	mode?: TMode;
 }
 
 const SignInModal = ({

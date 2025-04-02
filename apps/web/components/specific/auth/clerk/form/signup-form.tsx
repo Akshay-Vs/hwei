@@ -22,8 +22,9 @@ import AlreadyHaveAcc from '../elements/already-have-acc';
 import { FormError, FormSuccess } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 import PasswordInput from '@/components/shared/input/password-input';
+import { TMode } from '@/types/component-mode';
 
-const SignUpForm = ({ mode }: { mode: mode }) => {
+const SignUpForm = ({ mode }: { mode: TMode }) => {
 	const { isLoaded, signUp } = useSignUp();
 	const {
 		step,

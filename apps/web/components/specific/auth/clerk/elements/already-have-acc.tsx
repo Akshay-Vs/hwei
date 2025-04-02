@@ -1,10 +1,10 @@
 import { useAuthModal } from '@/stores/modal-store/auth-modal-store';
-import { mode } from '@/types/component-mode';
+import { TMode } from '@/types/component-mode';
 import { Button } from '@hwei/ui/shadcn/button';
 import Link from 'next/link';
 import React from 'react';
 
-const AlreadyHaveAcc = ({ mode }: { mode: mode }) => {
+const AlreadyHaveAcc = ({ mode }: { mode: TMode }) => {
 	const url = process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL || '/auth/sign-in';
 
 	const authModal = useAuthModal();

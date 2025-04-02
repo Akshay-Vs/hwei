@@ -4,11 +4,11 @@ import React from 'react';
 import SignUpForm from '../form/signup-form';
 import VerificationForm from '../form/verification-form';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
-import { mode } from '@/types/component-mode';
+import { TMode } from '@/types/component-mode';
 
 interface SignInModalProps {
 	showLogo?: boolean;
-	mode?: mode;
+	mode?: TMode;
 }
 
 const SignUpModal = ({ showLogo = true, mode = 'page' }: SignInModalProps) => {
