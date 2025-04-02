@@ -134,13 +134,11 @@ const SignUpForm = () => {
 							<div className="flex items-center justify-between mt-2">
 								<AlreadyHaveAcc />
 								<Button
-									onClick={(e) => {
-										e.preventDefault();
-										validateStart();
-									}}
+									onClick={validateStart}
 									className="px-16 h-12"
 									disabled={!isLoaded}
 									loading={isPending}
+									type="button"
 								>
 									Continue
 								</Button>
@@ -183,8 +181,8 @@ const SignUpForm = () => {
 							<div className="flex items-center justify-between mt-2">
 								<Button
 									variant="ghost"
-									onClick={(e) => {
-										e.stopPropagation();
+									type="button"
+									onClick={() => {
 										setStep('start');
 									}}
 									className="text-sm"

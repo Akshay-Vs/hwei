@@ -79,9 +79,9 @@ const VerificationForm = () => {
 						/>
 						<div className="flex items-center justify-between mt-2">
 							<Button
+								type="button"
 								variant="ghost"
-								onClick={(e) => {
-									e.stopPropagation();
+								onClick={() => {
 									setStep('start');
 								}}
 								className="text-sm"
