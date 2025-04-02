@@ -17,7 +17,7 @@ const AlreadyHaveAcc = ({ mode }: { mode: TMode }) => {
 					authModal.onStepChange('sign-in');
 				}}
 			>
-				Create new account
+				Already have an account?
 			</Button>
 		);
 	}
