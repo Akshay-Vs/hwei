@@ -89,7 +89,7 @@ const AccountDropdownContent = ({ isOpen, onClose }: DropdownProps) => {
 			})}
 
 			<Separator className="opacity-30" />
-			<AddNewAccount />
+			<AddNewAccount onClose={onClose} />
 		</Dropdown>
 	);
 };

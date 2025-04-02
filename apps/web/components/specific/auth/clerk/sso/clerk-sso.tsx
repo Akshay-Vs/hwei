@@ -1,6 +1,6 @@
 'use client';
 
-import { LoadingSpinner } from '@/components/shared/micro-components/loading-spinner';
+import { LoadingSpinner } from '@/components/shared/visual/loading-spinner';
 import { Connection, Loading } from '@clerk/elements/common';
 import { Button } from '@hwei/ui/shadcn/button';
 import { cloneElement, isValidElement, ReactElement, useMemo } from 'react';

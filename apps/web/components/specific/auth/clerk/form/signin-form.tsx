@@ -1,8 +1,8 @@
-import React, { useEffect, useTransition } from 'react';
+import React, { useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@hwei/ui/shadcn/button';
 import { useForm } from 'react-hook-form';
-import { useAuth, useSignIn } from '@clerk/nextjs';
+import { useSignIn } from '@clerk/nextjs';
 import { z } from 'zod';
 import {
 	Form,
@@ -20,17 +20,16 @@ import { useAuthFlowStore } from '../stores/auth-flow-store';
 import { FormSuccess, FormError } from '../elements/form-status';
 import CreateAcc from '../elements/create-acc';
 import SocialProviders from '../elements/social-providers';
-import ResetPasswordLink from '../elements/reset-password-link';
+import ResetPassword from '../elements/reset-password';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
-import { useRouter } from 'next/navigation';
+import PasswordInput from '@/components/shared/input/password-input';
+import { TMode } from '@/types/component-mode';
 
-const SignInForm = () => {
+const SignInForm = ({ mode }: { mode: TMode }) => {
 	const { formSuccess, formError, setFormSuccess, setFormError } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();
 	const [isPending, startPending] = useTransition();
-	const router = useRouter();
-	const { isSignedIn } = useAuth();
 
 	const form = useForm({
 		resolver: zodResolver(signinSchema),
@@ -65,12 +64,6 @@ const SignInForm = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (isSignedIn) {
-			router.push('/');
-		}
-	}, [isSignedIn]);
-
 	return (
 		<div className="w-full col gap-8">
 			<Form {...form}>
@@ -101,9 +94,8 @@ const SignInForm = () => {
 							<FormItem>
 								<FormLabel>Password</FormLabel>
 								<FormControl>
-									<TextInput
-										type="password"
-										placeholder="********"
+									<PasswordInput
+										placeholder="••••••••"
 										disabled={isPending}
 										{...field}
 									/>
@@ -114,7 +106,7 @@ const SignInForm = () => {
 					/>
 
 					<div className="flex items-center justify-between mt-2">
-						<CreateAcc />
+						<CreateAcc mode={mode} />
 						<Button
 							className="px-16 h-12"
 							disabled={!isLoaded}
@@ -131,7 +123,7 @@ const SignInForm = () => {
 			</Form>
 
 			<div>
-				<ResetPasswordLink />
+				<ResetPassword mode={mode} />
 			</div>
 
 			<SocialProviders />

@@ -9,6 +9,7 @@ import { TooltipProvider } from '@hwei/ui/shadcn/tooltip';
 import ModalProvider from '@/components/shared/modal/modal-provider';
 import NextTopLoader from 'nextjs-toploader';
 import { Toaster } from 'sonner';
+import SplashScreenProvider from '@/components/shared/branding/splash-screen';
 
 const kantumruy_pro = Kantumruy_Pro({
 	variable: '--font-kantumruy-pro',
@@ -36,7 +37,7 @@ const RootLayout = ({
 							<Toaster />
 						</div>
 
-						{children}
+						<SplashScreenProvider>{children}</SplashScreenProvider>
 					</TooltipProvider>
 				</body>
 			</html>

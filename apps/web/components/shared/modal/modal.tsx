@@ -4,8 +4,8 @@ import { cn } from '@hwei/ui/utils/cn';
 import React, { useEffect, useRef } from 'react';
 
 interface ModalProps extends BaseProps {
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	isOpen: boolean;
 	onClose?: () => void;
 }
@@ -78,8 +78,8 @@ const Modal = ({
 				onClick={(e) => e.stopPropagation()}
 			>
 				<CardHeader className="pb-4">
-					<h1 className="text-2xl">{title}</h1>
-					<p className="text-sm">{description}</p>
+					{title && <h1 className="text-2xl">{title}</h1>}
+					{description && <p className="text-sm">{description}</p>}
 				</CardHeader>
 				{children}
 			</Card>

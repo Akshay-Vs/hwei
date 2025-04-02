@@ -21,8 +21,10 @@ import { signupSchema, signupSchemaStart } from '../schemas/signup-schema';
 import AlreadyHaveAcc from '../elements/already-have-acc';
 import { FormError, FormSuccess } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
+import PasswordInput from '@/components/shared/input/password-input';
+import { TMode } from '@/types/component-mode';
 
-const SignUpForm = () => {
+const SignUpForm = ({ mode }: { mode: TMode }) => {
 	const { isLoaded, signUp } = useSignUp();
 	const {
 		step,
@@ -131,15 +133,13 @@ const SignUpForm = () => {
 							/>
 
 							<div className="flex items-center justify-between mt-2">
-								<AlreadyHaveAcc />
+								<AlreadyHaveAcc mode={mode} />
 								<Button
-									onClick={(e) => {
-										e.preventDefault();
-										validateStart();
-									}}
+									onClick={validateStart}
 									className="px-16 h-12"
 									disabled={!isLoaded}
 									loading={isPending}
+									type="button"
 								>
 									Continue
 								</Button>
@@ -155,11 +155,7 @@ const SignUpForm = () => {
 									<FormItem>
 										<FormLabel>Password</FormLabel>
 										<FormControl>
-											<TextInput
-												type="password"
-												placeholder="********"
-												{...field}
-											/>
+											<PasswordInput placeholder="••••••••" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -174,7 +170,7 @@ const SignUpForm = () => {
 										<FormControl>
 											<TextInput
 												type="password"
-												placeholder="********"
+												placeholder="••••••••"
 												{...field}
 											/>
 										</FormControl>
@@ -186,8 +182,8 @@ const SignUpForm = () => {
 							<div className="flex items-center justify-between mt-2">
 								<Button
 									variant="ghost"
-									onClick={(e) => {
-										e.stopPropagation();
+									type="button"
+									onClick={() => {
 										setStep('start');
 									}}
 									className="text-sm"
