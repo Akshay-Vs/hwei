@@ -27,12 +27,7 @@ const AuthModal = () => {
 	}, [session]);
 
 	return (
-		<Modal
-			// title="Add account"
-			// description="Sign in to your account"
-			isOpen={store.isOpen}
-			onClose={onClose}
-		>
+		<Modal isOpen={store.isOpen} onClose={onClose}>
 			{store.step === 'sign-in' ? (
 				<SignInModal showLogo={false} mode="modal" title="Sign In" />
 			) : null}
