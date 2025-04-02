@@ -7,7 +7,7 @@ export interface IconSelectorProps {
 
 export interface IconDisplayProps {
     icon: string;
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export interface IconSearchProps {
