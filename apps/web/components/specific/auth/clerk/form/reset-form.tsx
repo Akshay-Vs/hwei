@@ -23,6 +23,7 @@ import { FormSuccess, FormError } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 import { useRouter } from 'next/navigation';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
+import PasswordInput from '@/components/shared/input/password-input';
 
 const ResetForm = () => {
 	const [isPending, startPending] = useTransition();
@@ -212,8 +213,7 @@ const ResetForm = () => {
 									<FormItem>
 										<FormLabel>Password</FormLabel>
 										<FormControl>
-											<TextInput
-												type="password"
+											<PasswordInput
 												placeholder="Password"
 												disabled={isPending || !isLoaded}
 												{...field}

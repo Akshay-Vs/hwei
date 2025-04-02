@@ -21,6 +21,7 @@ import { signupSchema, signupSchemaStart } from '../schemas/signup-schema';
 import AlreadyHaveAcc from '../elements/already-have-acc';
 import { FormError, FormSuccess } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
+import PasswordInput from '@/components/shared/input/password-input';
 
 const SignUpForm = () => {
 	const { isLoaded, signUp } = useSignUp();
@@ -155,11 +156,7 @@ const SignUpForm = () => {
 									<FormItem>
 										<FormLabel>Password</FormLabel>
 										<FormControl>
-											<TextInput
-												type="password"
-												placeholder="********"
-												{...field}
-											/>
+											<PasswordInput placeholder="••••••••" {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -174,7 +171,7 @@ const SignUpForm = () => {
 										<FormControl>
 											<TextInput
 												type="password"
-												placeholder="********"
+												placeholder="••••••••"
 												{...field}
 											/>
 										</FormControl>

@@ -1,8 +1,8 @@
-import React, { useEffect, useTransition } from 'react';
+import React, { useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@hwei/ui/shadcn/button';
 import { useForm } from 'react-hook-form';
-import { useAuth, useSignIn } from '@clerk/nextjs';
+import { useSignIn } from '@clerk/nextjs';
 import { z } from 'zod';
 import {
 	Form,
@@ -22,6 +22,7 @@ import CreateAcc from '../elements/create-acc';
 import SocialProviders from '../elements/social-providers';
 import ResetPasswordLink from '../elements/reset-password-link';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
+import PasswordInput from '@/components/shared/input/password-input';
 
 const SignInForm = () => {
 	const { formSuccess, formError, setFormSuccess, setFormError } =
@@ -92,9 +93,8 @@ const SignInForm = () => {
 							<FormItem>
 								<FormLabel>Password</FormLabel>
 								<FormControl>
-									<TextInput
-										type="password"
-										placeholder="********"
+									<PasswordInput
+										placeholder="••••••••"
 										disabled={isPending}
 										{...field}
 									/>
