@@ -4,18 +4,30 @@ import React from 'react';
 import SignUpForm from '../form/signup-form';
 import VerificationForm from '../form/verification-form';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
+import { mode } from '@/types/component-mode';
 
-const SignUpModal = () => {
+interface SignInModalProps {
+	showLogo?: boolean;
+	mode?: mode;
+}
+
+const SignUpModal = ({ showLogo = true, mode = 'page' }: SignInModalProps) => {
 	const { step } = useAuthFlowStore();
 
 	return (
 		<Card className="h-full w-full px-12 py-10 shrink-0 lg:min-w-[36rem] overflow-hidden">
-			<CardHeader className="col-center">
-				<Logo />
-			</CardHeader>
+			{showLogo && (
+				<CardHeader className="col-center">
+					<Logo />
+				</CardHeader>
+			)}
 
 			<CardContent className="mt-4 mb-6 col-center">
-				{step === 'verification' ? <VerificationForm /> : <SignUpForm />}
+				{step === 'verification' ? (
+					<VerificationForm />
+				) : (
+					<SignUpForm mode={mode} />
+				)}
 			</CardContent>
 		</Card>
 	);

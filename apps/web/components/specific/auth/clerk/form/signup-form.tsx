@@ -23,7 +23,7 @@ import { FormError, FormSuccess } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 import PasswordInput from '@/components/shared/input/password-input';
 
-const SignUpForm = () => {
+const SignUpForm = ({ mode }: { mode: mode }) => {
 	const { isLoaded, signUp } = useSignUp();
 	const {
 		step,
@@ -132,7 +132,7 @@ const SignUpForm = () => {
 							/>
 
 							<div className="flex items-center justify-between mt-2">
-								<AlreadyHaveAcc />
+								<AlreadyHaveAcc mode={mode} />
 								<Button
 									onClick={validateStart}
 									className="px-16 h-12"

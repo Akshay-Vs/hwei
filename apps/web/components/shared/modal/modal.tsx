@@ -4,8 +4,8 @@ import { cn } from '@hwei/ui/utils/cn';
 import React, { useEffect, useRef } from 'react';
 
 interface ModalProps extends BaseProps {
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	isOpen: boolean;
 	onClose?: () => void;
 }

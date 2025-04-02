@@ -142,7 +142,7 @@ const ResetForm = () => {
 		<div className="w-full col gap-16">
 			<h1 className="text-center text-3xl">Reset Password</h1>
 			<Form {...form}>
-				<form className="col gap-8">
+				<form className="col gap-6">
 					{formSuccess && <FormSuccess message={formSuccess} />}
 					{formError && <FormError message={formError} />}
 					{step === 'start' ? (

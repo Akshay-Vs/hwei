@@ -20,11 +20,12 @@ import { useAuthFlowStore } from '../stores/auth-flow-store';
 import { FormSuccess, FormError } from '../elements/form-status';
 import CreateAcc from '../elements/create-acc';
 import SocialProviders from '../elements/social-providers';
-import ResetPasswordLink from '../elements/reset-password-link';
+import ResetPassword from '../elements/reset-password';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 import PasswordInput from '@/components/shared/input/password-input';
+import { mode } from '@/types/component-mode';
 
-const SignInForm = () => {
+const SignInForm = ({ mode }: { mode: mode }) => {
 	const { formSuccess, formError, setFormSuccess, setFormError } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();
@@ -105,7 +106,7 @@ const SignInForm = () => {
 					/>
 
 					<div className="flex items-center justify-between mt-2">
-						<CreateAcc />
+						<CreateAcc mode={mode} />
 						<Button
 							className="px-16 h-12"
 							disabled={!isLoaded}
@@ -122,7 +123,7 @@ const SignInForm = () => {
 			</Form>
 
 			<div>
-				<ResetPasswordLink />
+				<ResetPassword mode={mode} />
 			</div>
 
 			<SocialProviders />
