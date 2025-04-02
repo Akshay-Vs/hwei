@@ -9,13 +9,12 @@ import {
 	FormControl,
 	FormMessage,
 } from '@hwei/ui/shadcn/form';
-import React, { useEffect, useTransition } from 'react';
+import React, { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { signupSchemaVerification } from '../schemas/signup-schema';
-import { useAuth, useSignUp } from '@clerk/nextjs';
+import { useSignUp } from '@clerk/nextjs';
 import { useAuthFlowStore } from '../stores/auth-flow-store';
-import { useRouter } from 'next/navigation';
 import { FormError, FormSuccess } from '../elements/form-status';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
 
@@ -24,8 +23,6 @@ const VerificationForm = () => {
 	const [isPending, startPending] = useTransition();
 	const { setStep, formSuccess, formError, setFormError, setFormSuccess } =
 		useAuthFlowStore();
-	const router = useRouter();
-	const { isSignedIn } = useAuth();
 
 	const form = useForm({
 		resolver: zodResolver(signupSchemaVerification),
@@ -59,12 +56,6 @@ const VerificationForm = () => {
 			}
 		});
 	};
-
-	useEffect(() => {
-		if (isSignedIn) {
-			router.push('/');
-		}
-	}, [isSignedIn, router]);
 
 	return (
 		<div className="w-full col gap-16">

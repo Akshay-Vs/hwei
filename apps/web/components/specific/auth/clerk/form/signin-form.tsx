@@ -22,15 +22,12 @@ import CreateAcc from '../elements/create-acc';
 import SocialProviders from '../elements/social-providers';
 import ResetPasswordLink from '../elements/reset-password-link';
 import { resolveClerkError } from '../utils/resolve-clerk-error';
-import { useRouter } from 'next/navigation';
 
 const SignInForm = () => {
 	const { formSuccess, formError, setFormSuccess, setFormError } =
 		useAuthFlowStore();
 	const { isLoaded, signIn, setActive } = useSignIn();
 	const [isPending, startPending] = useTransition();
-	const router = useRouter();
-	const { isSignedIn } = useAuth();
 
 	const form = useForm({
 		resolver: zodResolver(signinSchema),
@@ -64,12 +61,6 @@ const SignInForm = () => {
 			}
 		});
 	};
-
-	useEffect(() => {
-		if (isSignedIn) {
-			router.push('/');
-		}
-	}, [isSignedIn]);
 
 	return (
 		<div className="w-full col gap-8">
