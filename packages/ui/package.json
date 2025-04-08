@@ -37,7 +37,7 @@
 		"@hwei/eslint-config": "workspace:*",
 		"@hwei/typescript-config": "workspace:*",
 		"@types/node": "^22.10.7",
-		"@types/react": "^19.0.12",
+		"@types/react": "^19.1.0",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.5.1",
 		"tailwindcss": "3.4.17",
