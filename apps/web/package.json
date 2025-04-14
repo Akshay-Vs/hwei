@@ -16,7 +16,7 @@
 		"@hookform/resolvers": "^5.0.1",
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.13",
-		"@tanstack/react-table": "^8.20.6",
+		"@tanstack/react-table": "^8.21.3",
 		"@uploadthing/react": "^7.3.0",
 		"axios": "^1.8.2",
 		"chart.js": "^4.4.7",
