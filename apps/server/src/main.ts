@@ -9,7 +9,10 @@ const ORIGIN = process.env.ORIGIN_URL?.trim()
   ? process.env.ORIGIN_URL.trim().split(/\s+/)
   : [];
 
-NestLogger.debug(`Using env: ${JSON.stringify({ port: PORT, origin: ORIGIN }, null, 2)}`, 'GLOBAL');
+NestLogger.debug(
+  `Using env: ${JSON.stringify({ port: PORT, origin: ORIGIN }, null, 2)}`,
+  'GLOBAL',
+);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,7 +22,10 @@ async function bootstrap() {
     origin: ORIGIN,
   });
 
-  const config = new DocumentBuilder().setTitle('Hwei Api Docs').setVersion('1.0').build();
+  const config = new DocumentBuilder()
+    .setTitle('Hwei Api Docs')
+    .setVersion('1.0')
+    .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
 
   SwaggerModule.setup('api', app, documentFactory);
