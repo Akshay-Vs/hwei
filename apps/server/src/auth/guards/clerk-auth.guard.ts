@@ -19,6 +19,7 @@ export class ClerkAuthGuard extends AuthGuard('clerk') {
     ]);
 
     if (isPublic) {
+      Logger.debug('Hit public Route', 'AuthGuard');
       return true;
     }
 
