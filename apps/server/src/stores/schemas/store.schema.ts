@@ -1,18 +1,14 @@
 import { z } from 'zod';
 
-export const storeMetadataSchema = z.object({
-  id: z.string().uuid({ message: 'Store ID must be a valid UUID' }),
-  version: z.string(),
-  createdAt: z
-    .string()
-    .datetime({ offset: true, message: 'CreatedAt is required' }),
-  updatedAt: z
-    .string()
-    .datetime({ offset: true, message: 'UpdatedAt is required' }),
+export const createStoreInputSchema = z.object({
+  version: z.number({ required_error: 'Version is required' }),
+  name: z
+    .string({ required_error: 'Store name is required' })
+    .min(1, { message: 'Store name is required' }),
+  icon: z
+    .string({ required_error: 'Icon is required' })
+    .min(1, { message: 'Icon is required' }),
+  userId: z.string({ required_error: 'User ID is required' }),
 });
 
-export const createStoreSchema = z.object({
-  name: z.string().min(1, { message: 'Store name is required' }),
-  icon: z.string().min(1, { message: 'Icon is required' }),
-  userId: z.string().uuid({ message: 'User ID must be a valid UUID' }),
-});
+export type CreateStoreInput = z.infer<typeof createStoreInputSchema>;

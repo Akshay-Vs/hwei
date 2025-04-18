@@ -15,11 +15,19 @@ datasource db {
 }
 
 model Store {
-  id        String   @id @default(cuid())
-  userId    String
-  version   String
-  name      String
-  icon      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  icon        String
+  isActive    Boolean  @default(true)
+  version     Int      @default(1)
+
+  userId      String   //? Clerk user ID (no relation)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, name])
+  @@index([userId])
 }
+

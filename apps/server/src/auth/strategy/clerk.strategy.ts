@@ -34,7 +34,7 @@ export class ClerkStrategy extends PassportStrategy(Strategy, 'clerk') {
 
       const user = await this.clerkClient.users.getUser(tokenPayload.sub);
       Logger.debug(
-        `Successfully authorized user as ${user.fullName} of id ${user.id}`,
+        `Successfully authorized user ${user.fullName} with ID ${user.id}`,
         'ClerkStrategy',
       );
 
