@@ -4,10 +4,8 @@
 
 - [x] Define objectives and scope for the project.
 - [x] Set up project repository on GitHub/GitLab.
-- [] Prepare `.env.example` file with placeholder environment variables.
 - [x] Select tech stack and libraries
 - [ ] Create initial database schema using Prisma.
-- [ ] Write user stories or tasks for each feature.
 
 ---
 
@@ -15,10 +13,10 @@
 
 ### Authentication
 
-- [ ] Set up JWT-based authentication.
-- [ ] Implement user registration, login, logout APIs.
+- [x] Set up clerk based authentication.
+- [x] Implement user registration, login, logout APIs.
+- [x] Implimentr multi session support.
 - [ ] Add role-based access control (RBAC).
-- [ ] Add session management with Redis.
 
 ### Product Management
 
@@ -53,7 +51,7 @@
 ## Admin Panel
 
 - [x] Set up Next.js for the admin interface.
-- [ ] Design login and dashboard screens.
+- [x] Design login and dashboard screens.
 - [x] Develop components for managing products, orders, and users.
 - [x] Integrate analytics and reporting dashboards.
 - [ ] Add multi-language support for the admin panel.
@@ -83,6 +81,14 @@
 - [x] Write a comprehensive README file.
 - [ ] Add API documentation for developers.
 - [x] Create onboarding docs for new contributors.
+
+---
+
+## SDK
+
+- [ ] Develop React, Nextjs SDK for frontend integration.
+- [ ] Write usage examples and documentation.
+- [ ] Publish SDK to npm or GitHub Packages.
 
 ---
 

@@ -4,6 +4,7 @@ import { Button } from '@hwei/ui/shadcn/button';
 import { STATUS_STYLES } from './constants';
 import { useOrderStore } from '@/stores/order-store';
 import type { TOrder, TOrderStatus } from '@/types/order-type';
+import { cn } from '@hwei/ui/utils/cn';
 
 interface OrderStatusCellDropdownProps {
 	isOpen: boolean;
@@ -65,14 +66,14 @@ export const OrderStatusCellDropdown: React.FC<
 			isOpen={isOpen}
 			onClose={onClose}
 			labelledBy={DROPDOWN_TEST_ID}
-			className="w-fit -translate-x-1/2 left-1/2 p-3"
+			className="-translate-x-1/2 left-1/2 w-72"
 			data-testid={DROPDOWN_TEST_ID}
 		>
-			<div className="center gap-2">
+			<div className="grid grid-cols-2 gap-2 full">
 				{availableStatuses.map((status) => (
 					<Button
 						key={status}
-						className={`${buttonStyles.base} ${STATUS_STYLES[status]}`}
+						className={cn(buttonStyles.base, STATUS_STYLES[status])}
 						variant="outline"
 						onClick={() => handleStatusUpdate(status)}
 						data-testid={`${DROPDOWN_TEST_ID}-button-${status}`}

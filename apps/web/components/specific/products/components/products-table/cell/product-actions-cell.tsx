@@ -6,6 +6,7 @@ import {
 	Trash2,
 	Edit,
 	EllipsisVertical,
+	Ban,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@hwei/ui/shadcn/button';
@@ -28,8 +29,8 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 
 	const router = useRouter();
 
-	const onCopy = (id: string) => {
-		navigator.clipboard.writeText(id);
+	const onCopy = () => {
+		navigator.clipboard.writeText(data.id);
 		setIsOpen(false);
 		Toast({
 			type: 'success',
@@ -37,7 +38,13 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 		});
 	};
 
-	const onDelete = (id: string) => {};
+	const onDelete = () => {};
+
+	const onEdit = () => {
+		router.push(`/admin/product/${data.id}`);
+	};
+
+	const onDisable = () => {};
 
 	const toogleDropdown = () => {
 		setIsOpen((prev) => !prev);
@@ -50,24 +57,24 @@ const ProductActionsCell = ({ data }: CellActionProps) => {
 		variant?: 'default' | 'destructive';
 	}[] = [
 		{
-			label: 'Show product',
-			icon: <ArrowUpRightSquare className="w-4 h-4" />,
-			onClick: (data: TProduct) => router.push(`/admin/product/${data.id}`),
-		},
-		{
 			label: 'Edit product',
 			icon: <Edit className="w-4 h-4" />,
-			onClick: (data: TProduct) => router.push(`/admin/product/${data.id}`),
+			onClick: onEdit,
 		},
 		{
 			label: 'Copy product id',
 			icon: <Copy className="w-4 h-4" />,
-			onClick: (data: TProduct) => onCopy(data.id),
+			onClick: onCopy,
 		},
 		{
-			label: 'delete product',
+			label: 'Disable product',
+			icon: <Ban className="w-4 h-4" />,
+			onClick: onDisable,
+		},
+		{
+			label: 'Delete product',
 			icon: <Trash2 className="w-4 h-4" />,
-			onClick: (data: TProduct) => onDelete(data.id),
+			onClick: onDelete,
 			variant: 'destructive',
 		},
 	];
