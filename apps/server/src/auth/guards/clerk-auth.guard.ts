@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { IS_PUBLIC_KEY } from 'src/decorators/public-route.decorator';
+import { IS_PUBLIC_KEY } from 'src/common/decorators/public-route.decorator';
 
 @Injectable()
 export class ClerkAuthGuard extends AuthGuard('clerk') {
