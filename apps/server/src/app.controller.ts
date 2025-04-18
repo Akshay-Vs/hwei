@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { PublicRoute } from './decorators/public-route.decorator';
-import { User } from './decorators/user.decorator';
+import { PublicRoute } from './common/decorators/public-route.decorator';
+import { User } from './common/decorators/user.decorator';
 import { User as TUser } from '@clerk/backend';
 
 @Controller()
