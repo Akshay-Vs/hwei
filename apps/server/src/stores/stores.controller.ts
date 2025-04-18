@@ -1,8 +1,7 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { StoresService } from './stores.service';
-
 import { User as TUser } from '@clerk/backend';
-import { User } from 'src/decorators/user.decorator';
+import { User } from 'src/common/decorators/user.decorator';
 
 @Controller('stores')
 export class StoresController {
@@ -14,8 +13,8 @@ export class StoresController {
   }
 
   @Get(':id')
-  findOne(@User() user: TUser) {
-    return this.storesService.findOne(user);
+  findOne(@User() user: TUser, @Param() params: { id: string }) {
+    return this.storesService.findOne(user, params.id);
   }
 
   @Post()

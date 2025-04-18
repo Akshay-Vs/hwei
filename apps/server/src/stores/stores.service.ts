@@ -1,25 +1,49 @@
 import { User } from '@clerk/backend';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  Logger,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { Store } from 'generated';
+import { PrismaService } from 'src/common/database/prisma.service';
 
 @Injectable()
 export class StoresService {
+  constructor(private readonly prismaService: PrismaService) {}
+
   private userGuard(user: User) {
     if (!user) throw new UnauthorizedException('User not found');
   }
 
-  findAll(user: User) {
+  async findAll(user: User): Promise<Store[]> {
     this.userGuard(user);
-    return {
-      message: 'Hello ' + user.fullName,
-    };
+
+    return this.prismaService.store.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
   }
 
-  findOne(user: User) {
+  async findOne(user: User, storeId: string): Promise<Store> {
     this.userGuard(user);
 
-    return {
-      message: 'Hello ' + user.fullName,
-    };
+    Logger.debug('Hit findOne store', 'Stores');
+    const store = await this.prismaService.store.findUnique({
+      where: {
+        id: storeId,
+        userId: user.id,
+      },
+    });
+
+    if (!store) {
+      Logger.debug('Store not found', 'Stores');
+      throw new NotFoundException('Store not found');
+    }
+
+    Logger.debug('Returning store', 'Stores');
+    return store;
   }
 
   createOne(user: User) {

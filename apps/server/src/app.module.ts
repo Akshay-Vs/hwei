@@ -3,12 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { ClerkClientProvider } from './providers/clerk-client.provider';
+import { ClerkClientProvider } from './common/providers/clerk-client.provider';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ClerkAuthGuard } from './auth/guards/clerk-auth.guard';
 import { StoresController } from './stores/stores.controller';
 import { StoresService } from './stores/stores.service';
+import { PrismaService } from './common/database/prisma.service';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { StoresService } from './stores/stores.service';
       useClass: ClerkAuthGuard,
     },
     StoresService,
+    PrismaService,
   ],
 })
 export class AppModule {}
