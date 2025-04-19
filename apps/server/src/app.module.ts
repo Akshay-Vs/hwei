@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ClerkAuthGuard } from './auth/guards/clerk-auth.guard';
-import { StoresController } from './stores/stores.controller';
-import { StoresService } from './stores/stores.service';
 import { PrismaService } from './common/database/prisma.service';
+import { StoresModule } from './stores/stores.module';
 
 @Module({
   imports: [
@@ -25,19 +22,18 @@ import { PrismaService } from './common/database/prisma.service';
       isGlobal: true,
     }),
     AuthModule,
+    StoresModule,
   ],
 
-  controllers: [AppController, StoresController],
+  controllers: [],
 
   providers: [
-    AppService,
+    PrismaService,
     ClerkClientProvider,
     {
       provide: APP_GUARD,
       useClass: ClerkAuthGuard,
     },
-    StoresService,
-    PrismaService,
   ],
 })
 export class AppModule {}

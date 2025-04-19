@@ -32,17 +32,18 @@ export class StoresController {
   }
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createStoreInputSchema))
-  createOne(@User() user: TUser, @Body() body: CreateStoreInput) {
+  createOne(
+    @Body(new ZodValidationPipe(createStoreInputSchema)) body: CreateStoreInput,
+    @User() user: TUser,
+  ) {
     return this.storesService.createOne(user, body);
   }
 
   @Put(':id')
-  @UsePipes(new ZodValidationPipe(createStoreInputSchema))
   editOne(
     @User() user: TUser,
     @Param() params: { id: string },
-    @Body() body: CreateStoreInput,
+    @Body(new ZodValidationPipe(createStoreInputSchema)) body: CreateStoreInput,
   ) {
     return this.storesService.editOne(user, params.id, body);
   }

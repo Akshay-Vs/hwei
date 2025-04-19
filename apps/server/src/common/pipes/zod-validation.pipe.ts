@@ -1,4 +1,5 @@
 import {
+  ArgumentMetadata,
   BadRequestException,
   Injectable,
   InternalServerErrorException,
@@ -11,10 +12,13 @@ import { ZodError, ZodSchema } from 'zod';
 export class ZodValidationPipe implements PipeTransform {
   constructor(private schema: ZodSchema) {}
 
-  transform(value: unknown) {
+  transform(value: unknown, _metadata: ArgumentMetadata): unknown {
     try {
-      this.schema.parse(value);
-      return value;
+      Logger.debug(
+        `Parsing object ${JSON.stringify(value, null, 2)}`,
+        'ZodValidation',
+      );
+      return this.schema.parse(value);
     } catch (err) {
       if (err instanceof ZodError) {
         const zodErrors: Record<string, string> = {};
@@ -25,7 +29,7 @@ export class ZodValidationPipe implements PipeTransform {
             zodErrors[key] = issue.message;
           }
         }
-        Logger.debug(err, 'ZodValidation');
+        Logger.debug(err.issues, 'ZodValidation');
         throw new BadRequestException({
           error: 'Validation failed',
           issues: zodErrors,
