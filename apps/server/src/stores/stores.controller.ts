@@ -19,27 +19,6 @@ import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 
 @Controller('stores')
 export class StoresController {
-  create(
-    mockUser: any,
-    createStoreDto: {
-      name: string;
-      icon: string;
-      version: number;
-      userId: string;
-    },
-  ) {
-    throw new Error('Method not implemented.');
-  }
-  update(
-    mockUser: any,
-    arg1: string,
-    updateStoreDto: { name: string; icon: string },
-  ) {
-    throw new Error('Method not implemented.');
-  }
-  remove(mockUser: any, arg1: string) {
-    throw new Error('Method not implemented.');
-  }
   constructor(private readonly storesService: StoresService) {}
 
   @Get()

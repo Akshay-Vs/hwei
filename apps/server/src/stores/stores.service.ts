@@ -17,15 +17,6 @@ import { PrismaClientKnownRequestError } from 'generated/runtime/library';
 
 @Injectable()
 export class StoresService extends BaseGuards {
-  create(create: any) {
-    throw new Error('Method not implemented.');
-  }
-  update(update: any) {
-    throw new Error('Method not implemented.');
-  }
-  remove(remove: any) {
-    throw new Error('Method not implemented.');
-  }
   private readonly logger = new Logger(StoresService.name);
 
   constructor(private readonly prisma: PrismaService) {
