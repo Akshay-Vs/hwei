@@ -6,14 +6,40 @@ import {
   Param,
   Post,
   Put,
+  UsePipes,
 } from '@nestjs/common';
 import { StoresService } from './stores.service';
 import { User as TUser } from '@clerk/backend';
 import { User } from 'src/common/decorators/user.decorator';
-import { CreateStoreInput } from './schemas/store.schema';
+import {
+  CreateStoreInput,
+  createStoreInputSchema,
+} from './schemas/store.schema';
+import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 
 @Controller('stores')
 export class StoresController {
+  create(
+    mockUser: any,
+    createStoreDto: {
+      name: string;
+      icon: string;
+      version: number;
+      userId: string;
+    },
+  ) {
+    throw new Error('Method not implemented.');
+  }
+  update(
+    mockUser: any,
+    arg1: string,
+    updateStoreDto: { name: string; icon: string },
+  ) {
+    throw new Error('Method not implemented.');
+  }
+  remove(mockUser: any, arg1: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(private readonly storesService: StoresService) {}
 
   @Get()
@@ -27,11 +53,13 @@ export class StoresController {
   }
 
   @Post()
+  @UsePipes(new ZodValidationPipe(createStoreInputSchema))
   createOne(@User() user: TUser, @Body() body: CreateStoreInput) {
     return this.storesService.createOne(user, body);
   }
 
   @Put(':id')
+  @UsePipes(new ZodValidationPipe(createStoreInputSchema))
   editOne(
     @User() user: TUser,
     @Param() params: { id: string },

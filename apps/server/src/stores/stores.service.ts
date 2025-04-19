@@ -11,36 +11,63 @@ import {
 
 import { Store } from 'generated';
 import { PrismaService } from 'src/common/database/prisma.service';
-import {
-  CreateStoreInput,
-  createStoreInputSchema,
-} from './schemas/store.schema';
+import { CreateStoreInput } from './schemas/store.schema';
 import { BaseGuards } from 'src/common/base/base.guard';
 import { PrismaClientKnownRequestError } from 'generated/runtime/library';
 
 @Injectable()
 export class StoresService extends BaseGuards {
-  private readonly ctx = 'Store Route';
+  create(create: any) {
+    throw new Error('Method not implemented.');
+  }
+  update(update: any) {
+    throw new Error('Method not implemented.');
+  }
+  remove(remove: any) {
+    throw new Error('Method not implemented.');
+  }
+  private readonly logger = new Logger(StoresService.name);
 
-  constructor(private readonly prismaService: PrismaService) {
+  constructor(private readonly prisma: PrismaService) {
     super();
   }
 
-  private generateSlug(name: string) {
+  private generateSlug(name: string): string {
     return `${slugify(name, { lower: true })}-${uuid4()}`;
+  }
+
+  private handleUniqueConstraint(err: unknown, message: string): void {
+    if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
+      throw new ConflictException(message);
+    }
+  }
+
+  private async verifyOwnership(
+    userId: string,
+    storeId: string,
+  ): Promise<Store> {
+    const store = await this.prisma.store.findUnique({
+      where: { id: storeId, userId },
+    });
+
+    if (!store) {
+      this.logger.debug(
+        { userId, storeId },
+        'Store not found or does not belong to user',
+      );
+      throw new NotFoundException('Store not found');
+    }
+
+    return store;
   }
 
   async findAll(user: User): Promise<Store[]> {
     this.userGuard(user);
 
     try {
-      return this.prismaService.store.findMany({
-        where: {
-          userId: user.id,
-        },
-      });
+      return await this.prisma.store.findMany({ where: { userId: user.id } });
     } catch (err) {
-      Logger.error(JSON.stringify(err, null, 2), this.ctx);
+      this.logger.error(err, 'Failed to fetch stores');
       throw new InternalServerErrorException('Failed to fetch stores');
     }
   }
@@ -49,51 +76,41 @@ export class StoresService extends BaseGuards {
     this.userGuard(user);
 
     try {
-      Logger.debug('Hit findOne store', this.ctx);
-      const store = await this.prismaService.store.findUnique({
-        where: {
-          id: storeId,
-          userId: user.id,
-        },
+      this.logger.debug('Hit findOne store');
+
+      const store = await this.prisma.store.findUnique({
+        where: { id: storeId, userId: user.id },
       });
 
       if (!store) {
-        Logger.debug('Store not found', this.ctx);
+        this.logger.debug('Store not found');
         throw new NotFoundException('Store not found');
       }
 
-      Logger.debug('Returning store', this.ctx);
       return store;
     } catch (err) {
-      Logger.error(JSON.stringify(err, null, 2), this.ctx);
+      this.logger.error(err, 'Failed to fetch store');
       throw new InternalServerErrorException('Failed to fetch store');
     }
   }
-  async createOne(user: User, fields: CreateStoreInput): Promise<Store> {
+
+  async createOne(user: User, input: CreateStoreInput): Promise<Store> {
     this.userGuard(user);
-    this.zodGuard(createStoreInputSchema, fields);
 
     try {
-      const slug = this.generateSlug(fields.name);
-      const data = { slug, ...fields };
-      Logger.debug(data, this.ctx);
-
-      const store = await this.prismaService.store.create({
-        data,
+      return await this.prisma.store.create({
+        data: {
+          ...input,
+          slug: this.generateSlug(input.name),
+          userId: user.id,
+        },
       });
-
-      return store;
     } catch (err) {
-      Logger.error(JSON.stringify(err, null, 2), this.ctx);
-
-      if (
-        err instanceof PrismaClientKnownRequestError &&
-        err.code === 'P2002'
-      ) {
-        throw new ConflictException(
-          'Store name already exists. Please choose a different name.',
-        );
-      }
+      this.logger.error(err, 'Failed to create store');
+      this.handleUniqueConstraint(
+        err,
+        'Store name already exists. Please choose a different name.',
+      );
       throw new InternalServerErrorException('Failed to create store');
     }
   }
@@ -101,71 +118,39 @@ export class StoresService extends BaseGuards {
   async editOne(
     user: User,
     storeId: string,
-    fields: CreateStoreInput,
+    input: CreateStoreInput,
   ): Promise<Store> {
     this.userGuard(user);
 
     try {
-      // check if the store exists and belongs to the user
-      const existingStore = await this.prismaService.store.findUnique({
-        where: {
-          id: storeId,
-          userId: user.id,
-        },
-      });
+      await this.verifyOwnership(user.id, storeId);
 
-      if (!existingStore) {
-        Logger.debug('Store not found or does not belong to user', this.ctx);
-        throw new NotFoundException('Store not found');
-      }
-      const slug = this.generateSlug(fields.name);
-
-      Logger.debug(`Updating store: ${storeId}`, this.ctx);
-
-      const updatedStore = await this.prismaService.store.update({
-        where: {
-          id: storeId,
-          userId: user.id,
-        },
+      return await this.prisma.store.update({
+        where: { id: storeId, userId: user.id },
         data: {
-          slug,
-          ...fields,
+          ...input,
+          slug: this.generateSlug(input.name),
         },
       });
-
-      return updatedStore;
     } catch (err) {
-      Logger.error(JSON.stringify(err, null, 2), this.ctx);
-
-      if (err instanceof NotFoundException) {
-        throw err;
-      }
-
-      if (
-        err instanceof PrismaClientKnownRequestError &&
-        err.code === 'P2002'
-      ) {
-        throw new ConflictException(
-          'Store name already exists. Please choose a different name.',
-        );
-      }
-
+      this.logger.error(err, 'Failed to update store');
+      this.handleUniqueConstraint(
+        err,
+        'Store name already exists. Please choose a different name.',
+      );
       throw new InternalServerErrorException('Failed to update store');
     }
   }
 
-  async deleteOne(user: User, storeId: string) {
+  async deleteOne(user: User, storeId: string): Promise<void> {
     this.userGuard(user);
 
     try {
-      return await this.prismaService.store.delete({
-        where: {
-          id: storeId,
-          userId: user.id,
-        },
+      await this.prisma.store.delete({
+        where: { id: storeId, userId: user.id },
       });
     } catch (err) {
-      Logger.error(JSON.stringify(err, null, 2), this.ctx);
+      this.logger.error(err, 'Failed to delete store');
       throw new InternalServerErrorException('Failed to delete store');
     }
   }
