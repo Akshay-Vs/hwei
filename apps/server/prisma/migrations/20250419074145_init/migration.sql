@@ -1,9 +1,9 @@
 -- CreateTable
 CREATE TABLE "Store" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
-    "icon" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "slug" VARCHAR(100) NOT NULL,
+    "icon" VARCHAR(40) NOT NULL,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "version" INTEGER NOT NULL DEFAULT 1,
     "userId" TEXT NOT NULL,

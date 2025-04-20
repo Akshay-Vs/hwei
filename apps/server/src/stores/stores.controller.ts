@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Put,
-  UsePipes,
 } from '@nestjs/common';
 import { StoresService } from './stores.service';
 import { User as TUser } from '@clerk/backend';
