@@ -1,6 +1,7 @@
+import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
 
-export const createStoreInputSchema = z.object({
+export const createStoreSchema = z.object({
   version: z
     .number({
       required_error: 'Store version number is required',
@@ -36,4 +37,5 @@ export const createStoreInputSchema = z.object({
   }),
 });
 
-export type CreateStoreInput = z.infer<typeof createStoreInputSchema>;
+export type TCreateStore = z.infer<typeof createStoreSchema>;
+export class CreateStoreDTO extends createZodDto(createStoreSchema) {}
