@@ -11,7 +11,7 @@ import {
 
 import { Store } from 'generated';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { CreateStoreInput } from './schemas/store.schema';
+import { TCreateStore } from './schemas/store.schema';
 import { BaseGuards } from 'src/common/base/base.guard';
 import { PrismaClientKnownRequestError } from 'generated/runtime/library';
 
@@ -85,7 +85,7 @@ export class StoresService extends BaseGuards {
     }
   }
 
-  async createOne(user: User, input: CreateStoreInput): Promise<Store> {
+  async createOne(user: User, input: TCreateStore): Promise<Store> {
     this.userGuard(user);
 
     try {
@@ -109,7 +109,7 @@ export class StoresService extends BaseGuards {
   async editOne(
     user: User,
     storeId: string,
-    input: CreateStoreInput,
+    input: TCreateStore,
   ): Promise<Store> {
     this.userGuard(user);
 
