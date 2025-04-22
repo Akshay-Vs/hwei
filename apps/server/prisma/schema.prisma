@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Store {
+  id        String    @id @default(cuid())
+  name      String    @db.VarChar(100)
+  slug      String    @unique @db.VarChar(100)
+  icon      String    @db.VarChar(40)
+  isActive  Boolean   @default(true)
+  version   Int       @default(1)
+  userId    String    @db.VarChar(64) //? Clerk user ID - manually enforce FK logic
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  products   Product[]
+  brands     Brand[]
+  categories Category[]
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([createdAt, id])
+}
+
+//#region Product relations 
+
+model Product {
+  id                  String               @id @default(cuid())
+  storeId             String
+  store               Store                @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  title               String               @db.VarChar(200)
+  description         String               @db.VarChar(5000)
+  minOrder            Int
+  maxOrder            Int
+  brandId             String
+  brand               Brand                @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  categoryId          String
+  category            Category             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  deletedAt           DateTime?
+  Price               Price[]
+  tags                ProductTag[]         @relation("ProductTags")
+  variantLabels       VariantLabel[]
+  variantCombinations VariantCombination[]
+  ProductTag          ProductTag[]
+
+  @@index([title])
+  @@index([createdAt, id])
+}
+
+model Price {
+  id                 String    @id @default(cuid())
+  label              String    @db.VarChar(50)
+  currency           String    @db.VarChar(3)
+  unitPrice          Decimal   @db.Decimal(10, 2)
+  discountPercentage Decimal   @db.Decimal(10, 2)
+  isDefault          Boolean   @default(false)
+  startDate          DateTime?
+  endDate            DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String?
+
+  variant   VariantCombination? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String?
+
+  @@index([productId])
+  @@index([variantId])
+  @@index([isDefault])
+}
+
+model Brand {
+  id       String    @id @default(cuid())
+  name     String    @unique @db.VarChar(100)
+  storeId  String
+  store    Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  products Product[]
+
+  @@index([storeId])
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String    @unique @db.VarChar(100)
+  storeId  String
+  store    Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  products Product[]
+
+  @@index([storeId])
+}
+
+//#region Product Tag relations
+model Tag {
+  id       String       @id @default(cuid())
+  name     String       @unique @db.VarChar(50)
+  products ProductTag[]
+}
+
+model ProductTag {
+  id        String    @id @default(cuid())
+  productId String
+  tagId     String
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tag       Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  Product   Product[] @relation("ProductTags")
+
+  @@unique([productId, tagId])
+  @@index([tagId])
+  @@index([productId])
+}
+
+//#endregion
+
+//#region Prioduct Varient relations
+model VariantLabel {
+  id           String          @id @default(cuid())
+  name         String          @db.VarChar(50)
+  hasThumbnail Boolean
+  sortOrder    Int
+  productId    String
+  product      Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  options      VariantOption[]
+
+  @@index([productId, sortOrder])
+}
+
+model VariantOption {
+  id             String                     @id @default(cuid())
+  label          String                     @db.VarChar(100)
+  image          String?                    @db.VarChar(255)
+  sortOrder      Int
+  variantLabelId String
+  labelOwner     VariantLabel               @relation(fields: [variantLabelId], references: [id], onDelete: Cascade)
+  combinations   VariantCombinationOption[]
+
+  @@index([variantLabelId, sortOrder])
+}
+
+model VariantCombination {
+  id         String    @id @default(cuid())
+  productId  String
+  product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  priceDelta Decimal   @db.Decimal(10, 2)
+  stock      Int
+  sku        String    @unique @db.VarChar(100)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
+
+  options VariantCombinationOption[]
+  Price   Price[]
+
+  @@index([productId, createdAt])
+}
+
+model VariantCombinationOption {
+  id            String             @id @default(cuid())
+  combinationId String
+  optionId      String
+  combination   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  option        VariantOption      @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([combinationId, optionId])
+  @@index([optionId, combinationId])
+}
+
+//#endregion
+
+//#endregion
