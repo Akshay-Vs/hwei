@@ -8,11 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { StoresService } from './stores.service';
-import { User as TUser } from '@clerk/backend';
-import { User } from 'src/common/decorators/user.decorator';
-import { CreateStoreDTO, createStoreSchema } from './schemas/store.schema';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+
 import {
   ApiTags,
   ApiOperation,
@@ -21,6 +17,12 @@ import {
   ApiBody,
   ApiBearerAuth,
 } from '@nestjs/swagger';
+import { User as TUser } from '@clerk/backend';
+
+import { User } from 'src/common/decorators/user.decorator';
+import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { CreateStoreDTO, createStoreSchema } from './schemas/store.schema';
+import { StoresService } from './stores.service';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')
