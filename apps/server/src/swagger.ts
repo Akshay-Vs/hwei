@@ -1,8 +1,7 @@
-import { INestApplication, Logger } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 export const setupSwagger = (app: INestApplication) => {
-  Logger.debug('Initializing swagger with `swagger-access-token`');
   const config = new DocumentBuilder()
     .setTitle('Hwei API')
     .setVersion('1.0')
