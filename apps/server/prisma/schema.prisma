@@ -8,6 +8,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//#region Store
+
 model Store {
   id        String    @id @default(cuid())
   name      String    @db.VarChar(100)
@@ -15,7 +17,7 @@ model Store {
   icon      String    @db.VarChar(40)
   isActive  Boolean   @default(true)
   version   Int       @default(1)
-  userId    String    @db.VarChar(64) //? Clerk user ID - manually enforce FK logic
+  userId    String    @db.VarChar(64)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -29,32 +31,38 @@ model Store {
   @@index([createdAt, id])
 }
 
-//#region Product relations 
+//#endregion
+
+//#region Product
 
 model Product {
-  id                  String               @id @default(cuid())
-  storeId             String
-  store               Store                @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  title               String               @db.VarChar(200)
-  description         String               @db.VarChar(5000)
-  minOrder            Int
-  maxOrder            Int
-  brandId             String
-  brand               Brand                @relation(fields: [brandId], references: [id], onDelete: Cascade)
-  categoryId          String
-  category            Category             @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
-  deletedAt           DateTime?
-  Price               Price[]
-  tags                ProductTag[]         @relation("ProductTags")
+  id          String    @id @default(cuid())
+  storeId     String
+  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  title       String    @db.VarChar(200)
+  description String    @db.VarChar(5000)
+  minOrder    Int
+  maxOrder    Int
+  brandId     String
+  brand       Brand     @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  prices              Price[]
+  tags                ProductTag[]
   variantLabels       VariantLabel[]
   variantCombinations VariantCombination[]
-  ProductTag          ProductTag[]
 
   @@index([title])
   @@index([createdAt, id])
 }
+
+//#endregion
+
+//#region Price
 
 model Price {
   id                 String    @id @default(cuid())
@@ -68,16 +76,20 @@ model Price {
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
 
-  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  variant   VariantCombination? @relation(fields: [variantId], references: [id], onDelete: Cascade)
   variantId String?
+  variant   VariantCombination? @relation(fields: [variantId], references: [id], onDelete: Cascade)
 
   @@index([productId])
   @@index([variantId])
   @@index([isDefault])
 }
+
+//#endregion
+
+//#region Brand & Category
 
 model Brand {
   id       String    @id @default(cuid())
@@ -99,7 +111,10 @@ model Category {
   @@index([storeId])
 }
 
-//#region Product Tag relations
+//#endregion
+
+//#region Tags
+
 model Tag {
   id       String       @id @default(cuid())
   name     String       @unique @db.VarChar(50)
@@ -107,12 +122,12 @@ model Tag {
 }
 
 model ProductTag {
-  id        String    @id @default(cuid())
+  id        String @id @default(cuid())
   productId String
   tagId     String
-  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  tag       Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
-  Product   Product[] @relation("ProductTags")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@unique([productId, tagId])
   @@index([tagId])
@@ -121,7 +136,8 @@ model ProductTag {
 
 //#endregion
 
-//#region Prioduct Varient relations
+//#region Variants
+
 model VariantLabel {
   id           String          @id @default(cuid())
   name         String          @db.VarChar(50)
@@ -158,7 +174,7 @@ model VariantCombination {
   deletedAt  DateTime?
 
   options VariantCombinationOption[]
-  Price   Price[]
+  prices  Price[]
 
   @@index([productId, createdAt])
 }
@@ -173,7 +189,5 @@ model VariantCombinationOption {
   @@unique([combinationId, optionId])
   @@index([optionId, combinationId])
 }
-
-//#endregion
 
 //#endregion

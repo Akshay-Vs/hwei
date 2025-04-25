@@ -29,10 +29,12 @@ async function bootstrap() {
 }
 
 void (async (): Promise<void> => {
+  const logger = new NestLogger('Bootstrap');
+
   try {
     await bootstrap();
-    NestLogger.log('Server Started', 'Bootstrap');
+    logger.log('Server Started');
   } catch (error) {
-    NestLogger.error(error, 'Bootstrap');
+    logger.error(error);
   }
 })();

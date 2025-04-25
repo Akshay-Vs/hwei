@@ -7,6 +7,9 @@ import { APP_GUARD } from '@nestjs/core';
 import { ClerkAuthGuard } from './auth/guards/clerk-auth.guard';
 import { PrismaService } from './common/database/prisma.service';
 import { StoresModule } from './stores/stores.module';
+import { ProductsModule } from './products/products.module';
+import { BrandsModule } from './brands/brands.module';
+import { CategoriesModule } from './categories/categories.module';
 
 @Module({
   imports: [
@@ -21,11 +24,14 @@ import { StoresModule } from './stores/stores.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+
+    // Application feature modules
     AuthModule,
     StoresModule,
+    ProductsModule,
+    BrandsModule,
+    CategoriesModule,
   ],
-
-  controllers: [],
 
   providers: [
     PrismaService,
@@ -35,5 +41,7 @@ import { StoresModule } from './stores/stores.module';
       useClass: ClerkAuthGuard,
     },
   ],
+
+  controllers: [],
 })
 export class AppModule {}
