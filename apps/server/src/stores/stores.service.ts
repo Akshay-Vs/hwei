@@ -11,7 +11,7 @@ import {
 
 import { Store } from 'generated';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { TCreateStore } from './schemas/store.schema';
+import { CreateStoreDto } from './schemas/store.schema';
 import { PrismaClientKnownRequestError } from 'generated/runtime/library';
 
 @Injectable()
@@ -78,7 +78,7 @@ export class StoresService {
     }
   }
 
-  async createOne(user: User, input: TCreateStore): Promise<Store> {
+  async createOne(user: User, input: CreateStoreDto): Promise<Store> {
     try {
       return await this.prisma.store.create({
         data: {
@@ -100,7 +100,7 @@ export class StoresService {
   async editOne(
     user: User,
     storeId: string,
-    input: TCreateStore,
+    input: CreateStoreDto,
   ): Promise<Store> {
     try {
       await this.verifyOwnership(user.id, storeId);

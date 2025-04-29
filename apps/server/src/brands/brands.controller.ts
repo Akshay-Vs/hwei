@@ -16,14 +16,18 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
-import { User as UserDTO } from '@clerk/backend';
+import { User as TUser, User as UserDTO } from '@clerk/backend';
 import { User } from 'src/common/decorators/user.decorator';
+import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
+import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 
 @ApiTags('brands')
-@Controller('brands')
+@Controller(':storeId/brands')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
+  // #region Find All Brands
+  @PublicRoute()
   @Get()
   @ApiOperation({
     summary: 'Find all brands',
@@ -37,11 +41,14 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async findAll() {
-    return this.brandsService.findAll();
+  async findAll(@Param('storeId') storeId: string) {
+    return this.brandsService.findAll(storeId);
   }
+  // #endregion
 
+  // #region Find Brand By ID
   @Get(':id')
+  @PublicRoute()
   @ApiOperation({
     summary: 'Find a brand by ID',
     description: 'Retrieve a specific brand by its ID',
@@ -62,7 +69,9 @@ export class BrandsController {
   async findOne(@Param('id') id: string) {
     return this.brandsService.findOne(id);
   }
+  // #endregion
 
+  // #region Create Brand
   @Post()
   @ApiOperation({
     summary: 'Create a brand',
@@ -81,10 +90,12 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async createOne(@Body() createBrandDto: CreateBrandDto) {
-    return this.brandsService.create(createBrandDto);
+  async createOne(@User() user: TUser, @Body() CreateBrandDto: CreateBrandDto) {
+    return this.brandsService.createOne(user, CreateBrandDto);
   }
+  // #endregion
 
+  // #region Update Brand
   @Put(':id')
   @ApiOperation({
     summary: 'Update a brand',
@@ -109,12 +120,15 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async editOne(
+    @User() user: UserDTO,
     @Param('id') id: string,
     @Body() updateBrandDto: UpdateBrandDto,
   ) {
-    return this.brandsService.update(id, updateBrandDto);
+    return this.brandsService.updateOne(user, id, updateBrandDto);
   }
+  // #endregion
 
+  // #region Delete Brand
   @Delete(':id')
   @ApiOperation({
     summary: 'Delete a brand',
@@ -136,4 +150,5 @@ export class BrandsController {
   async deleteOne(@User() user: UserDTO, @Param('id') id: string) {
     return this.brandsService.deleteOne(user, id);
   }
+  // #endregion
 }

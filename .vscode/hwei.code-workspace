@@ -9,15 +9,13 @@
 			"path": "../apps/web"
 		},
 		{
-			"name": "📦 @hwei/env",
-			"path": "../packages/env"
+			"name": "📦 hermes-mq",
+			"path": "../packages/hermes-mq"
 		},
 		{
-			"name": "📦 @hwei/ui",
-			"path": "../packages/ui"
+			"name": "🚀 server",
+			"path": "../apps/server"
 		}
 	],
-	"settings": {
-		"terminal.explorerKind": "external"
-	}
+	"settings": {}
 }

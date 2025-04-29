@@ -21,7 +21,7 @@ import { User as TUser } from '@clerk/backend';
 
 import { User } from 'src/common/decorators/user.decorator';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
-import { CreateStoreDTO, createStoreSchema } from './schemas/store.schema';
+import { CreateStoreDto, createStoreSchema } from './schemas/store.schema';
 import { StoresService } from './stores.service';
 
 @ApiTags('stores')
@@ -66,7 +66,7 @@ export class StoresController {
   //#region [POST] /stores - Create a new store
   @ApiOperation({ summary: 'Create a new store' })
   @ApiBody({
-    type: CreateStoreDTO,
+    type: CreateStoreDto,
     required: true,
     description: 'Store creation payload',
   })
@@ -80,7 +80,7 @@ export class StoresController {
   })
   @Post()
   createOne(
-    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDTO,
+    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
     @User() user: TUser,
   ) {
     this.logger.log(`Creating store for user: ${user.id}`);
@@ -92,7 +92,7 @@ export class StoresController {
   @ApiOperation({ summary: 'Update an existing store' })
   @ApiParam({ name: 'id', type: String, description: 'Store ID to update' })
   @ApiBody({
-    type: CreateStoreDTO,
+    type: CreateStoreDto,
     required: true,
     description: 'Store update payload',
   })
@@ -112,7 +112,7 @@ export class StoresController {
   editOne(
     @User() user: TUser,
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDTO,
+    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
   ) {
     this.logger.log(`Updating store [id=${id}] for user: ${user.id}`);
     return this.storesService.editOne(user, id, body);
