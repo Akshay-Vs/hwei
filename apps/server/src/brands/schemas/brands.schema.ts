@@ -3,16 +3,16 @@ import { z } from 'zod';
 
 // Metadata part
 const brandMetadataSchema = z.object({
-  brandId: z.string(),
+  id: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
 
 // Create input
 export const createBrandSchema = z.object({
-  brandName: z.string(),
-  brandImage: z.string(),
-  brandDescription: z.string(),
+  name: z.string(),
+  image: z.string().url(),
+  description: z.string(),
 });
 
 // Update input (partial of create)
