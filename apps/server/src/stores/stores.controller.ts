@@ -17,7 +17,7 @@ import {
   ApiBody,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { User as TUser } from '@clerk/backend';
+import { User as ClerkUser } from '@clerk/backend';
 
 import { User } from 'src/common/decorators/user.decorator';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
@@ -39,7 +39,7 @@ export class StoresController {
     description: 'List of all stores owned by the authenticated user',
   })
   @Get()
-  findAll(@User() user: TUser) {
+  findAll(@User() user: ClerkUser) {
     this.logger.log(`Fetching all stores for user: ${user.id}`);
     return this.storesService.findAll(user);
   }
@@ -57,7 +57,7 @@ export class StoresController {
     description: 'Store not found or not accessible by the user',
   })
   @Get(':id')
-  findOne(@User() user: TUser, @Param('id') id: string) {
+  findOne(@User() user: ClerkUser, @Param('id') id: string) {
     this.logger.log(`Fetching store [id=${id}] for user: ${user.id}`);
     return this.storesService.findOne(user, id);
   }
@@ -81,7 +81,7 @@ export class StoresController {
   @Post()
   createOne(
     @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
-    @User() user: TUser,
+    @User() user: ClerkUser,
   ) {
     this.logger.log(`Creating store for user: ${user.id}`);
     return this.storesService.createOne(user, body);
@@ -110,7 +110,7 @@ export class StoresController {
   })
   @Put(':id')
   editOne(
-    @User() user: TUser,
+    @User() user: ClerkUser,
     @Param('id') id: string,
     @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
   ) {
@@ -131,7 +131,7 @@ export class StoresController {
     description: 'Store not found or not accessible by the user',
   })
   @Delete(':id')
-  deleteOne(@User() user: TUser, @Param('id') id: string) {
+  deleteOne(@User() user: ClerkUser, @Param('id') id: string) {
     this.logger.warn(`Deleting store [id=${id}] for user: ${user.id}`);
     return this.storesService.deleteOne(user, id);
   }
