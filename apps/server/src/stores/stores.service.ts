@@ -11,17 +11,14 @@ import {
 
 import { Store } from 'generated';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { TCreateStore } from './schemas/store.schema';
-import { BaseGuards } from 'src/common/base/base.guard';
+import { CreateStoreDto } from './schemas/store.schema';
 import { PrismaClientKnownRequestError } from 'generated/runtime/library';
 
 @Injectable()
-export class StoresService extends BaseGuards {
+export class StoresService {
   private readonly logger = new Logger(StoresService.name);
 
-  constructor(private readonly prisma: PrismaService) {
-    super();
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   private generateSlug(name: string): string {
     return `${slugify(name, { lower: true })}-${uuid4()}`;
@@ -53,8 +50,6 @@ export class StoresService extends BaseGuards {
   }
 
   async findAll(user: User): Promise<Store[]> {
-    this.userGuard(user);
-
     try {
       return await this.prisma.store.findMany({ where: { userId: user.id } });
     } catch (err) {
@@ -64,8 +59,6 @@ export class StoresService extends BaseGuards {
   }
 
   async findOne(user: User, storeId: string): Promise<Store> {
-    this.userGuard(user);
-
     try {
       this.logger.debug('Hit findOne store');
 
@@ -85,9 +78,7 @@ export class StoresService extends BaseGuards {
     }
   }
 
-  async createOne(user: User, input: TCreateStore): Promise<Store> {
-    this.userGuard(user);
-
+  async createOne(user: User, input: CreateStoreDto): Promise<Store> {
     try {
       return await this.prisma.store.create({
         data: {
@@ -109,10 +100,8 @@ export class StoresService extends BaseGuards {
   async editOne(
     user: User,
     storeId: string,
-    input: TCreateStore,
+    input: CreateStoreDto,
   ): Promise<Store> {
-    this.userGuard(user);
-
     try {
       await this.verifyOwnership(user.id, storeId);
 
@@ -134,8 +123,6 @@ export class StoresService extends BaseGuards {
   }
 
   async deleteOne(user: User, storeId: string): Promise<void> {
-    this.userGuard(user);
-
     try {
       await this.prisma.store.delete({
         where: { id: storeId, userId: user.id },

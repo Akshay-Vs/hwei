@@ -94,6 +94,8 @@ model Price {
 model Brand {
   id       String    @id @default(cuid())
   name     String    @unique @db.VarChar(100)
+  image    String?   @db.VarChar(200)
+  description String? @db.VarChar(5000)
   storeId  String
   store    Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products Product[]
