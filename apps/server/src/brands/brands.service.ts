@@ -79,7 +79,7 @@ export class BrandsService {
     }
   }
 
-  async createOne(storeId: string, user: User, brand: CreateBrandDto) {
+  async createOne(user: User, storeId: string, brand: CreateBrandDto) {
     const store = await this.validateAuthorization(storeId, user);
 
     try {
