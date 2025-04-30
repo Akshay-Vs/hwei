@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import { setupSwagger } from './swagger';
 
 const PORT = process.env.PORT ?? 4000;
+const VERSION = process.env.VERSION ?? 'v1';
 const ORIGIN = process.env.ORIGIN_URL?.trim()
   ? process.env.ORIGIN_URL.trim().split(/\s+/)
   : [];
@@ -23,6 +24,8 @@ async function bootstrap() {
   });
 
   setupSwagger(app);
+
+  app.setGlobalPrefix(VERSION);
 
   await app.listen(PORT);
   NestLogger.log(`Application Port: ${PORT}`, '');
