@@ -36,8 +36,7 @@ Hwei is an open-source, production-grade, headless e-commerce solution tailored 
 
 ### Backend
 
-- **Node.js**: Backend logic and APIs.
-- **Express.js**: Core server framework.
+- **Nest.js**: Backend logic and APIs.
 - **PostgreSQL**: Relational database for structured data.
 - **Redis**: Caching and session management.
 - **Prisma**: ORM for database management.
@@ -50,7 +49,7 @@ Hwei is an open-source, production-grade, headless e-commerce solution tailored 
 ### APIs
 
 - **RESTful API**: Flexible endpoints for frontend integration.
-- **Authentication**: Secure JWTs with role-based permissions.
+- **Authentication**: Clerk.
 
 ---
 
