@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  Put,
   Delete,
   HttpStatus,
   Patch,
@@ -17,7 +16,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
-import { User as TUser, User as UserDTO } from '@clerk/backend';
+import { User as ClerkUser } from '@clerk/backend';
 import { User } from 'src/common/decorators/user.decorator';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
@@ -92,11 +91,11 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async createOne(
-    @User() user: TUser,
+    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Body() brand: CreateBrandDto,
   ) {
-    return this.brandsService.createOne(storeId, user, brand);
+    return this.brandsService.createOne(user, storeId, brand);
   }
   // #endregion
 
@@ -125,7 +124,7 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async updateOne(
-    @User() user: UserDTO,
+    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Param('id') id: string,
     @Body() brand: UpdateBrandDto,
@@ -154,7 +153,7 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async deleteOne(
-    @User() user: UserDTO,
+    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Param('id') id: string,
   ) {
