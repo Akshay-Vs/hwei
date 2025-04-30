@@ -94,9 +94,9 @@ export class BrandsController {
   async createOne(
     @User() user: TUser,
     @Param('storeId') storeId: string,
-    @Body() CreateBrandDto: CreateBrandDto,
+    @Body() brand: CreateBrandDto,
   ) {
-    return this.brandsService.createOne(storeId, user, CreateBrandDto);
+    return this.brandsService.createOne(storeId, user, brand);
   }
   // #endregion
 
@@ -124,7 +124,7 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async editOne(
+  async updateOne(
     @User() user: UserDTO,
     @Param('storeId') storeId: string,
     @Param('id') id: string,

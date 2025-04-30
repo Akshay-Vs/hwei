@@ -54,19 +54,29 @@ export class BrandsService {
     }
   }
   async findAll(storeId: string) {
-    return this.prisma.brand.findMany({
-      where: {
-        storeId,
-      },
-    });
+    try {
+      return this.prisma.brand.findMany({
+        where: {
+          storeId,
+        },
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Failed to fetch brands');
+    }
   }
   async findOne(storeId: string, id: string) {
-    return this.prisma.brand.findUnique({
-      where: {
-        id,
-        storeId,
-      },
-    });
+    try {
+      return this.prisma.brand.findUnique({
+        where: {
+          id,
+          storeId,
+        },
+      });
+    } catch (error) {
+      this.logger.error(error);
+      throw new InternalServerErrorException('Failed to fetch brand');
+    }
   }
 
   async createOne(storeId: string, user: User, brand: CreateBrandDto) {
@@ -99,12 +109,11 @@ export class BrandsService {
     id: string,
     brand: UpdateBrandDto,
   ) {
-    const store = await this.validateAuthorization(storeId, user);
+    await this.validateAuthorization(storeId, user);
     try {
       return await this.prisma.brand.update({
         where: {
           id,
-          storeId: store.id,
         },
         data: brand,
       });
@@ -115,12 +124,12 @@ export class BrandsService {
   }
 
   async deleteOne(user: User, storeId: string, id: string) {
-    const store = await this.validateAuthorization(storeId, user);
+    await this.validateAuthorization(storeId, user);
+
     try {
       return await this.prisma.brand.delete({
         where: {
           id,
-          storeId: store.id,
         },
       });
     } catch (error) {
