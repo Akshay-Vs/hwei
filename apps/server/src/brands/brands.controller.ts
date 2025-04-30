@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   HttpStatus,
+  Patch,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -22,7 +23,7 @@ import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 
 @ApiTags('brands')
-@Controller(':storeId/brands')
+@Controller('brands')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
@@ -66,8 +67,8 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async findOne(@Param('id') id: string) {
-    return this.brandsService.findOne(id);
+  async findOne(@Param('storeId') storeId: string, @Param('id') id: string) {
+    return this.brandsService.findOne(storeId, id);
   }
   // #endregion
 
@@ -90,13 +91,17 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async createOne(@User() user: TUser, @Body() CreateBrandDto: CreateBrandDto) {
-    return this.brandsService.createOne(user, CreateBrandDto);
+  async createOne(
+    @User() user: TUser,
+    @Param('storeId') storeId: string,
+    @Body() CreateBrandDto: CreateBrandDto,
+  ) {
+    return this.brandsService.createOne(storeId, user, CreateBrandDto);
   }
   // #endregion
 
   // #region Update Brand
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({
     summary: 'Update a brand',
     description: 'Update an existing brand by ID',
@@ -121,10 +126,11 @@ export class BrandsController {
   })
   async editOne(
     @User() user: UserDTO,
+    @Param('storeId') storeId: string,
     @Param('id') id: string,
-    @Body() updateBrandDto: UpdateBrandDto,
+    @Body() brand: UpdateBrandDto,
   ) {
-    return this.brandsService.updateOne(user, id, updateBrandDto);
+    return this.brandsService.updateOne(user, storeId, id, brand);
   }
   // #endregion
 
@@ -147,8 +153,12 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async deleteOne(@User() user: UserDTO, @Param('id') id: string) {
-    return this.brandsService.deleteOne(user, id);
+  async deleteOne(
+    @User() user: UserDTO,
+    @Param('storeId') storeId: string,
+    @Param('id') id: string,
+  ) {
+    return this.brandsService.deleteOne(user, storeId, id);
   }
   // #endregion
 }
