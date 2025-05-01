@@ -76,6 +76,14 @@ export class CategoriesService {
       });
     } catch (error) {
       this.logger.error(`Failed to update category with id ${id}`, error);
+
+      if (
+        error instanceof PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('Category not found');
+      }
+
       throw new InternalServerErrorException('Failed to update category');
     }
   }
