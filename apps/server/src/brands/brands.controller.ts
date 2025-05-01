@@ -7,6 +7,7 @@ import {
   Delete,
   HttpStatus,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -16,10 +17,9 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
-import { User as ClerkUser } from '@clerk/backend';
-import { User } from 'src/common/decorators/user.decorator';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
 
 @ApiTags('brands')
 @Controller('brands')
@@ -73,6 +73,7 @@ export class BrandsController {
 
   // #region Create Brand
   @Post()
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Create a brand',
     description: 'Create a new brand',
@@ -91,16 +92,16 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async createOne(
-    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Body() brand: CreateBrandDto,
   ) {
-    return this.brandsService.createOne(user, storeId, brand);
+    return this.brandsService.createOne(storeId, brand);
   }
   // #endregion
 
   // #region Update Brand
   @Patch(':id')
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Update a brand',
     description: 'Update an existing brand by ID',
@@ -124,17 +125,17 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async updateOne(
-    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Param('id') id: string,
     @Body() brand: UpdateBrandDto,
   ) {
-    return this.brandsService.updateOne(user, storeId, id, brand);
+    return this.brandsService.updateOne(storeId, id, brand);
   }
   // #endregion
 
   // #region Delete Brand
   @Delete(':id')
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Delete a brand',
     description: 'Delete a brand by ID',
@@ -152,12 +153,8 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async deleteOne(
-    @User() user: ClerkUser,
-    @Param('storeId') storeId: string,
-    @Param('id') id: string,
-  ) {
-    return this.brandsService.deleteOne(user, storeId, id);
+  async deleteOne(@Param('storeId') storeId: string, @Param('id') id: string) {
+    return this.brandsService.deleteOne(storeId, id);
   }
   // #endregion
 }

@@ -1,7 +1,5 @@
-import { User } from '@clerk/backend';
 import {
   BadRequestException,
-  HttpException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -17,42 +15,6 @@ export class BrandsService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  private async validateAuthorization(storeId: string, user: User) {
-    this.logger.debug(`Validating authorization for user ${user.id}`);
-
-    // Defensive checks
-    if (!storeId || !user?.id) {
-      this.logger.warn(
-        `Missing required fields: storeId=${storeId}, userId=${user?.id}`,
-      );
-      throw new BadRequestException('Missing storeId or user information.');
-    }
-
-    try {
-      const store = await this.prisma.store.findFirst({
-        where: {
-          id: storeId,
-          userId: user.id,
-        },
-      });
-
-      if (!store) {
-        this.logger.warn(
-          `Authorization failed: No store found for user ${user.id} and store ${storeId}`,
-        );
-        throw new NotFoundException('Store not found.');
-      }
-
-      this.logger.debug(
-        `Authorization validated for user ${user.id} with store ${store.id}`,
-      );
-      return store;
-    } catch (error) {
-      if (error instanceof HttpException) throw error; // rethrow HttpExceptions
-      this.logger.error(error);
-      throw new InternalServerErrorException();
-    }
-  }
   async findAll(storeId: string) {
     try {
       return this.prisma.brand.findMany({
@@ -79,14 +41,12 @@ export class BrandsService {
     }
   }
 
-  async createOne(user: User, storeId: string, brand: CreateBrandDto) {
-    const store = await this.validateAuthorization(storeId, user);
-
+  async createOne(storeId: string, brand: CreateBrandDto) {
     try {
       return await this.prisma.brand.create({
         data: {
           ...brand,
-          storeId: store.id,
+          storeId,
         },
       });
     } catch (error) {
@@ -103,17 +63,12 @@ export class BrandsService {
     }
   }
 
-  async updateOne(
-    user: User,
-    storeId: string,
-    id: string,
-    brand: UpdateBrandDto,
-  ) {
-    await this.validateAuthorization(storeId, user);
+  async updateOne(storeId: string, id: string, brand: UpdateBrandDto) {
     try {
       return await this.prisma.brand.update({
         where: {
           id,
+          storeId,
         },
         data: brand,
       });
@@ -123,13 +78,12 @@ export class BrandsService {
     }
   }
 
-  async deleteOne(user: User, storeId: string, id: string) {
-    await this.validateAuthorization(storeId, user);
-
+  async deleteOne(storeId: string, id: string) {
     try {
       return await this.prisma.brand.delete({
         where: {
           id,
+          storeId,
         },
       });
     } catch (error) {
