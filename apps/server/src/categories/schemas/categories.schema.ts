@@ -12,7 +12,7 @@ export const createCategorySchema = z.object({
   name: z.string().min(1).max(255),
 });
 
-export const updateCategorySchema = categoriesMetadataSchema.partial();
+export const updateCategorySchema = createCategorySchema.partial();
 
 export const categorySchema =
   categoriesMetadataSchema.merge(createCategorySchema);
