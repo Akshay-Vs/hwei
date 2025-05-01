@@ -7,6 +7,7 @@ import {
   Delete,
   HttpStatus,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,6 +21,7 @@ import { User as ClerkUser } from '@clerk/backend';
 import { User } from 'src/common/decorators/user.decorator';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
 
 @ApiTags('brands')
 @Controller('brands')
@@ -73,6 +75,7 @@ export class BrandsController {
 
   // #region Create Brand
   @Post()
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Create a brand',
     description: 'Create a new brand',
@@ -101,6 +104,7 @@ export class BrandsController {
 
   // #region Update Brand
   @Patch(':id')
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Update a brand',
     description: 'Update an existing brand by ID',
@@ -135,6 +139,7 @@ export class BrandsController {
 
   // #region Delete Brand
   @Delete(':id')
+  @UseGuards(StoreOwnershipGuard)
   @ApiOperation({
     summary: 'Delete a brand',
     description: 'Delete a brand by ID',
