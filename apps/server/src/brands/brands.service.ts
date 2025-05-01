@@ -1,4 +1,3 @@
-import { User } from '@clerk/backend';
 import {
   BadRequestException,
   Injectable,
@@ -42,7 +41,7 @@ export class BrandsService {
     }
   }
 
-  async createOne(user: User, storeId: string, brand: CreateBrandDto) {
+  async createOne(storeId: string, brand: CreateBrandDto) {
     try {
       return await this.prisma.brand.create({
         data: {
@@ -64,16 +63,12 @@ export class BrandsService {
     }
   }
 
-  async updateOne(
-    user: User,
-    storeId: string,
-    id: string,
-    brand: UpdateBrandDto,
-  ) {
+  async updateOne(storeId: string, id: string, brand: UpdateBrandDto) {
     try {
       return await this.prisma.brand.update({
         where: {
           id,
+          storeId,
         },
         data: brand,
       });
@@ -83,11 +78,12 @@ export class BrandsService {
     }
   }
 
-  async deleteOne(user: User, storeId: string, id: string) {
+  async deleteOne(storeId: string, id: string) {
     try {
       return await this.prisma.brand.delete({
         where: {
           id,
+          storeId,
         },
       });
     } catch (error) {

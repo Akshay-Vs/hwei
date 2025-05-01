@@ -17,8 +17,6 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
-import { User as ClerkUser } from '@clerk/backend';
-import { User } from 'src/common/decorators/user.decorator';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
@@ -94,11 +92,10 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async createOne(
-    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Body() brand: CreateBrandDto,
   ) {
-    return this.brandsService.createOne(user, storeId, brand);
+    return this.brandsService.createOne(storeId, brand);
   }
   // #endregion
 
@@ -128,12 +125,11 @@ export class BrandsController {
     description: 'Internal server error',
   })
   async updateOne(
-    @User() user: ClerkUser,
     @Param('storeId') storeId: string,
     @Param('id') id: string,
     @Body() brand: UpdateBrandDto,
   ) {
-    return this.brandsService.updateOne(user, storeId, id, brand);
+    return this.brandsService.updateOne(storeId, id, brand);
   }
   // #endregion
 
@@ -157,12 +153,8 @@ export class BrandsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'Internal server error',
   })
-  async deleteOne(
-    @User() user: ClerkUser,
-    @Param('storeId') storeId: string,
-    @Param('id') id: string,
-  ) {
-    return this.brandsService.deleteOne(user, storeId, id);
+  async deleteOne(@Param('storeId') storeId: string, @Param('id') id: string) {
+    return this.brandsService.deleteOne(storeId, id);
   }
   // #endregion
 }
