@@ -1,6 +1,6 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
-import { CreateStoreDto } from './schemas/store.schema';
+import { CreateStoreDto, UpdateStoreDto } from './schemas/store.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(
@@ -84,7 +84,7 @@ export const UpdateOneDocs = () => {
       description: 'Store ID to update',
     }),
     ApiBody({
-      type: CreateStoreDto,
+      type: UpdateStoreDto,
       required: true,
       description: 'Store update payload',
     }),

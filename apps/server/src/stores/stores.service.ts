@@ -4,8 +4,9 @@ import { v4 as uuid4 } from 'uuid';
 import { Injectable, Logger } from '@nestjs/common';
 
 import { PrismaService } from 'src/common/database/prisma.service';
-import { CreateStoreDto } from './schemas/store.schema';
 import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { UpdateBrand } from 'src/brands/schemas/brands.schema';
+import { CreateStore } from './schemas/store.schema';
 
 @Injectable()
 export class StoresService {
@@ -36,7 +37,7 @@ export class StoresService {
     }
   }
 
-  async createOne(user: User, input: CreateStoreDto) {
+  async createOne(user: User, input: CreateStore) {
     try {
       return await this.prisma.store.create({
         data: {
@@ -50,13 +51,12 @@ export class StoresService {
     }
   }
 
-  async editOne(user: User, storeId: string, input: CreateStoreDto) {
+  async editOne(user: User, storeId: string, input: UpdateBrand) {
     try {
       return await this.prisma.store.update({
         where: { id: storeId, userId: user.id },
         data: {
           ...input,
-          slug: this.generateSlug(input.name),
         },
       });
     } catch (error) {
