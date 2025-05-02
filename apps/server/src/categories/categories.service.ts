@@ -24,7 +24,7 @@ export class CategoriesService {
 
   async findOne(storeId: string, id: string) {
     try {
-      return await this.prisma.category.findUniqueOrThrow({
+      return await this.prisma.category.findFirstOrThrow({
         where: {
           storeId,
           id,
@@ -67,12 +67,13 @@ export class CategoriesService {
 
   async deleteOne(storeId: string, id: string) {
     try {
-      return await this.prisma.category.delete({
+      await this.prisma.category.deleteMany({
         where: {
           id: id,
           storeId,
         },
       });
+      return;
     } catch (error) {
       handleInternalError({ error, logger: this.logger, entity: this.entity });
     }

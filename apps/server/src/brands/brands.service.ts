@@ -25,7 +25,7 @@ export class BrandsService {
   async findOne(storeId: string, id: string) {
     try {
       this.logger.debug(`Fetching brand ${id} for store ${storeId}`);
-      return await this.prisma.brand.findUniqueOrThrow({
+      return await this.prisma.brand.findFirstOrThrow({
         where: {
           id,
           storeId,
@@ -68,12 +68,13 @@ export class BrandsService {
   async deleteOne(storeId: string, id: string) {
     try {
       this.logger.debug(`Deleting brand ${id} for store ${storeId}`);
-      return await this.prisma.brand.delete({
+      await this.prisma.brand.deleteMany({
         where: {
           id,
           storeId,
         },
       });
+      return;
     } catch (error) {
       handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
