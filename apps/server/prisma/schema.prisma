@@ -101,7 +101,6 @@ model Brand {
   products    Product[]
 
   @@unique([storeId, name])
-  @@unique([storeId, id])
   @@index([storeId])
 }
 
@@ -113,7 +112,6 @@ model Category {
   products Product[]
 
   @@unique([storeId, name])
-  @@unique([storeId, id])
   @@index([storeId])
 }
 
