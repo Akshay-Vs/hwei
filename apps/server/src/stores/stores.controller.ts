@@ -5,24 +5,27 @@ import {
   Get,
   Logger,
   Param,
+  Patch,
   Post,
-  Put,
+  UseGuards,
 } from '@nestjs/common';
 
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBody,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { User as ClerkUser } from '@clerk/backend';
 
 import { User } from 'src/common/decorators/user.decorator';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { CreateStoreDto, createStoreSchema } from './schemas/store.schema';
 import { StoresService } from './stores.service';
+import {
+  CreateOneDocs,
+  DeleteOneDocs,
+  FindAllDocs,
+  FindOneDocs,
+  UpdateOneDocs,
+} from './stores.docs';
+import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { UpdateBrandDto } from 'src/brands/schemas/brands.schema';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')
@@ -33,12 +36,8 @@ export class StoresController {
   constructor(private readonly storesService: StoresService) {}
 
   //#region [GET] /stores - Get all stores
-  @ApiOperation({ summary: 'Get all stores for the authenticated user' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of all stores owned by the authenticated user',
-  })
   @Get()
+  @FindAllDocs()
   findAll(@User() user: ClerkUser) {
     this.logger.log(`Fetching all stores for user: ${user.id}`);
     return this.storesService.findAll(user);
@@ -46,17 +45,8 @@ export class StoresController {
   //#endregion
 
   //#region [GET] /stores/:id - Get a store by ID
-  @ApiOperation({ summary: 'Get a specific store by ID' })
-  @ApiParam({ name: 'id', type: String, description: 'Store ID to retrieve' })
-  @ApiResponse({
-    status: 200,
-    description: 'Store details returned successfully',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Store not found or not accessible by the user',
-  })
   @Get(':id')
+  @FindOneDocs()
   findOne(@User() user: ClerkUser, @Param('id') id: string) {
     this.logger.log(`Fetching store [id=${id}] for user: ${user.id}`);
     return this.storesService.findOne(user, id);
@@ -64,21 +54,8 @@ export class StoresController {
   //#endregion
 
   //#region [POST] /stores - Create a new store
-  @ApiOperation({ summary: 'Create a new store' })
-  @ApiBody({
-    type: CreateStoreDto,
-    required: true,
-    description: 'Store creation payload',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Store created successfully',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid store data provided',
-  })
   @Post()
+  @CreateOneDocs()
   createOne(
     @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
     @User() user: ClerkUser,
@@ -89,30 +66,13 @@ export class StoresController {
   //#endregion
 
   //#region [PUT] /stores/:id - Update a store
-  @ApiOperation({ summary: 'Update an existing store' })
-  @ApiParam({ name: 'id', type: String, description: 'Store ID to update' })
-  @ApiBody({
-    type: CreateStoreDto,
-    required: true,
-    description: 'Store update payload',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Store updated successfully',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Store not found or not accessible by the user',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid update payload',
-  })
-  @Put(':id')
+  @Patch(':id')
+  @UpdateOneDocs()
+  @UseGuards(StoreOwnershipGuard)
   editOne(
     @User() user: ClerkUser,
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
+    @Body(new ZodValidationPipe(createStoreSchema)) body: UpdateBrandDto,
   ) {
     this.logger.log(`Updating store [id=${id}] for user: ${user.id}`);
     return this.storesService.editOne(user, id, body);
@@ -120,17 +80,9 @@ export class StoresController {
   //#endregion
 
   //#region [DELETE] /stores/:id - Delete a store
-  @ApiOperation({ summary: 'Delete a store' })
-  @ApiParam({ name: 'id', type: String, description: 'Store ID to delete' })
-  @ApiResponse({
-    status: 200,
-    description: 'Store deleted successfully',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Store not found or not accessible by the user',
-  })
   @Delete(':id')
+  @DeleteOneDocs()
+  @UseGuards(StoreOwnershipGuard)
   deleteOne(@User() user: ClerkUser, @Param('id') id: string) {
     this.logger.warn(`Deleting store [id=${id}] for user: ${user.id}`);
     return this.storesService.deleteOne(user, id);
