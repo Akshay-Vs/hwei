@@ -1,48 +1,44 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
-import { PrismaClientKnownRequestError } from 'generated/runtime/library';
+import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
 
 @Injectable()
 export class BrandsService {
   private readonly logger = new Logger(BrandsService.name);
+  private readonly entity = 'Brand';
 
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(storeId: string) {
     try {
-      return this.prisma.brand.findMany({
+      this.logger.debug(`Fetching all brands for store ${storeId}`);
+      return await this.prisma.brand.findMany({
         where: {
           storeId,
         },
       });
     } catch (error) {
-      this.logger.error(error);
-      throw new InternalServerErrorException('Failed to fetch brands');
+      handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
   }
   async findOne(storeId: string, id: string) {
     try {
-      return this.prisma.brand.findUnique({
+      this.logger.debug(`Fetching brand ${id} for store ${storeId}`);
+      return await this.prisma.brand.findFirstOrThrow({
         where: {
           id,
           storeId,
         },
       });
     } catch (error) {
-      this.logger.error(error);
-      throw new InternalServerErrorException('Failed to fetch brand');
+      handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
   }
 
   async createOne(storeId: string, brand: CreateBrandDto) {
     try {
+      this.logger.debug(`Creating brand for store ${storeId}`);
       return await this.prisma.brand.create({
         data: {
           ...brand,
@@ -50,21 +46,13 @@ export class BrandsService {
         },
       });
     } catch (error) {
-      this.logger.error(error);
-
-      if (
-        error instanceof PrismaClientKnownRequestError &&
-        error.code === 'P2002'
-      ) {
-        throw new BadRequestException('Brand with this name already exists');
-      }
-
-      throw new InternalServerErrorException('Failed to create brand');
+      handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
   }
 
   async updateOne(storeId: string, id: string, brand: UpdateBrandDto) {
     try {
+      this.logger.debug(`Updating brand ${id} for store ${storeId}`);
       return await this.prisma.brand.update({
         where: {
           id,
@@ -73,30 +61,22 @@ export class BrandsService {
         data: brand,
       });
     } catch (error) {
-      this.logger.error(error);
-      throw new InternalServerErrorException('Failed to update brand');
+      handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
   }
 
   async deleteOne(storeId: string, id: string) {
     try {
-      return await this.prisma.brand.delete({
+      this.logger.debug(`Deleting brand ${id} for store ${storeId}`);
+      await this.prisma.brand.deleteMany({
         where: {
           id,
           storeId,
         },
       });
+      return;
     } catch (error) {
-      this.logger.error(error);
-
-      if (
-        error instanceof PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException('Brand not found');
-      }
-
-      throw new InternalServerErrorException('Failed to delete brand');
+      handleInternalError({ error, logger: this.logger, entity: this.entity });
     }
   }
 }
