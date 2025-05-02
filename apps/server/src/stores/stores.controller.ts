@@ -5,8 +5,8 @@ import {
   Get,
   Logger,
   Param,
+  Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common';
 
@@ -25,6 +25,7 @@ import {
   UpdateOneDocs,
 } from './stores.docs';
 import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { UpdateBrandDto } from 'src/brands/schemas/brands.schema';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')
@@ -65,13 +66,13 @@ export class StoresController {
   //#endregion
 
   //#region [PUT] /stores/:id - Update a store
-  @Put(':id')
+  @Patch(':id')
   @UpdateOneDocs()
   @UseGuards(StoreOwnershipGuard)
   editOne(
     @User() user: ClerkUser,
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(createStoreSchema)) body: CreateStoreDto,
+    @Body(new ZodValidationPipe(createStoreSchema)) body: UpdateBrandDto,
   ) {
     this.logger.log(`Updating store [id=${id}] for user: ${user.id}`);
     return this.storesService.editOne(user, id, body);
