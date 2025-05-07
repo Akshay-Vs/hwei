@@ -1,17 +1,14 @@
-import { User as UserDTO } from '@clerk/backend';
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
-import { User } from 'src/common/decorators/user.decorator';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
+import {
+  tagBaseSchema,
+  TagInputDto,
+  TagQueryDto,
+  tagQuerySchema,
+} from '../schemas/tags.schema';
+import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
@@ -19,102 +16,28 @@ import { TagsService } from './tags.service';
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
-  //#region [GET] /stores - Get all tags
   @Get()
-  @ApiOperation({ summary: 'Get all tags (public route)' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of all tags owned by the authenticated user',
-  })
   @PublicRoute()
-  findAll() {
-    return this.tagsService.findAll();
+  findAll(
+    @Param('query', new ZodValidationPipe(tagQuerySchema)) query: TagQueryDto,
+  ) {
+    return this.tagsService.findAll(query);
   }
-  //#endregion
 
-  //#region [GET] /stores/:id - Get a store by ID
-  @ApiOperation({ summary: 'Get a specific tag by ID' })
-  @ApiParam({ name: 'id', type: String, description: 'Tag ID to retrieve' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tag details returned successfully',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Tag not found',
-  })
   @Get(':id')
   @PublicRoute()
   findOne(@Param('id') id: string) {
     return this.tagsService.findOne(id);
   }
-  //#endregion
 
-  //#region [POST] /stores - Create a new tag
-  @ApiOperation({ summary: 'Create a new tag' })
-  @ApiBody({
-    // type: CreateStoreDTO,
-    required: true,
-    description: 'Tag creation payload',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Tag created successfully',
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'Tag not accessible by the user',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid tag data provided',
-  })
   @Post()
-  createOne(@User() user: UserDTO) {
-    return this.tagsService.createOne(user);
+  create(@Body(new ZodValidationPipe(tagBaseSchema)) input: TagInputDto) {
+    return this.tagsService.createMany(input);
   }
-  //#endregion
 
-  //#region [PATCH] /stores/:id - Patch a tag
-  @ApiOperation({ summary: 'Update a new tag' })
-  @ApiParam({ name: 'id', type: String, description: 'Tag ID to update' })
-  @ApiBody({
-    // type: CreateStoreDTO,
-    required: true,
-    description: 'Tag creation payload',
-  })
-  @ApiResponse({
-    status: 201,
-    description: 'Tag created successfully',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Invalid tag data provided',
-  })
-  @Patch(':id')
-  updateOne(@User() user: UserDTO, @Param('id') id: string) {
-    return this.tagsService.updateOne(user, id);
+  @Delete(':id')
+  // TODO: add super admin auth guard
+  remove(@Param('id') id: string) {
+    return this.tagsService.deleteOne(id);
   }
-  //#endregion
-
-  //#region [DELETE] /stores/:id - Delete a store
-  @ApiOperation({ summary: 'Delete a tag' })
-  @ApiParam({ name: 'id', type: String, description: 'Tag ID to delete' })
-  @ApiResponse({
-    status: 200,
-    description: 'Tag deleted successfully',
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'Tag not accessible by the user',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'Tag not found',
-  })
-  @Delete('id')
-  deleteOne(@User() user: UserDTO, @Param('id') id: string) {
-    return this.tagsService.deleteOne(user, id);
-  }
-  //#endregion
 }
