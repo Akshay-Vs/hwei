@@ -2,7 +2,7 @@ import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
-import { Tag, TagQueryDto } from '../schemas/tags.schema';
+import { Tag, TagInputDto, TagQueryDto } from '../schemas/tags.schema';
 
 @Injectable()
 export class TagsService {
@@ -43,23 +43,11 @@ export class TagsService {
     }
   }
 
-  async createMany(tags: string[]): Promise<Prisma.BatchPayload> {
+  async createMany(tags: TagInputDto): Promise<Prisma.BatchPayload> {
     try {
       return await this.prisma.tag.createMany({
-        data: tags.map((tag) => ({ name: tag })),
+        data: tags.name.map((name) => ({ name })),
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
-  }
-
-  async create(name: string): Promise<Tag> {
-    try {
-      return await this.prisma.tag.create({ data: { name } });
     } catch (error) {
       return handleInternalError({
         error,
@@ -142,6 +130,18 @@ export class TagsService {
       return await this.prisma.productTag.createMany({
         data: tagIds.map((tagId) => ({ productId, tagId })),
       });
+    } catch (error) {
+      return handleInternalError({
+        error,
+        logger: this.logger,
+        entity: this.entity,
+      });
+    }
+  }
+
+  async deleteOne(id: string): Promise<Tag> {
+    try {
+      return await this.prisma.tag.delete({ where: { id } });
     } catch (error) {
       return handleInternalError({
         error,
