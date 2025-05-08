@@ -15,7 +15,7 @@ export const tagInputSchema = z.object({
 
 export const tagQuerySchema = z.object({
   search: z.string().optional(),
-  skip: z.number().int().min(1).optional(),
+  skip: z.number().int().min(0).optional(),
   take: z.number().int().min(1).optional(),
 });
 
