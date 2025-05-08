@@ -2,10 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
 import {
-  tagBaseSchema,
   TagInputDto,
+  tagInputSchema,
   TagQueryDto,
-  tagQuerySchema,
 } from '../schemas/tags.schema';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
@@ -18,9 +17,7 @@ export class TagsController {
 
   @Get()
   @PublicRoute()
-  findAll(
-    @Param('query', new ZodValidationPipe(tagQuerySchema)) query: TagQueryDto,
-  ) {
+  findAll(@Param() query: TagQueryDto) {
     return this.tagsService.findAll(query);
   }
 
@@ -31,7 +28,7 @@ export class TagsController {
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(tagBaseSchema)) input: TagInputDto) {
+  create(@Body(new ZodValidationPipe(tagInputSchema)) input: TagInputDto) {
     return this.tagsService.createMany(input);
   }
 
