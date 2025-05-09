@@ -2,7 +2,7 @@ import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
 
 export const tagsMetadataSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid({ message: 'id must be a valid CUID' }),
 });
 
 export const tagBaseSchema = z.object({
@@ -15,8 +15,20 @@ export const tagInputSchema = z.object({
 
 export const tagQuerySchema = z.object({
   search: z.string().optional(),
-  skip: z.number().int().min(0).optional(),
-  take: z.number().int().min(1).optional(),
+  skip: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: 'Skip must be a non-negative integer',
+    })
+    .optional(),
+  take: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => !isNaN(val) && val >= 0, {
+      message: 'Take must be an integer >= 1',
+    })
+    .optional(),
 });
 
 export const tagUpdateSchema = tagBaseSchema.partial();
