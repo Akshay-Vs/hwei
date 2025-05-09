@@ -1,10 +1,24 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
 import {
   TagInputDto,
   tagInputSchema,
+  TagMetadataDto,
   TagQueryDto,
+  tagQuerySchema,
+  tagsMetadataSchema,
+  TagUpdateDto,
+  tagUpdateSchema,
 } from '../schemas/tags.schema';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
@@ -17,19 +31,30 @@ export class TagsController {
 
   @Get()
   @PublicRoute()
-  findAll(@Param() query: TagQueryDto) {
+  findAll(@Query(new ZodValidationPipe(tagQuerySchema)) query: TagQueryDto) {
     return this.tagsService.findAll(query);
   }
 
   @Get(':id')
   @PublicRoute()
-  findOne(@Param('id') id: string) {
-    return this.tagsService.findOne(id);
+  findOne(
+    @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
+  ) {
+    return this.tagsService.findOne(params);
   }
 
   @Post()
-  create(@Body(new ZodValidationPipe(tagInputSchema)) input: TagInputDto) {
+  createMany(@Body(new ZodValidationPipe(tagInputSchema)) input: TagInputDto) {
     return this.tagsService.createMany(input);
+  }
+
+  // TODO: add super admin auth guard
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(tagUpdateSchema)) input: TagUpdateDto,
+  ) {
+    return this.tagsService.updateOne(id, input);
   }
 
   @Delete(':id')
