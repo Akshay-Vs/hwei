@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { PrismaClientKnownRequestError } from 'generated/runtime/library';
+import { PrismaClientKnownRequestError } from '@/generated/runtime/library';
 
 interface InternalErrorHandlerProps {
   error: unknown;

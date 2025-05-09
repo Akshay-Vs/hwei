@@ -3,21 +3,36 @@ import {
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateStoreDto, UpdateStoreDto } from './schemas/store.schema';
+import { TagInputDto, TagUpdateDto } from '../schemas/tags.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Get all stores for the authenticated user',
-      description:
-        'Retrieve a list of all stores owned by the authenticated user',
+      summary: 'Find all tags',
+      description: 'Retrieve a list of all tags with optional filtering',
+    }),
+    ApiQuery({
+      name: 'search',
+      description: 'Search query for filtering tags',
+      required: false,
+    }),
+    ApiQuery({
+      name: 'skip',
+      description: 'Number of tags to skip',
+      required: false,
+    }),
+    ApiQuery({
+      name: 'take',
+      description: 'Number of tags to take',
+      required: false,
     }),
     ApiResponse({
       status: HttpStatus.OK,
-      description: 'List of all stores owned by the authenticated user',
+      description: 'The list of tags has been successfully retrieved',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -29,21 +44,17 @@ export const FindAllDocs = () => {
 export const FindOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Get a specific store by ID',
-      description: 'Retrieve a specific store by its ID',
+      summary: 'Find a tag by ID',
+      description: 'Retrieve a specific tag by its ID',
     }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'Store ID to retrieve',
-    }),
+    ApiParam({ name: 'id', description: 'The ID of the tag to retrieve' }),
     ApiResponse({
       status: HttpStatus.OK,
-      description: 'Store details returned successfully',
+      description: 'The tag has been successfully retrieved',
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
-      description: 'Store not found or not accessible by the user',
+      description: 'Tag not found',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -52,27 +63,23 @@ export const FindOneDocs = () => {
   );
 };
 
-export const CreateOneDocs = () => {
+export const CreateManyDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Create a new store',
-      description: 'Create a new store for the authenticated user',
+      summary: 'Create multiple tags',
+      description: 'Create new tags',
     }),
-    ApiBody({
-      type: CreateStoreDto,
-      required: true,
-      description: 'Store creation payload',
-    }),
+    ApiBody({ type: TagInputDto, description: 'Tag data to create' }),
     ApiResponse({
       status: HttpStatus.CREATED,
-      description: 'Store created successfully',
-    }),
-    ApiUnauthorizedResponse({
-      description: 'Unauthorized (missing or invalid token)',
+      description: 'The tags have been successfully created',
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
-      description: 'Invalid store data provided',
+      description: 'Invalid input data',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -84,30 +91,22 @@ export const CreateOneDocs = () => {
 export const UpdateOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Update an existing store',
-      description: 'Update an existing store by ID',
+      summary: 'Update a tag',
+      description: 'Update an existing tag by ID',
     }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'Store ID to update',
-    }),
-    ApiBody({
-      type: UpdateStoreDto,
-      required: true,
-      description: 'Store update payload',
-    }),
+    ApiParam({ name: 'id', description: 'The ID of the tag to update' }),
+    ApiBody({ type: TagUpdateDto, description: 'Tag data to update' }),
     ApiResponse({
       status: HttpStatus.OK,
-      description: 'Store updated successfully',
+      description: 'The tag has been successfully updated',
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
-      description: 'Store not found or not accessible by the user',
+      description: 'Tag not found',
     }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
-      description: 'Invalid update payload',
+      description: 'Invalid input data',
     }),
     ApiUnauthorizedResponse({
       description: 'Unauthorized (missing or invalid token)',
@@ -122,21 +121,17 @@ export const UpdateOneDocs = () => {
 export const DeleteOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Delete a store',
-      description: 'Delete a store by ID',
+      summary: 'Delete a tag',
+      description: 'Delete a tag by ID',
     }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'Store ID to delete',
-    }),
+    ApiParam({ name: 'id', description: 'The ID of the tag to delete' }),
     ApiResponse({
       status: HttpStatus.OK,
-      description: 'Store deleted successfully',
+      description: 'The tag has been successfully deleted',
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
-      description: 'Store not found or not accessible by the user',
+      description: 'Tag not found',
     }),
     ApiUnauthorizedResponse({
       description: 'Unauthorized (missing or invalid token)',

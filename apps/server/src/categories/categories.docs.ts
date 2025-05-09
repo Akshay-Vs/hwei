@@ -1,5 +1,11 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import {
   CreateCategoryDto,
   UpdateCategoryDto,
@@ -58,6 +64,9 @@ export const CreateOneDocs = () => {
       status: HttpStatus.CREATED,
       description: 'The category has been successfully created',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Invalid input data',
@@ -84,6 +93,9 @@ export const UpdateOneDocs = () => {
       status: HttpStatus.OK,
       description: 'The category has been successfully updated',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
       description: 'Category not found',
@@ -109,6 +121,9 @@ export const DeleteOneDocs = () => {
     ApiResponse({
       status: HttpStatus.OK,
       description: 'The category has been successfully deleted',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
