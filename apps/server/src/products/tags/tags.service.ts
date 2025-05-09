@@ -2,7 +2,13 @@ import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
-import { Tag, TagInputDto, TagQueryDto } from '../schemas/tags.schema';
+import {
+  Tag,
+  TagInputDto,
+  TagMetadataDto,
+  TagQueryDto,
+  TagUpdateDto,
+} from '../schemas/tags.schema';
 
 @Injectable()
 export class TagsService {
@@ -17,6 +23,7 @@ export class TagsService {
         where: {
           name: {
             contains: query.search,
+            mode: 'insensitive',
           },
         },
         skip: query.skip,
@@ -31,9 +38,9 @@ export class TagsService {
     }
   }
 
-  async findOne(id: string): Promise<Tag | null> {
+  async findOne(params: TagMetadataDto): Promise<Tag | null> {
     try {
-      return await this.prisma.tag.findUnique({ where: { id } });
+      return await this.prisma.tag.findUnique({ where: { id: params.id } });
     } catch (error) {
       return handleInternalError({
         error,
@@ -43,10 +50,14 @@ export class TagsService {
     }
   }
 
-  async createMany(tags: TagInputDto): Promise<Prisma.BatchPayload> {
+  async createMany(input: TagInputDto): Promise<Tag[]> {
     try {
-      return await this.prisma.tag.createMany({
-        data: tags.names.map((name) => ({ name })),
+      await this.prisma.tag.createMany({
+        data: input.names.map((name) => ({ name })),
+        skipDuplicates: true,
+      });
+      return await this.prisma.tag.findMany({
+        where: { name: { in: input.names } },
       });
     } catch (error) {
       return handleInternalError({
@@ -59,16 +70,18 @@ export class TagsService {
 
   async resolveTagIds(names: string[]): Promise<string[]> {
     try {
-      const existing = await this.prisma.tag.findMany({
-        where: { name: { in: names } },
-      });
-
-      const existingMap = new Map(existing.map((t) => [t.name, t.id]));
-      const missing = names.filter((name) => !existingMap.has(name));
-
-      await this.prisma.tag.createMany({
-        data: missing.map((name) => ({ name })),
-        skipDuplicates: true,
+      await this.prisma.$transaction(async (tx) => {
+        const existing = await tx.tag.findMany({
+          where: { name: { in: names } },
+        });
+        const existingNames = new Set(existing.map((t) => t.name));
+        const missing = names.filter((name) => !existingNames.has(name));
+        if (missing.length > 0) {
+          await tx.tag.createMany({
+            data: missing.map((name) => ({ name })),
+            skipDuplicates: true,
+          });
+        }
       });
 
       const final = await this.prisma.tag.findMany({
@@ -84,11 +97,9 @@ export class TagsService {
     }
   }
 
-  async getProductTags(productId: string): Promise<
-    ({ tag: Tag } & {
-      productId: string;
-    })[]
-  > {
+  async getProductTags(
+    productId: string,
+  ): Promise<({ tag: Tag } & { productId: string })[]> {
     try {
       return await this.prisma.productTag.findMany({
         where: { productId },
@@ -103,8 +114,8 @@ export class TagsService {
     }
   }
 
-  async removeTagFromProduct(
-    tx: Prisma.TransactionClient,
+  async attachTagsToProduct(
+    tx: Prisma.TransactionClient | PrismaService,
     productId: string,
     tagIds: string[],
   ): Promise<Prisma.BatchPayload> {
@@ -122,13 +133,11 @@ export class TagsService {
     }
   }
 
-  async attatchTagsToProduct(
-    productId: string,
-    tagIds: string[],
-  ): Promise<Prisma.BatchPayload> {
+  async updateOne(id: string, input: TagUpdateDto): Promise<Tag> {
     try {
-      return await this.prisma.productTag.createMany({
-        data: tagIds.map((tagId) => ({ productId, tagId })),
+      return await this.prisma.tag.update({
+        where: { id },
+        data: { name: input.name },
       });
     } catch (error) {
       return handleInternalError({
