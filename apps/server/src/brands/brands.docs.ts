@@ -1,5 +1,11 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiResponse,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 
 export const FindAllDocs = () => {
@@ -52,6 +58,9 @@ export const CreateOneDocs = () => {
       status: HttpStatus.CREATED,
       description: 'The brand has been successfully created',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
     ApiResponse({
       status: HttpStatus.BAD_REQUEST,
       description: 'Invalid input data',
@@ -83,6 +92,9 @@ export const UpdateOneDocs = () => {
       status: HttpStatus.BAD_REQUEST,
       description: 'Invalid input data',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Internal server error',
@@ -100,6 +112,9 @@ export const DeleteOneDocs = () => {
     ApiResponse({
       status: HttpStatus.OK,
       description: 'The brand has been successfully deleted',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
     }),
     ApiResponse({
       status: HttpStatus.NOT_FOUND,
