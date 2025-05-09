@@ -46,7 +46,7 @@ export class TagsService {
   async createMany(tags: TagInputDto): Promise<Prisma.BatchPayload> {
     try {
       return await this.prisma.tag.createMany({
-        data: tags.name.map((name) => ({ name })),
+        data: tags.names.map((name) => ({ name })),
       });
     } catch (error) {
       return handleInternalError({
