@@ -22,6 +22,13 @@ import {
 } from '../schemas/tags.schema';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import {
+  CreateManyDocs,
+  DeleteOneDocs,
+  FindAllDocs,
+  FindOneDocs,
+  UpdateOneDocs,
+} from './tags.docs';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
@@ -31,12 +38,14 @@ export class TagsController {
 
   @Get()
   @PublicRoute()
+  @FindAllDocs()
   findAll(@Query(new ZodValidationPipe(tagQuerySchema)) query: TagQueryDto) {
     return this.tagsService.findAll(query);
   }
 
   @Get(':id')
   @PublicRoute()
+  @FindOneDocs()
   findOne(
     @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
   ) {
@@ -44,12 +53,14 @@ export class TagsController {
   }
 
   @Post()
+  @CreateManyDocs()
   createMany(@Body(new ZodValidationPipe(tagInputSchema)) input: TagInputDto) {
     return this.tagsService.createMany(input);
   }
 
   // TODO: add super admin auth guard
   @Patch(':id')
+  @UpdateOneDocs()
   update(
     @Param('id') id: string,
     @Body(new ZodValidationPipe(tagUpdateSchema)) input: TagUpdateDto,
@@ -58,6 +69,7 @@ export class TagsController {
   }
 
   @Delete(':id')
+  @DeleteOneDocs()
   // TODO: add super admin auth guard
   remove(@Param('id') id: string) {
     return this.tagsService.deleteOne(id);
