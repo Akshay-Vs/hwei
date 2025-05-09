@@ -10,7 +10,7 @@ export const tagBaseSchema = z.object({
 });
 
 export const tagInputSchema = z.object({
-  name: z.string().min(1).array(),
+  names: z.string().min(1).array(),
 });
 
 export const tagQuerySchema = z.object({
