@@ -15,7 +15,11 @@ import { User as ClerkUser } from '@clerk/backend';
 
 import { User } from 'src/common/decorators/user.decorator';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
-import { CreateStoreDto, createStoreSchema } from './schemas/store.schema';
+import {
+  CreateStoreDto,
+  createStoreSchema,
+  UpdateStoreDto,
+} from './schemas/store.schema';
 import { StoresService } from './stores.service';
 import {
   CreateOneDocs,
@@ -25,7 +29,6 @@ import {
   UpdateOneDocs,
 } from './stores.docs';
 import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
-import { UpdateBrandDto } from 'src/brands/schemas/brands.schema';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')
@@ -72,7 +75,7 @@ export class StoresController {
   editOne(
     @User() user: ClerkUser,
     @Param('id') id: string,
-    @Body(new ZodValidationPipe(createStoreSchema)) body: UpdateBrandDto,
+    @Body(new ZodValidationPipe(createStoreSchema)) body: UpdateStoreDto,
   ) {
     this.logger.log(`Updating store [id=${id}] for user: ${user.id}`);
     return this.storesService.editOne(user, id, body);
