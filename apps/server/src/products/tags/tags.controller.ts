@@ -14,8 +14,6 @@ import {
   TagInputDto,
   tagInputSchema,
   TagMetadataDto,
-  TagQueryDto,
-  tagQuerySchema,
   tagsMetadataSchema,
   TagUpdateDto,
   tagUpdateSchema,
@@ -29,6 +27,10 @@ import {
   FindOneDocs,
   UpdateOneDocs,
 } from './tags.docs';
+import {
+  PaginationQueryDTO,
+  paginationQuerySchema,
+} from '../schemas/query-schema';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
@@ -39,7 +41,10 @@ export class TagsController {
   @Get()
   @PublicRoute()
   @FindAllDocs()
-  findAll(@Query(new ZodValidationPipe(tagQuerySchema)) query: TagQueryDto) {
+  findAll(
+    @Query(new ZodValidationPipe(paginationQuerySchema))
+    query: PaginationQueryDTO,
+  ) {
     return this.tagsService.findAll(query);
   }
 

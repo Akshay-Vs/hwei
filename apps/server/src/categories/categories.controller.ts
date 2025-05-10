@@ -25,9 +25,10 @@ import {
   FindOneDocs,
   UpdateOneDocs,
 } from './categories.docs';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('categories')
+@ApiBearerAuth('swagger-access-token')
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

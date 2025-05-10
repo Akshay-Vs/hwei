@@ -56,6 +56,8 @@ model Product {
   variantLabels       VariantLabel[]
   variantCombinations VariantCombination[]
 
+  @@unique([storeId, id])
+
   @@index([title])
   @@index([createdAt, id])
 }
