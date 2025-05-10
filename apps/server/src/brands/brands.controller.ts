@@ -8,7 +8,7 @@ import {
   Patch,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
@@ -22,6 +22,7 @@ import {
 } from './brands.docs';
 
 @ApiTags('brands')
+@ApiBearerAuth('swagger-access-token')
 @Controller('brands')
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
