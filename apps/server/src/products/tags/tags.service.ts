@@ -6,9 +6,9 @@ import {
   Tag,
   TagInputDto,
   TagMetadataDto,
-  TagQueryDto,
   TagUpdateDto,
 } from '../schemas/tags.schema';
+import { PaginationQueryDTO } from '../schemas/query-schema';
 
 @Injectable()
 export class TagsService {
@@ -17,7 +17,7 @@ export class TagsService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(query: TagQueryDto): Promise<Tag[]> {
+  async findAll(query: PaginationQueryDTO): Promise<Tag[]> {
     try {
       return await this.prisma.tag.findMany({
         where: {
