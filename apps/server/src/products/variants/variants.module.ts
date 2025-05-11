@@ -7,12 +7,14 @@ import { CombinationController } from './combination/combination.controller';
 import { CombinationService } from './combination/combination.service';
 import { CombinationOptionService } from './combination-option/combination-option.service';
 import { CombinationOptionController } from './combination-option/combination-option.controller';
+import { PrismaService } from 'src/common/database/prisma.service';
 @Module({
   providers: [
     LabelService,
     OptionService,
     CombinationService,
     CombinationOptionService,
+    PrismaService,
   ],
   controllers: [
     LabelController,
@@ -20,5 +22,11 @@ import { CombinationOptionController } from './combination-option/combination-op
     CombinationController,
     CombinationOptionController,
   ],
+  exports: [
+    LabelService,
+    OptionService,
+    CombinationService,
+    CombinationOptionService,
+  ],
 })
-export class VarientsModule {}
+export class VariantsModule {}

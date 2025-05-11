@@ -6,19 +6,25 @@ import { RouterModule } from '@nestjs/core';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { TagsService } from 'src/tags/tags.service';
-import { VarientsModule } from './varients/varients.module';
+import { VariantsModule } from './variants/variants.module';
 
 @Module({
   controllers: [PricesController, ProductsController],
   providers: [PrismaService, PricesService, ProductsService, TagsService],
   imports: [
+    VariantsModule,
     RouterModule.register([
       {
         path: ':storeId',
         module: ProductsModule,
+        children: [
+          {
+            path: 'products/:productId/variants',
+            module: VariantsModule,
+          },
+        ],
       },
     ]),
-    VarientsModule,
   ],
 })
 export class ProductsModule {}
