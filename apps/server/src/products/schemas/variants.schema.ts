@@ -16,7 +16,7 @@ export const combinationRelationSchema = z.object({
 export const combinationBaseSchema = z.object({
   stock: z.number().min(0),
   sku: z.string().min(1),
-  priceDelta: z.string().min(1),
+  priceDelta: z.number().min(1),
 });
 
 export const combinationInputSchema = combinationBaseSchema.merge(
