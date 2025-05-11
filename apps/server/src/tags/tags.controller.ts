@@ -17,7 +17,7 @@ import {
   tagsMetadataSchema,
   TagUpdateDto,
   tagUpdateSchema,
-} from '../schemas/tags.schema';
+} from '../products/schemas/tags.schema';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 import {
@@ -30,7 +30,7 @@ import {
 import {
   PaginationQueryDTO,
   paginationQuerySchema,
-} from '../schemas/query-schema';
+} from '../products/schemas/query-schema';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')

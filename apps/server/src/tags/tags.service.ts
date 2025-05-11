@@ -7,8 +7,8 @@ import {
   TagInputDto,
   TagMetadataDto,
   TagUpdateDto,
-} from '../schemas/tags.schema';
-import { PaginationQueryDTO } from '../schemas/query-schema';
+} from '../products/schemas/tags.schema';
+import { PaginationQueryDTO } from '../products/schemas/query-schema';
 
 @Injectable()
 export class TagsService {
@@ -114,7 +114,7 @@ export class TagsService {
     }
   }
 
-  async attachTagsToProduct(
+  async connectToProduct(
     tx: Prisma.TransactionClient | PrismaService,
     productId: string,
     tagIds: string[],

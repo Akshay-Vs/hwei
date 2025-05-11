@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TagsController } from './tags/tags.controller';
-import { TagsService } from './tags/tags.service';
+import { TagsController } from '../tags/tags.controller';
+import { TagsService } from '../tags/tags.service';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { VariantsController } from './variants/variants.controller';
 import { VariantsService } from './variants/variants.service';
