@@ -182,7 +182,7 @@ model VariantCombination {
   options VariantCombinationOption[]
   prices  Price[]
 
-  @@unique([productId, id])
+  @@unique([productId, sku])
   @@index([productId, createdAt])
 }
 
