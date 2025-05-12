@@ -45,3 +45,37 @@ export class CombinationUpdateDto extends createZodDto(
   combinationUpdateSchema,
 ) {}
 //#endregion
+
+//#region label
+export const labelMetadataSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export const labelRelationSchema = z.object({
+  productId: z.string().uuid(),
+});
+
+export const labelBaseSchema = z.object({
+  name: z.string().min(1),
+  hasThumbnail: z.boolean(),
+  sortOrder: z.number().int().min(0),
+});
+
+export const labelInputSchema = labelBaseSchema.merge(labelRelationSchema);
+export const labelUpdateSchema = labelBaseSchema.partial();
+export const labelSchema = labelMetadataSchema.merge(labelInputSchema);
+
+export type LabelBase = z.infer<typeof labelBaseSchema>;
+export type LabelMetadata = z.infer<typeof labelMetadataSchema>;
+export type LabelRelation = z.infer<typeof labelRelationSchema>;
+export type LabelInput = z.infer<typeof labelInputSchema>;
+export type LabelUpdate = z.infer<typeof labelUpdateSchema>;
+export type Label = z.infer<typeof labelSchema>;
+
+export class LabelBaseDto extends createZodDto(labelBaseSchema) {}
+export class LabelMetadataDto extends createZodDto(labelMetadataSchema) {}
+export class LabelRelationDto extends createZodDto(labelRelationSchema) {}
+export class LabelInputDto extends createZodDto(labelInputSchema) {}
+export class LabelUpdateDto extends createZodDto(labelUpdateSchema) {}
+export class LabelDto extends createZodDto(labelSchema) {}
+//#endregion
