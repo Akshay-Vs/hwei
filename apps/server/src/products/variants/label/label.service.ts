@@ -96,7 +96,7 @@ export class LabelService {
     }
   }
 
-  async DeleteOne(tx: Prisma.TransactionClient, id: string): Promise<void> {
+  async deleteOne(tx: Prisma.TransactionClient, id: string): Promise<void> {
     try {
       await tx.variantLabel.delete({ where: { id } });
     } catch (error) {
