@@ -79,11 +79,12 @@ export class LabelService {
   async updateOne(
     tx: Prisma.TransactionClient,
     id: string,
+    productId: string,
     input: LabelUpdateDto,
   ): Promise<Label> {
     try {
       return await tx.variantLabel.update({
-        where: { id },
+        where: { id, productId },
         data: input,
       });
     } catch (error) {
