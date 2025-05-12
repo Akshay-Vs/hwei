@@ -96,9 +96,13 @@ export class LabelService {
     }
   }
 
-  async deleteOne(tx: Prisma.TransactionClient, id: string): Promise<void> {
+  async deleteOne(
+    tx: Prisma.TransactionClient,
+    id: string,
+    productId: string,
+  ): Promise<void> {
     try {
-      await tx.variantLabel.delete({ where: { id } });
+      await tx.variantLabel.delete({ where: { id, productId } });
     } catch (error) {
       return handleInternalError({
         error,
