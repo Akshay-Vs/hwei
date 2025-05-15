@@ -5,12 +5,8 @@
 			"path": ".."
 		},
 		{
-			"name": "🚀 web",
+			"name": "</> web",
 			"path": "../apps/web"
-		},
-		{
-			"name": "📦 hermes-mq",
-			"path": "../packages/hermes-mq"
 		},
 		{
 			"name": "🚀 server",
