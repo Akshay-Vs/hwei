@@ -22,7 +22,15 @@
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@common/*": ["./src/common/*"],
+      "@database/*": ["./src/common/database/*"],
+      "@decorators/*": ["./src/common/decorators/*"],
+      "@guards/*": ["./src/common/guards/*"],
+      "@interfaces/*": ["./src/common/interfaces/*"],
+      "@pipes/*": ["./src/common/pipes/*"],
+      "@providers/*": ["./src/common/providers/*"],
+      "@errors/*": ["./src/common/errors/*"]
     }
   }
 }
