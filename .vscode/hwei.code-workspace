@@ -13,5 +13,7 @@
 			"path": "../apps/server"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"prismaERDPreviewer.preferredTheme": "dark"
+	}
 }
