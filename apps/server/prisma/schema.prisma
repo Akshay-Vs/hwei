@@ -145,9 +145,11 @@ model VariantImage {
   id            String             @id @default(cuid())
   combinationId String
   imageUrl      String             @db.VarChar(255)
+  imageAlt      String?            @db.VarChar(255)
   sortOrder     Int
-  variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
 
+  @@unique([id, combinationId])
   @@index([combinationId, sortOrder])
 }
 
@@ -176,7 +178,7 @@ model VariantPricing {
   combinationId String             @unique
   price         Int
   currencyId    String
-  variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
   currency      Currency           @relation(fields: [currencyId], references: [id])
 
   @@index([currencyId])
@@ -187,7 +189,7 @@ model VariantInventory {
   id            String             @id @default(cuid())
   combinationId String             @unique
   stock         Int
-  variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
 }
 
 model VariantCombinationOption {
@@ -253,9 +255,9 @@ model PromotionScope {
 }
 
 model VariantPromotion {
-  id          String @id @default(cuid())
-  combinationId   String
-  promotionId String
+  id            String @id @default(cuid())
+  combinationId String
+  promotionId   String
 
   variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
   promotion Promotion          @relation(fields: [promotionId], references: [id], onDelete: Cascade)
