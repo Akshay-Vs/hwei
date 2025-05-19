@@ -1,7 +1,7 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { PrismaService } from '@database/prisma.service';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import {
   CombinationInputDto,
   CombinationUpdateDto,

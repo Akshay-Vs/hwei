@@ -1,13 +1,13 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 
 @Injectable()
 export class CombinationOptionService {
   private readonly entity = 'CombinationOption';
   private readonly logger = new Logger(CombinationOptionService.name);
 
-  async attatchCombinationOption(
+  async attachCombinationOption(
     tx: Prisma.TransactionClient,
     combinationId: string,
     optionId: string,

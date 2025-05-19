@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { LabelService } from './label.service';
 import { FindAllDocs, FindOneDocs } from './label.docs';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { PublicRoute } from '@decorators/public-route.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('label')

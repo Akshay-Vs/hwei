@@ -1,11 +1,11 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CombinationService } from './combination.service';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { PublicRoute } from '@decorators/public-route.decorator';
 import { FindAllDocs, FindOneDocs } from './combination.docs';
 
 @Controller('combination')
-@ApiTags('varient-combination')
+@ApiTags('variant-combination')
 @ApiBearerAuth('swagger-access-token')
 export class CombinationController {
   constructor(private readonly combinationService: CombinationService) {}

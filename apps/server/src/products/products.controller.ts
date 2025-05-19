@@ -10,14 +10,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { PublicRoute } from '@decorators/public-route.decorator';
 import {
   PaginationQueryDTO,
   paginationQuerySchema,
 } from './schemas/query-schema';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
   ProductInputDto,
   productInputSchema,

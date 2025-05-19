@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
+import { PrismaService } from '@database/prisma.service';
 import {
   ProductDto,
   ProductInputDto,
   ProductUpdateDto,
 } from './schemas/products.schema';
 import { PaginationQueryDTO } from './schemas/query-schema';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import { Prisma } from '@/generated';
 
 @Injectable()

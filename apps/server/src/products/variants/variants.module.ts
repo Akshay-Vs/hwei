@@ -6,7 +6,7 @@ import { OptionService } from './option/option.service';
 import { CombinationController } from './combination/combination.controller';
 import { CombinationService } from './combination/combination.service';
 import { CombinationOptionService } from './combination-option/combination-option.service';
-import { PrismaService } from 'src/common/database/prisma.service';
+import { PrismaService } from '@database/prisma.service';
 @Module({
   providers: [
     LabelService,

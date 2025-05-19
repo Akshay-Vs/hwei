@@ -16,8 +16,8 @@ import {
   UpdateCategoryDto,
 } from './schemas/categories.schema';
 
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
-import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { PublicRoute } from '@decorators/public-route.decorator';
+import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
   CreateOneDocs,
   DeleteOneDocs,

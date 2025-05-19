@@ -11,8 +11,8 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
-import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { PublicRoute } from '@decorators/public-route.decorator';
+import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
   CreateOneDocs,
   DeleteOneDocs,

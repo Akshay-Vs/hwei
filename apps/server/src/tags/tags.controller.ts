@@ -18,8 +18,8 @@ import {
   TagUpdateDto,
   tagUpdateSchema,
 } from '../products/schemas/tags.schema';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
+import { PublicRoute } from '@decorators/public-route.decorator';
 import {
   CreateManyDocs,
   DeleteOneDocs,

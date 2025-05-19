@@ -1,16 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { ClerkClientProvider } from './common/providers/clerk-client.provider';
+import { ClerkClientProvider } from '@providers/clerk-client.provider';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ClerkAuthGuard } from './auth/guards/clerk-auth.guard';
-import { PrismaService } from './common/database/prisma.service';
+import { PrismaService } from '@database/prisma.service';
 import { StoresModule } from './stores/stores.module';
 import { ProductsModule } from './products/products.module';
 import { BrandsModule } from './brands/brands.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
+import { PriceController } from './price/price.controller';
+import { PriceService } from './price/price.service';
+import { PriceModule } from './price/price.module';
 
 @Module({
   imports: [
@@ -33,6 +36,7 @@ import { TagsModule } from './tags/tags.module';
     BrandsModule,
     CategoriesModule,
     TagsModule,
+    PriceModule,
   ],
 
   providers: [
@@ -42,8 +46,9 @@ import { TagsModule } from './tags/tags.module';
       provide: APP_GUARD,
       useClass: ClerkAuthGuard,
     },
+    PriceService,
   ],
 
-  controllers: [],
+  controllers: [PriceController],
 })
 export class AppModule {}
