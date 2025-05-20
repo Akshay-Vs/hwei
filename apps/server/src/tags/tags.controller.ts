@@ -67,16 +67,18 @@ export class TagsController {
   @Patch(':id')
   @UpdateOneDocs()
   update(
-    @Param('id') id: string,
+    @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
     @Body(new ZodValidationPipe(tagUpdateSchema)) input: TagUpdateDto,
   ) {
-    return this.tagsService.updateOne(id, input);
+    return this.tagsService.updateOne(params.id, input);
   }
 
   @Delete(':id')
   @DeleteOneDocs()
   // TODO: add super admin auth guard
-  remove(@Param('id') id: string) {
-    return this.tagsService.deleteOne(id);
+  remove(
+    @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
+  ) {
+    return this.tagsService.deleteOne(params.id);
   }
 }

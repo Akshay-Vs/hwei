@@ -1,25 +1,30 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
-import { handleInternalError } from '@errors/handlers/internal.error.handler';
+import { BaseService } from 'src/common/services/base.service';
+import { PaginationQueryDTO } from '../products/schemas/query-schema';
 import {
   Tag,
   TagInputDto,
-  TagMetadataDto,
-  TagUpdateDto,
+  TagMetadata,
+  TagUpdate,
 } from '../products/schemas/tags.schema';
-import { PaginationQueryDTO } from '../products/schemas/query-schema';
 
 @Injectable()
-export class TagsService {
-  private readonly logger = new Logger(TagsService.name);
-  private readonly entity = 'Tag';
+export class TagsService extends BaseService {
+  protected readonly logger = new Logger(TagsService.name);
+  protected readonly entity = 'Tag';
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) {
+    super(prisma);
+  }
 
   async findAll(query: PaginationQueryDTO): Promise<Tag[]> {
-    try {
-      return await this.prisma.tag.findMany({
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Finding all tags with query: ${JSON.stringify(query)}`,
+      );
+      const res = await this.getClient().tag.findMany({
         where: {
           name: {
             contains: query.search,
@@ -29,54 +34,62 @@ export class TagsService {
         skip: query.skip,
         take: query.take,
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Found ${res.length} tags`);
+      return res;
+    });
   }
 
-  async findOne(params: TagMetadataDto): Promise<Tag | null> {
-    try {
-      return await this.prisma.tag.findUnique({ where: { id: params.id } });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
+  async findOne(params: TagMetadata): Promise<Tag | null> {
+    return await this.execute(async () => {
+      this.logger.debug(`Finding tag with id: ${params.id}`);
+      const res = await this.getClient().tag.findUnique({
+        where: { id: params.id },
       });
-    }
+      this.logger.debug(
+        res ? `Found tag ${params.id}` : `Tag ${params.id} not found`,
+      );
+      return res;
+    });
   }
 
   async createMany(input: TagInputDto): Promise<Tag[]> {
-    try {
-      await this.prisma.tag.createMany({
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Creating multiple tags: ${JSON.stringify(input.names)}`,
+      );
+      const client = this.getClient();
+
+      await client.tag.createMany({
         data: input.names.map((name) => ({ name })),
         skipDuplicates: true,
       });
-      return await this.prisma.tag.findMany({
+
+      const res = await client.tag.findMany({
         where: { name: { in: input.names } },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Created/Retrieved ${res.length} tags`);
+
+      return res;
+    });
   }
 
   async resolveTagIds(names: string[]): Promise<string[]> {
-    try {
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Resolving tag IDs for names: ${JSON.stringify(names)}`,
+      );
       await this.prisma.$transaction(async (tx) => {
         const existing = await tx.tag.findMany({
           where: { name: { in: names } },
         });
+
         const existingNames = new Set(existing.map((t) => t.name));
         const missing = names.filter((name) => !existingNames.has(name));
+
         if (missing.length > 0) {
+          this.logger.debug(
+            `Creating missing tags: ${JSON.stringify(missing)}`,
+          );
           await tx.tag.createMany({
             data: missing.map((name) => ({ name })),
             skipDuplicates: true,
@@ -84,34 +97,26 @@ export class TagsService {
         }
       });
 
-      const final = await this.prisma.tag.findMany({
+      const final = await this.getClient().tag.findMany({
         where: { name: { in: names } },
       });
+      this.logger.debug(`Resolved ${final.length} tag IDs`);
       return final.map((t) => t.id);
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    });
   }
 
   async getProductTags(
     productId: string,
   ): Promise<({ tag: Tag } & { productId: string })[]> {
-    try {
-      return await this.prisma.productTag.findMany({
+    return await this.execute(async () => {
+      this.logger.debug(`Getting tags for product: ${productId}`);
+      const res = await this.getClient().productTag.findMany({
         where: { productId },
         include: { tag: true },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Found ${res.length} tags for product ${productId}`);
+      return res;
+    });
   }
 
   async connectToProduct(
@@ -119,44 +124,39 @@ export class TagsService {
     productId: string,
     tagIds: string[],
   ): Promise<Prisma.BatchPayload> {
-    try {
-      return await tx.productTag.createMany({
+    return this.execute(async () => {
+      this.logger.debug(
+        `Connecting tags ${JSON.stringify(tagIds)} to product ${productId}`,
+      );
+      const res = await this.getClient(tx).productTag.createMany({
         data: tagIds.map((tagId) => ({ productId, tagId })),
         skipDuplicates: true,
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Connected ${res.count} tags to product ${productId}`);
+      return res;
+    });
   }
 
-  async updateOne(id: string, input: TagUpdateDto): Promise<Tag> {
-    try {
-      return await this.prisma.tag.update({
+  async updateOne(id: string, input: TagUpdate): Promise<Tag> {
+    return this.execute(async () => {
+      this.logger.debug(
+        `Updating tag ${id} with data: ${JSON.stringify(input)}`,
+      );
+      const res = await this.getClient().tag.update({
         where: { id },
         data: { name: input.name },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Updated tag ${id}`);
+      return res;
+    });
   }
 
   async deleteOne(id: string): Promise<Tag> {
-    try {
-      return await this.prisma.tag.delete({ where: { id } });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    return this.execute(async () => {
+      this.logger.debug(`Deleting tag ${id}`);
+      const res = await this.getClient().tag.delete({ where: { id } });
+      this.logger.debug(`Deleted tag ${id}`);
+      return res;
+    });
   }
 }
