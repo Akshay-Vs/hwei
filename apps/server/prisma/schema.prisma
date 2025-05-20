@@ -25,11 +25,11 @@ model Store {
   products   Product[]
   brands     Brand[]
   categories Category[]
-  currencies Currency[] // Added currencies relationship
+  currencies Currency[]
 
   @@unique([userId, name])
   @@index([userId])
-  @@index([slug]) // Added index on slug for faster lookups
+  @@index([slug])
 }
 
 //#endregion
@@ -41,7 +41,7 @@ model Product {
   storeId     String
   store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   title       String    @db.VarChar(200)
-  description String    @db.Text // Changed from VarChar(5000) to Text for longer descriptions
+  description String    @db.Text
   minOrder    Int
   maxOrder    Int
   brandId     String
@@ -69,8 +69,8 @@ model Product {
 model Brand {
   id          String    @id @default(cuid())
   name        String    @db.VarChar(100)
-  image       String?   @db.VarChar(255) // Increased from 200 to 255 for standard URL length
-  description String?   @db.Text // Changed from VarChar(5000) to Text
+  image       String?   @db.VarChar(255)
+  description String?   @db.Text
   storeId     String
   store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products    Product[]
@@ -153,7 +153,6 @@ model VariantImage {
   @@index([combinationId, sortOrder])
 }
 
-// Split VariantCombination into separate tables for better 5NF
 model VariantCombination {
   id        String    @id @default(cuid())
   productId String
@@ -172,7 +171,6 @@ model VariantCombination {
   @@index([productId])
 }
 
-// Separated pricing information
 model VariantPricing {
   id            String             @id @default(cuid())
   combinationId String             @unique
@@ -184,7 +182,6 @@ model VariantPricing {
   @@index([currencyId])
 }
 
-// Separated inventory information
 model VariantInventory {
   id            String             @id @default(cuid())
   combinationId String             @unique
@@ -206,7 +203,6 @@ model VariantCombinationOption {
 //#endregion
 
 //#region Currency
-// Added Currency model
 model Currency {
   id       String           @id @default(cuid())
   code     String           @unique @db.VarChar(3) // ISO 4217 currency code (USD, EUR, etc.)
@@ -239,7 +235,7 @@ model Promotion {
   scopes       PromotionScope[]
   variantLinks VariantPromotion[]
 
-  @@index([startDate, endDate]) // Added index for date range queries
+  @@index([startDate, endDate])
 }
 
 model PromotionScope {
