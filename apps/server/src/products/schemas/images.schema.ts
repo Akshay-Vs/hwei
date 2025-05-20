@@ -11,7 +11,7 @@ export const ImageRelationsSchema = z.object({
 
 export const ImageBaseSchema = z.object({
   imageUrl: z.string().min(1).url(),
-  imageAtl: z.string().optional(),
+  imageAlt: z.string().nullable(),
   sortOrder: z.number().int(),
 });
 
