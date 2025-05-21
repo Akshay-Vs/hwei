@@ -1,24 +1,32 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
+import { BaseService } from 'src/common/services/base.service';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/common/errors/handlers/internal.error.handler';
-import { ImageInput } from 'src/products/schemas/images.schema';
 import { PaginationQuery } from 'src/products/schemas/query-schema';
+import {
+  Image,
+  ImageInput,
+  ImageUpdate,
+} from 'src/products/schemas/images.schema';
 
 @Injectable()
-export class ImageService {
-  private readonly entity = 'Image';
-  private readonly logger = new Logger(ImageService.name);
+export class ImageService extends BaseService {
+  protected readonly entity = 'variantImage';
+  protected readonly logger = new Logger(ImageService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) {
+    super(prisma);
+  }
 
-  async findAll(
+  async findByCombination(
     combinationId: string,
     input: PaginationQuery,
-  ): Promise<ImageInput[]> {
-    try {
-      this.logger.debug(`Fetching all images for variant ${combinationId}`);
-      return await this.prisma.variantImage.findMany({
+  ): Promise<Image[]> {
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Finding images for combination ${combinationId} with pagination: ${JSON.stringify(input)}`,
+      );
+      const result = await this.getClient().variantImage.findMany({
         where: {
           combinationId,
         },
@@ -28,100 +36,109 @@ export class ImageService {
           sortOrder: 'asc',
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(
+        `Found ${result.length} images for combination ${combinationId}`,
+      );
+      return result;
+    });
   }
 
-  async findOne(id: string, combinationId: string): Promise<ImageInput> {
-    try {
-      return await this.prisma.variantImage.findUniqueOrThrow({
+  async findByCombinationTx(
+    tx: Prisma.TransactionClient,
+    combinationId: string,
+  ): Promise<Image[]> {
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Finding images for combination ${combinationId} in transaction`,
+      );
+      const result = await this.getClient(tx).variantImage.findMany({
+        where: {
+          combinationId,
+        },
+      });
+      this.logger.debug(
+        `Found ${result.length} images for combination ${combinationId} in transaction`,
+      );
+      return result;
+    });
+  }
+
+  async findOne(id: string, combinationId: string): Promise<Image> {
+    return this.execute(async () => {
+      this.logger.debug(
+        `Finding image with id ${id} for combination ${combinationId}`,
+      );
+      const result = await this.getClient().variantImage.findUniqueOrThrow({
         where: {
           id,
           combinationId,
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Found image ${id} for combination ${combinationId}`);
+      return result;
+    });
   }
 
   async createOne(
     tx: Prisma.TransactionClient,
     data: ImageInput,
-  ): Promise<ImageInput> {
-    try {
-      return await tx.variantImage.create({
+  ): Promise<Image> {
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Creating new image in transaction: ${JSON.stringify(data)}`,
+      );
+      const result = await this.getClient(tx).variantImage.create({
         data,
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Created new image with id ${result.id}`);
+      return result;
+    });
   }
 
   async updateOne(
     tx: Prisma.TransactionClient,
     id: string,
-    data: ImageInput,
-  ): Promise<ImageInput> {
-    try {
-      return await tx.variantImage.update({
+    data: ImageUpdate,
+  ): Promise<Image> {
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Updating image ${id} in transaction: ${JSON.stringify(data)}`,
+      );
+      const result = await this.getClient(tx).variantImage.update({
         where: { id },
         data,
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Updated image ${id}`);
+      return result;
+    });
   }
-  async deleteOne(
-    tx: Prisma.TransactionClient,
-    id: string,
-  ): Promise<ImageInput> {
-    try {
-      return await tx.variantImage.delete({
+
+  async deleteOne(tx: Prisma.TransactionClient, id: string): Promise<Image> {
+    return await this.execute(async () => {
+      this.logger.debug(`Deleting image ${id} in transaction`);
+      const result = await this.getClient(tx).variantImage.delete({
         where: { id },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Deleted image ${id}`);
+      return result;
+    });
   }
 
   async deleteMany(
     tx: Prisma.TransactionClient,
     ids: string[],
   ): Promise<Prisma.BatchPayload> {
-    try {
-      return await tx.variantImage.deleteMany({
+    return await this.execute(async () => {
+      this.logger.debug(
+        `Deleting multiple images in transaction: ${JSON.stringify(ids)}`,
+      );
+      const result = await this.getClient(tx).variantImage.deleteMany({
         where: {
           id: { in: ids },
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+      this.logger.debug(`Deleted ${result.count} images`);
+      return result;
+    });
   }
 }
