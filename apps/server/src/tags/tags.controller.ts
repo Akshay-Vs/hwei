@@ -1,15 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
+import { PublicRoute } from '@decorators/public-route.decorator';
+
 import {
   TagInputDto,
   tagInputSchema,
@@ -18,8 +11,6 @@ import {
   TagUpdateDto,
   tagUpdateSchema,
 } from '../products/schemas/tags.schema';
-import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
-import { PublicRoute } from '@decorators/public-route.decorator';
 import {
   CreateManyDocs,
   DeleteOneDocs,
@@ -31,6 +22,16 @@ import {
   PaginationQueryDTO,
   paginationQuerySchema,
 } from '../products/schemas/query-schema';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
