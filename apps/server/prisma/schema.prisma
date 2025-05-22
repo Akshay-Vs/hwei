@@ -187,6 +187,10 @@ model VariantInventory {
   combinationId String             @unique
   stock         Int
   variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+
+  @@unique([id, combinationId])
+  @@index([combinationId])
+  @@index([stock])
 }
 
 model VariantCombinationOption {
