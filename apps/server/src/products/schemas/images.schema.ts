@@ -6,7 +6,7 @@ export const ImageMetadataSchema = z.object({
 });
 
 export const ImageRelationsSchema = z.object({
-  @variantId: z.string().cuid(),
+  combinationId: z.string().cuid(),
 });
 
 export const ImageBaseSchema = z.object({
@@ -24,7 +24,7 @@ export type ImageUpdate = z.infer<typeof ImageUpdateSchema>;
 export type Image = z.infer<typeof ImageSchema>;
 
 export class ImageCombinationDTO extends createZodDto(ImageRelationsSchema) {}
-export class Image@variantIdDTO extends createZodDto(
+export class ImageCombinationIdDTO extends createZodDto(
   ImageMetadataSchema.merge(ImageRelationsSchema),
 ) {}
 export class ImageInputDTO extends createZodDto(ImageInputSchema) {}
