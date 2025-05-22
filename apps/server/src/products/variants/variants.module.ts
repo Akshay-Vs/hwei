@@ -7,20 +7,29 @@ import { CombinationController } from './combination/combination.controller';
 import { CombinationService } from './combination/combination.service';
 import { CombinationOptionService } from './combination-option/combination-option.service';
 import { PrismaService } from '@database/prisma.service';
+import { ImageService } from './image/image.service';
+import { ImageController } from './image/image.controller';
 @Module({
   providers: [
     LabelService,
     OptionService,
     CombinationService,
     CombinationOptionService,
+    ImageService,
     PrismaService,
   ],
-  controllers: [LabelController, OptionController, CombinationController],
+  controllers: [
+    LabelController,
+    OptionController,
+    CombinationController,
+    ImageController,
+  ],
   exports: [
     LabelService,
     OptionService,
     CombinationService,
     CombinationOptionService,
+    ImageService,
   ],
 })
 export class VariantsModule {}
