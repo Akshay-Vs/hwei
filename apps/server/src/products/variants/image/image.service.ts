@@ -18,53 +18,50 @@ export class ImageService extends BaseService {
     super(prisma);
   }
 
+  async _findImage(
+    combinationId: string,
+    pagination: PaginationQuery,
+    tx?: Prisma.TransactionClient,
+  ) {
+    this.logger.debug(
+      `Finding image for combination ${combinationId} with pagination: ${JSON.stringify(
+        pagination,
+      )}${tx ? ' in transaction' : ''}`,
+    );
+    const result = await this.getClient(tx).variantImage.findMany({
+      where: {
+        combinationId,
+      },
+      skip: pagination.skip,
+      take: pagination.take,
+    });
+    this.logger.debug(
+      `Found image for combination ${combinationId}${tx ? ' in transaction' : ''}`,
+    );
+    return result;
+  }
+
   async findByCombination(
     combinationId: string,
-    input: PaginationQuery,
+    pagination: PaginationQuery,
   ): Promise<Image[]> {
-    return await this.execute(async () => {
-      this.logger.debug(
-        `Finding images for combination ${combinationId} with pagination: ${JSON.stringify(input)}`,
-      );
-      const result = await this.getClient().variantImage.findMany({
-        where: {
-          combinationId,
-        },
-        skip: input.skip,
-        take: input.take,
-        orderBy: {
-          sortOrder: 'asc',
-        },
-      });
-      this.logger.debug(
-        `Found ${result.length} images for combination ${combinationId}`,
-      );
-      return result;
-    });
+    return await this.withErrorHandling(async () =>
+      this._findImage(combinationId, pagination),
+    );
   }
 
   async findByCombinationTx(
     tx: Prisma.TransactionClient,
     combinationId: string,
+    pagination: PaginationQuery,
   ): Promise<Image[]> {
-    return await this.execute(async () => {
-      this.logger.debug(
-        `Finding images for combination ${combinationId} in transaction`,
-      );
-      const result = await this.getClient(tx).variantImage.findMany({
-        where: {
-          combinationId,
-        },
-      });
-      this.logger.debug(
-        `Found ${result.length} images for combination ${combinationId} in transaction`,
-      );
-      return result;
-    });
+    return await this.withErrorHandling(async () =>
+      this._findImage(combinationId, pagination, tx),
+    );
   }
 
   async findOne(id: string, combinationId: string): Promise<Image> {
-    return this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Finding image with id ${id} for combination ${combinationId}`,
       );
@@ -83,7 +80,7 @@ export class ImageService extends BaseService {
     tx: Prisma.TransactionClient,
     data: ImageInput,
   ): Promise<Image> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Creating new image in transaction: ${JSON.stringify(data)}`,
       );
@@ -100,7 +97,7 @@ export class ImageService extends BaseService {
     id: string,
     data: ImageUpdate,
   ): Promise<Image> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Updating image ${id} in transaction: ${JSON.stringify(data)}`,
       );
@@ -114,7 +111,7 @@ export class ImageService extends BaseService {
   }
 
   async deleteOne(tx: Prisma.TransactionClient, id: string): Promise<Image> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(`Deleting image ${id} in transaction`);
       const result = await this.getClient(tx).variantImage.delete({
         where: { id },
@@ -128,7 +125,7 @@ export class ImageService extends BaseService {
     tx: Prisma.TransactionClient,
     ids: string[],
   ): Promise<Prisma.BatchPayload> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Deleting multiple images in transaction: ${JSON.stringify(ids)}`,
       );

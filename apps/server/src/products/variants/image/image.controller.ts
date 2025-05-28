@@ -18,7 +18,7 @@ import {
   FindOneByCombinationDocs,
 } from './image.docs';
 
-@ApiTags('variant -images')
+@ApiTags('variant-images')
 @ApiBearerAuth('swagger-access-token')
 @Controller('image')
 export class ImageController {
