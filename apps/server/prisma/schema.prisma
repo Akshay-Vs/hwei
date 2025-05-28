@@ -188,8 +188,6 @@ model VariantInventory {
   stock         Int
   variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
 
-  @@unique([id, combinationId])
-  @@index([combinationId])
   @@index([stock])
 }
 
