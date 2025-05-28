@@ -13,7 +13,7 @@ export abstract class BaseService {
     return tx ?? this.prisma;
   }
 
-  protected async execute<T>(fn: () => Promise<T>): Promise<T> {
+  protected async withErrorHandling<T>(fn: () => Promise<T>): Promise<T> {
     try {
       return await fn();
     } catch (error) {
