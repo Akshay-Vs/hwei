@@ -35,9 +35,6 @@ export class ImageService extends BaseService {
       skip: pagination.skip,
       take: pagination.take,
     });
-    this.logger.debug(
-      `Found image for combination ${combinationId}${tx ? ' in transaction' : ''}`,
-    );
     return result;
   }
 
@@ -71,7 +68,6 @@ export class ImageService extends BaseService {
           combinationId,
         },
       });
-      this.logger.debug(`Found image ${id} for combination ${combinationId}`);
       return result;
     });
   }
@@ -81,13 +77,10 @@ export class ImageService extends BaseService {
     data: ImageInput,
   ): Promise<Image> {
     return await this.withErrorHandling(async () => {
-      this.logger.debug(
-        `Creating new image in transaction: ${JSON.stringify(data)}`,
-      );
+      this.logger.debug(`Creating new image in transaction`);
       const result = await this.getClient(tx).variantImage.create({
         data,
       });
-      this.logger.debug(`Created new image with id ${result.id}`);
       return result;
     });
   }
@@ -98,14 +91,11 @@ export class ImageService extends BaseService {
     data: ImageUpdate,
   ): Promise<Image> {
     return await this.withErrorHandling(async () => {
-      this.logger.debug(
-        `Updating image ${id} in transaction: ${JSON.stringify(data)}`,
-      );
+      this.logger.debug(`Updating image ${id} in transaction`);
       const result = await this.getClient(tx).variantImage.update({
         where: { id },
         data,
       });
-      this.logger.debug(`Updated image ${id}`);
       return result;
     });
   }
@@ -116,7 +106,6 @@ export class ImageService extends BaseService {
       const result = await this.getClient(tx).variantImage.delete({
         where: { id },
       });
-      this.logger.debug(`Deleted image ${id}`);
       return result;
     });
   }
@@ -127,14 +116,13 @@ export class ImageService extends BaseService {
   ): Promise<Prisma.BatchPayload> {
     return await this.withErrorHandling(async () => {
       this.logger.debug(
-        `Deleting multiple images in transaction: ${JSON.stringify(ids)}`,
+        `Deleting multiple images in transaction ${JSON.stringify(ids)}`,
       );
       const result = await this.getClient(tx).variantImage.deleteMany({
         where: {
           id: { in: ids },
         },
       });
-      this.logger.debug(`Deleted ${result.count} images`);
       return result;
     });
   }
