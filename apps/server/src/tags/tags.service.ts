@@ -20,7 +20,7 @@ export class TagsService extends BaseService {
   }
 
   async findAll(query: PaginationQueryDTO): Promise<Tag[]> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Finding all tags with query: ${JSON.stringify(query)}`,
       );
@@ -40,20 +40,17 @@ export class TagsService extends BaseService {
   }
 
   async findOne(params: TagMetadata): Promise<Tag | null> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(`Finding tag with id: ${params.id}`);
       const res = await this.getClient().tag.findUnique({
         where: { id: params.id },
       });
-      this.logger.debug(
-        res ? `Found tag ${params.id}` : `Tag ${params.id} not found`,
-      );
       return res;
     });
   }
 
   async createMany(input: TagInputDto): Promise<Tag[]> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Creating multiple tags: ${JSON.stringify(input.names)}`,
       );
@@ -67,14 +64,13 @@ export class TagsService extends BaseService {
       const res = await client.tag.findMany({
         where: { name: { in: input.names } },
       });
-      this.logger.debug(`Created/Retrieved ${res.length} tags`);
 
       return res;
     });
   }
 
   async resolveTagIds(names: string[]): Promise<string[]> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Resolving tag IDs for names: ${JSON.stringify(names)}`,
       );
@@ -108,13 +104,12 @@ export class TagsService extends BaseService {
   async getProductTags(
     productId: string,
   ): Promise<({ tag: Tag } & { productId: string })[]> {
-    return await this.execute(async () => {
+    return await this.withErrorHandling(async () => {
       this.logger.debug(`Getting tags for product: ${productId}`);
       const res = await this.getClient().productTag.findMany({
         where: { productId },
         include: { tag: true },
       });
-      this.logger.debug(`Found ${res.length} tags for product ${productId}`);
       return res;
     });
   }
@@ -124,7 +119,7 @@ export class TagsService extends BaseService {
     productId: string,
     tagIds: string[],
   ): Promise<Prisma.BatchPayload> {
-    return this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Connecting tags ${JSON.stringify(tagIds)} to product ${productId}`,
       );
@@ -132,13 +127,12 @@ export class TagsService extends BaseService {
         data: tagIds.map((tagId) => ({ productId, tagId })),
         skipDuplicates: true,
       });
-      this.logger.debug(`Connected ${res.count} tags to product ${productId}`);
       return res;
     });
   }
 
   async updateOne(id: string, input: TagUpdate): Promise<Tag> {
-    return this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Updating tag ${id} with data: ${JSON.stringify(input)}`,
       );
@@ -146,16 +140,14 @@ export class TagsService extends BaseService {
         where: { id },
         data: { name: input.name },
       });
-      this.logger.debug(`Updated tag ${id}`);
       return res;
     });
   }
 
   async deleteOne(id: string): Promise<Tag> {
-    return this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(`Deleting tag ${id}`);
       const res = await this.getClient().tag.delete({ where: { id } });
-      this.logger.debug(`Deleted tag ${id}`);
       return res;
     });
   }
