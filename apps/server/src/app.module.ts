@@ -11,10 +11,7 @@ import { ProductsModule } from './products/products.module';
 import { BrandsModule } from './brands/brands.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
-import { PriceController } from './price/price.controller';
-import { PriceService } from './price/price.service';
-import { PriceModule } from './price/price.module';
-
+import { CurrencyModule } from './currency/currency.module';
 @Module({
   imports: [
     ThrottlerModule.forRoot({
@@ -36,7 +33,7 @@ import { PriceModule } from './price/price.module';
     BrandsModule,
     CategoriesModule,
     TagsModule,
-    PriceModule,
+    CurrencyModule,
   ],
 
   providers: [
@@ -46,9 +43,6 @@ import { PriceModule } from './price/price.module';
       provide: APP_GUARD,
       useClass: ClerkAuthGuard,
     },
-    PriceService,
   ],
-
-  controllers: [PriceController],
 })
 export class AppModule {}
