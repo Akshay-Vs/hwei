@@ -17,50 +17,26 @@ export class InventoryService extends BaseService {
     super(prisma);
   }
 
-  private async _findStock(
-    id: string,
-    combinationId: string,
-    filter: InventoryFilter,
-    tx?: Prisma.TransactionClient,
-  ) {
-    this.logger.debug(
-      `Getting stock for variant ${id} and combination ${combinationId}${tx ? ' in transaction' : ''}`,
-    );
-
-    const result = await this.getClient(tx).variantInventory.findUniqueOrThrow({
-      where: {
-        id,
-        combinationId,
-        ...(filter.stock !== undefined && {
-          stock: {
-            gte: filter.stock,
-          },
-        }),
-      },
-    });
-
-    this.logger.debug(
-      `Found stock for variant ${id} and combination ${combinationId}${tx ? ' in transaction' : ''}: ${JSON.stringify(result)}`,
-    );
-
-    return result;
-  }
-
   async findStock(id: string, combinationId: string, filter: InventoryFilter) {
-    return await this.execute(async () =>
-      this._findStock(id, combinationId, filter),
-    );
-  }
+    return this.withErrorHandling(async () => {
+      this.logger.debug(
+        `Getting stock for variant ${id} and combination ${combinationId}`,
+      );
 
-  async findStockTx(
-    tx: Prisma.TransactionClient,
-    id: string,
-    combinationId: string,
-    filter: InventoryFilter,
-  ) {
-    return await this.execute(async () =>
-      this._findStock(id, combinationId, filter, tx),
-    );
+      const result = await this.getClient().variantInventory.findFirstOrThrow({
+        where: {
+          id,
+          combinationId,
+          ...(filter.stock !== undefined && {
+            stock: {
+              gte: filter.stock,
+            },
+          }),
+        },
+      });
+
+      return result;
+    });
   }
 
   async createStockTx(
@@ -68,18 +44,13 @@ export class InventoryService extends BaseService {
     combinationId: string,
     input: InventoryInput,
   ) {
-    return await this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Creating stock for variant ${input.combinationId} and combination ${combinationId} with stock ${input.stock} in transaction`,
       );
       const result = await this.getClient(tx).variantInventory.create({
         data: input,
       });
-      this.logger.debug(
-        `Created stock for variant ${input.combinationId} and combination ${combinationId} with stock ${input.stock}: ${JSON.stringify(
-          result,
-        )}`,
-      );
       return result;
     });
   }
@@ -90,7 +61,7 @@ export class InventoryService extends BaseService {
     combinationId: string,
     input: InventoryUpdate,
   ) {
-    return await this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Updating stock for variant ${id} and combination ${combinationId} to ${input.stock} in transaction`,
       );
@@ -101,11 +72,6 @@ export class InventoryService extends BaseService {
         },
         data: input,
       });
-      this.logger.debug(
-        `Updated stock for variant ${id} and combination ${combinationId} to ${input.stock}: ${JSON.stringify(
-          result,
-        )}`,
-      );
       return result;
     });
   }
@@ -115,7 +81,7 @@ export class InventoryService extends BaseService {
     id: string,
     combinationId: string,
   ) {
-    return await this.execute(async () => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(
         `Deleting inventory for variant ${id} and combination ${combinationId} in transaction`,
       );
@@ -125,11 +91,6 @@ export class InventoryService extends BaseService {
           combinationId,
         },
       });
-      this.logger.debug(
-        `Deleted inventory for variant ${id} and combination ${combinationId}: ${JSON.stringify(
-          result,
-        )}`,
-      );
       return result;
     });
   }
