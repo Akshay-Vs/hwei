@@ -52,7 +52,7 @@ export class ImageService extends BaseService {
     });
   }
 
-  async createOne(
+  async createOneTx(
     tx: Prisma.TransactionClient,
     data: ImageInput,
   ): Promise<Image> {
@@ -60,6 +60,19 @@ export class ImageService extends BaseService {
       this.logger.debug(`Creating new image in transaction`);
       const result = await this.getClient(tx).productImage.create({
         data,
+      });
+      return result;
+    });
+  }
+
+  async createManyTx(
+    tx: Prisma.TransactionClient,
+    data: ImageInput[],
+  ): Promise<Prisma.BatchPayload> {
+    return await this.withErrorHandling(async () => {
+      this.logger.debug(`Creating new images in transaction`);
+      const result = await this.getClient(tx).productImage.createMany({
+        data: Object.values(data),
       });
       return result;
     });

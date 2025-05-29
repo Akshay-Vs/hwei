@@ -6,16 +6,16 @@ import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 import { FindAllByProductDocs, FindOneByProductDocs } from './image.docs';
 import {
   ImageMetadataDTO,
-  ImageMetadataSchema,
+  imageMetadataSchema,
   ImageRelationsDTO,
-  ImageRelationsSchema,
+  imageRelationsSchema,
 } from 'src/products/schemas/images.schema';
 import {
   BasicPaginationDTO,
   basicPaginationQuerySchema,
 } from 'src/products/schemas/query-schema';
 
-@ApiTags('variant-images')
+@ApiTags('product-images')
 @ApiBearerAuth('swagger-access-token')
 @Controller('image')
 export class ImageController {
@@ -25,7 +25,7 @@ export class ImageController {
   @FindAllByProductDocs()
   @Get(':productId')
   findAllByCombination(
-    @Param(new ZodValidationPipe(ImageRelationsSchema))
+    @Param(new ZodValidationPipe(imageRelationsSchema))
     params: ImageRelationsDTO,
     @Query(new ZodValidationPipe(basicPaginationQuerySchema))
     query: BasicPaginationDTO,
@@ -37,7 +37,7 @@ export class ImageController {
   @FindOneByProductDocs()
   @Get(':productId/:id')
   findOneByCombination(
-    @Param(new ZodValidationPipe(ImageMetadataSchema))
+    @Param(new ZodValidationPipe(imageMetadataSchema))
     params: ImageMetadataDTO,
   ) {
     return this.imageService.findOne(params.id, params.id);
