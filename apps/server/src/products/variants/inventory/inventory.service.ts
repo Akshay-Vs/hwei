@@ -39,14 +39,10 @@ export class InventoryService extends BaseService {
     });
   }
 
-  async createStockTx(
-    tx: Prisma.TransactionClient,
-    combinationId: string,
-    input: InventoryInput,
-  ) {
+  async createStockTx(tx: Prisma.TransactionClient, input: InventoryInput) {
     return this.withErrorHandling(async () => {
       this.logger.debug(
-        `Creating stock for variant ${input.combinationId} and combination ${combinationId} with stock ${input.stock} in transaction`,
+        `Creating stock for variant ${input.combinationId} with stock ${input.stock} in transaction`,
       );
       const result = await this.getClient(tx).variantInventory.create({
         data: input,
