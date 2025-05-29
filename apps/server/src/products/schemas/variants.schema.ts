@@ -25,12 +25,16 @@ export const combinationUpdateSchema = combinationInputSchema
   .omit({ productId: true })
   .partial();
 
+export const combinationSchema = combinationMetadataSchema.merge(
+  combinationInputSchema,
+);
+
 export type CombinationBase = z.infer<typeof combinationBaseSchema>;
 export type CombinationMetadata = z.infer<typeof combinationMetadataSchema>;
 export type CombinationRelation = z.infer<typeof combinationRelationSchema>;
 export type CombinationInput = z.infer<typeof combinationInputSchema>;
 export type CombinationUpdate = z.infer<typeof combinationUpdateSchema>;
-
+export type Combination = z.infer<typeof combinationSchema>;
 export class CombinationBaseDTO extends createZodDto(combinationBaseSchema) {}
 export class CombinationMetadataDTO extends createZodDto(
   combinationMetadataSchema,
@@ -89,6 +93,7 @@ export const optionRelationSchema = z.object({
 
 export const optionBaseSchema = z.object({
   name: z.string().min(1),
+  thumbnail: z.string().url().nullable(),
   sortOrder: z.number().int().min(0),
 });
 
