@@ -1,31 +1,34 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
+import { BaseService } from 'src/common/services/base.service';
+import { PrismaService } from 'src/common/database/prisma.service';
 
 @Injectable()
-export class CombinationOptionService {
-  private readonly entity = 'CombinationOption';
-  private readonly logger = new Logger(CombinationOptionService.name);
+export class CombinationOptionService extends BaseService {
+  protected readonly entity = 'CombinationOption';
+  protected readonly logger = new Logger(CombinationOptionService.name);
+
+  constructor(protected readonly prisma: PrismaService) {
+    super(prisma);
+  }
 
   async attachCombinationOption(
     tx: Prisma.TransactionClient,
     combinationId: string,
     optionId: string,
   ): Promise<void> {
-    try {
+    return this.withErrorHandling(async () => {
+      this.logger.debug(
+        `Attaching option ${optionId} to combination ${combinationId}`,
+      );
       await tx.variantCombinationOption.create({
         data: {
           combinationId,
           optionId,
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    });
   }
 
   async detachCombinationOption(
@@ -33,7 +36,10 @@ export class CombinationOptionService {
     combinationId: string,
     optionId: string,
   ): Promise<void> {
-    try {
+    return this.withErrorHandling(async () => {
+      this.logger.debug(
+        `Detaching option ${optionId} from combination ${combinationId}`,
+      );
       await tx.variantCombinationOption.delete({
         where: {
           combinationId_optionId: {
@@ -42,12 +48,6 @@ export class CombinationOptionService {
           },
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    });
   }
 }
