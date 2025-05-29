@@ -1,69 +1,65 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { PrismaService } from '@database/prisma.service';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import {
-  CombinationInputDto,
-  CombinationUpdateDto,
+  Combination,
+  CombinationInput,
+  CombinationUpdateDTO,
 } from 'src/products/schemas/variants.schema';
+import { BaseService } from 'src/common/services/base.service';
 
 @Injectable()
-export class CombinationService {
-  private readonly entity = 'Combination';
-  private readonly logger = new Logger(CombinationService.name);
+export class CombinationService extends BaseService {
+  protected readonly entity = 'Combination';
+  protected readonly logger = new Logger(CombinationService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(protected readonly prisma: PrismaService) {
+    super(prisma);
+  }
 
   async findAll(productId: string) {
-    try {
-      return await this.prisma.variantCombination.findMany({
+    return this.withErrorHandling(async () => {
+      this.logger.debug(`Finding all combinations for product ${productId}`);
+      return await this.getClient().variantCombination.findMany({
         where: {
           productId,
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    });
   }
 
   async findOne(productId: string, id: string) {
-    try {
-      return await this.prisma.variantCombination.findUniqueOrThrow({
+    return this.withErrorHandling(async () => {
+      this.logger.debug(`Finding combination ${id} for product ${productId}`);
+      return await this.getClient().variantCombination.findUniqueOrThrow({
         where: {
           id,
           productId,
         },
       });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    });
   }
 
-  async createOne(tx: Prisma.TransactionClient, input: CombinationInputDto) {
-    try {
-      return await tx.variantCombination.create({ data: input });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
+  async createTx(
+    tx: Prisma.TransactionClient,
+    input: CombinationInput,
+  ): Promise<Combination> {
+    return this.withErrorHandling(async () => {
+      this.logger.debug(
+        `Creating combination for product ${input.productId} in transaction`,
+      );
+      return await this.getClient(tx).variantCombination.create({
+        data: input,
       });
-    }
+    });
   }
 
   async updateOne(
     tx: Prisma.TransactionClient,
     productId: string,
     id: string,
-    input: CombinationUpdateDto,
+    input: CombinationUpdateDTO,
   ) {
     try {
       return await tx.variantCombination.update({

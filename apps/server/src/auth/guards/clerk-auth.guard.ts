@@ -2,7 +2,7 @@ import { ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { IS_PUBLIC_KEY } from 'src/common/decorators/public-route.decorator';
+import { IS_PUBLIC_KEY } from '@decorators/public-route.decorator';
 
 @Injectable()
 export class ClerkAuthGuard extends AuthGuard('clerk') {
@@ -23,7 +23,7 @@ export class ClerkAuthGuard extends AuthGuard('clerk') {
       return true;
     }
 
-    Logger.debug('Hit ptivate Route', 'AuthGuard');
+    Logger.debug('Hit private Route', 'AuthGuard');
     return super.canActivate(context);
   }
 }

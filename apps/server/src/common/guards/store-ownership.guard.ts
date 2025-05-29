@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Logger,
 } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
+import { PrismaService } from '@database/prisma.service';
 
 /**
  * Guard that verifies store ownership before allowing access to protected routes.

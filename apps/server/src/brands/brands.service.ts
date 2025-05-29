@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
+import { PrismaService } from '@database/prisma.service';
 import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 
 @Injectable()
 export class BrandsService {

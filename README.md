@@ -1,7 +1,7 @@
 <h1 align='center'>Hwei (Under development)</h1>
 <h3 align='center'>E-commerce Headless Dashboard</h3>
 
-Hwei is an open-source, production-grade, headless e-commerce solution tailored for small to medium businesses. Designed to be modular, scalable, and developer-friendly, Hwei provides a robust backend, an admin panel, and customizable APIs for seamless storefront integration. Whether you're looking to launch your next online store or manage an existing business, Hwei empowers you to build and scale efficiently.
+Hwei is an open-source, headless e-commerce solution tailored for small to medium businesses. Designed to be modular, scalable, and developer-friendly, Hwei provides a robust backend, an admin panel, and customizable APIs for seamless storefront integration. Whether you're looking to launch your next online store or manage an existing business, Hwei empowers you to build and scale efficiently.
 
 ---
 

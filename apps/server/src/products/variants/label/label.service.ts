@@ -1,11 +1,11 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { PrismaService } from '@database/prisma.service';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import {
   Label,
-  LabelInputDto,
-  LabelUpdateDto,
+  LabelInput,
+  LabelUpdateDTO,
 } from 'src/products/schemas/variants.schema';
 
 @Injectable()
@@ -42,9 +42,9 @@ export class LabelService {
     }
   }
 
-  async createOne(
+  async createTx(
     tx: Prisma.TransactionClient,
-    input: LabelInputDto,
+    input: LabelInput,
   ): Promise<Label> {
     try {
       return await tx.variantLabel.create({ data: input });
@@ -80,7 +80,7 @@ export class LabelService {
     tx: Prisma.TransactionClient,
     id: string,
     productId: string,
-    input: LabelUpdateDto,
+    input: LabelUpdateDTO,
   ): Promise<Label> {
     try {
       return await tx.variantLabel.update({

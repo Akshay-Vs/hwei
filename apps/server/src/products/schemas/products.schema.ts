@@ -30,13 +30,12 @@ export const productBaseSchema = z.object({
 
 const productFields = productBaseSchema.merge(productsRelationSchema);
 
-export const productInputSchema = productFields.refine(
-  ({ minOrder, maxOrder }) => maxOrder >= minOrder,
-  {
+export const productInputSchema = productFields
+  .omit({ storeId: true })
+  .refine(({ minOrder, maxOrder }) => maxOrder >= minOrder, {
     message: 'Maximum order must be greater than or equal to minimum order',
     path: ['maximumOrder'],
-  },
-);
+  });
 
 export const productUpdateSchema = productFields
   .partial()

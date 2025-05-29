@@ -19,5 +19,13 @@ export const paginationQuerySchema = z.object({
     .optional(),
 });
 
+// search omitted, without search field
+export const basicPaginationQuerySchema = paginationQuerySchema.omit({
+  search: true,
+});
+
 export type PaginationQuery = z.infer<typeof paginationQuerySchema>;
 export class PaginationQueryDTO extends createZodDto(paginationQuerySchema) {}
+export class BasicPaginationDTO extends createZodDto(
+  basicPaginationQuerySchema,
+) {}

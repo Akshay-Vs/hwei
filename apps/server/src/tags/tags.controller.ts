@@ -1,15 +1,8 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { TagsService } from './tags.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
+import { PublicRoute } from '@decorators/public-route.decorator';
+
 import {
   TagInputDto,
   tagInputSchema,
@@ -17,9 +10,7 @@ import {
   tagsMetadataSchema,
   TagUpdateDto,
   tagUpdateSchema,
-} from '../products/schemas/tags.schema';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+} from './schemas/tags.schema';
 import {
   CreateManyDocs,
   DeleteOneDocs,
@@ -31,6 +22,16 @@ import {
   PaginationQueryDTO,
   paginationQuerySchema,
 } from '../products/schemas/query-schema';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
@@ -67,16 +68,18 @@ export class TagsController {
   @Patch(':id')
   @UpdateOneDocs()
   update(
-    @Param('id') id: string,
+    @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
     @Body(new ZodValidationPipe(tagUpdateSchema)) input: TagUpdateDto,
   ) {
-    return this.tagsService.updateOne(id, input);
+    return this.tagsService.updateOne(params.id, input);
   }
 
   @Delete(':id')
   @DeleteOneDocs()
   // TODO: add super admin auth guard
-  remove(@Param('id') id: string) {
-    return this.tagsService.deleteOne(id);
+  remove(
+    @Param(new ZodValidationPipe(tagsMetadataSchema)) params: TagMetadataDto,
+  ) {
+    return this.tagsService.deleteOne(params.id);
   }
 }

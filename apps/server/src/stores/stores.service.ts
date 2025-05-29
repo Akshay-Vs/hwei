@@ -3,8 +3,8 @@ import slugify from 'slugify';
 import { v4 as uuid4 } from 'uuid';
 import { Injectable, Logger } from '@nestjs/common';
 
-import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { PrismaService } from '@database/prisma.service';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import { UpdateBrand } from 'src/brands/schemas/brands.schema';
 import { CreateStore } from './schemas/store.schema';
 

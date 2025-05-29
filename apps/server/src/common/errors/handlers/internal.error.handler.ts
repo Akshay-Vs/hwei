@@ -20,7 +20,7 @@ export const handleInternalError = ({
 }: InternalErrorHandlerProps): never => {
   if (error == null) {
     logger.error(
-      'An error occured, but the error object is null',
+      'An error occurred, but the error object is null',
       'InternalErrorHandler',
     );
     throw new InternalServerErrorException(`Operation failed unexpectedly`);

@@ -13,8 +13,8 @@ import {
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { User as ClerkUser } from '@clerk/backend';
 
-import { User } from 'src/common/decorators/user.decorator';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { User } from '@decorators/user.decorator';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
 import {
   CreateStoreDto,
   createStoreSchema,
@@ -28,7 +28,7 @@ import {
   FindOneDocs,
   UpdateOneDocs,
 } from './stores.docs';
-import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')

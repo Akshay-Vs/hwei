@@ -14,7 +14,7 @@ model Store {
   id        String    @id @default(cuid())
   name      String    @db.VarChar(100)
   slug      String    @unique @db.VarChar(100)
-  icon      String    @db.VarChar(40)
+  icon      String    @db.VarChar(100)
   isActive  Boolean   @default(true)
   version   Int       @default(1)
   userId    String    @db.VarChar(64)
@@ -25,10 +25,11 @@ model Store {
   products   Product[]
   brands     Brand[]
   categories Category[]
+  currencies Currency[]
 
   @@unique([userId, name])
   @@index([userId])
-  @@index([createdAt, id])
+  @@index([slug])
 }
 
 //#endregion
@@ -40,55 +41,42 @@ model Product {
   storeId     String
   store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   title       String    @db.VarChar(200)
-  description String    @db.VarChar(5000)
+  description String    @db.Text
   minOrder    Int
   maxOrder    Int
   brandId     String
   brand       Brand     @relation(fields: [brandId], references: [id], onDelete: Cascade)
   categoryId  String
   category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images     ProductImage[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
 
-  prices              Price[]
   tags                ProductTag[]
   variantLabels       VariantLabel[]
   variantCombinations VariantCombination[]
 
   @@unique([storeId, id])
-
   @@index([title])
-  @@index([createdAt, id])
+  @@index([brandId])
+  @@index([categoryId])
 }
 
 //#endregion
 
-//#region Price
+//#region Product Images
+model ProductImage {
+  id            String             @id @default(cuid())
+  imageUrl      String             @db.VarChar(255)
+  imageAlt      String?            @db.VarChar(255)
+  sortOrder     Int
+  productId     String
+  product       Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-model Price {
-  id                 String    @id @default(cuid())
-  label              String    @db.VarChar(50)
-  currency           String    @db.VarChar(3)
-  unitPrice          Decimal   @db.Decimal(10, 2)
-  discountPercentage Decimal   @db.Decimal(10, 2)
-  isDefault          Boolean   @default(false)
-  startDate          DateTime?
-  endDate            DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-
-  productId String?
-  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  variantId String?
-  variant   VariantCombination? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-
-  @@index([productId])
-  @@index([variantId])
-  @@index([isDefault])
+  @@unique([id, productId])
+  @@index([productId, sortOrder])
 }
-
 //#endregion
 
 //#region Brand & Category
@@ -96,8 +84,8 @@ model Price {
 model Brand {
   id          String    @id @default(cuid())
   name        String    @db.VarChar(100)
-  image       String?   @db.VarChar(200)
-  description String?   @db.VarChar(5000)
+  image       String?   @db.VarChar(255)
+  description String?   @db.Text
   storeId     String
   store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
   products    Product[]
@@ -158,8 +146,8 @@ model VariantLabel {
 
 model VariantOption {
   id             String                     @id @default(cuid())
-  label          String                     @db.VarChar(100)
-  image          String?                    @db.VarChar(255)
+  name          String                     @db.VarChar(100)
+  thumbnail      String?                    @db.VarChar(255)
   sortOrder      Int
   variantLabelId String
   labelOwner     VariantLabel               @relation(fields: [variantLabelId], references: [id], onDelete: Cascade)
@@ -169,21 +157,40 @@ model VariantOption {
 }
 
 model VariantCombination {
-  id         String    @id @default(cuid())
-  productId  String
-  product    Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
-  priceDelta Decimal   @db.Decimal(10, 2)
-  stock      Int
-  sku        String    @unique @db.VarChar(100)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
+  id        String    @id @default(cuid())
+  productId String
+  sku       String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
-  options VariantCombinationOption[]
-  prices  Price[]
+  product       Product                    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  options       VariantCombinationOption[]
+  pricing       VariantPricing?
+  inventory     VariantInventory?
+  promotions    VariantPromotion[]
 
-  @@unique([productId, sku])
-  @@index([productId, createdAt])
+  @@index([productId])
+}
+
+model VariantPricing {
+  id            String             @id @default(cuid())
+  combinationId String             @unique
+  price         Int
+  currencyId    String
+  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  currency      Currency           @relation(fields: [currencyId], references: [id])
+
+  @@index([currencyId])
+}
+
+model VariantInventory {
+  id            String             @id @default(cuid())
+  combinationId String             @unique
+  stock         Int
+  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+
+  @@index([stock])
 }
 
 model VariantCombinationOption {
@@ -198,3 +205,79 @@ model VariantCombinationOption {
 }
 
 //#endregion
+
+//#region Currency
+model Currency {
+  id       String           @id @default(cuid())
+  code     String           @unique @db.VarChar(3) // ISO 4217 currency code (USD, EUR, etc.)
+  label     String           @db.VarChar(50)
+  storeId  String
+  store    Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  pricings VariantPricing[]
+
+  @@unique([storeId, code])
+  @@index([storeId])
+}
+
+//#endregion
+
+//#region Promotions
+model Promotion {
+  id           String       @id @default(cuid())
+  name         String       @db.VarChar(100)
+  description  String?      @db.Text
+  discountType DiscountType
+  value        Int
+  minPurchase  Int?
+  maxPurchase  Int?
+  startDate    DateTime
+  endDate      DateTime
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  scopes       PromotionScope[]
+  variantLinks VariantPromotion[]
+
+  @@index([startDate, endDate])
+}
+
+model PromotionScope {
+  id          String    @id @default(cuid())
+  promotionId String
+  scopeType   ScopeType
+  targetId    String
+
+  promotion Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+
+  @@index([scopeType, targetId])
+  @@index([promotionId])
+}
+
+model VariantPromotion {
+  id            String @id @default(cuid())
+  combinationId String
+  promotionId   String
+
+  variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  promotion Promotion          @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+
+  @@unique([combinationId, promotionId])
+  @@index([promotionId])
+}
+
+//#endregion
+
+enum ScopeType {
+  GLOBAL
+  BRAND
+  CATEGORY
+  PRODUCT
+  VARIANT
+}
+
+enum DiscountType {
+  FIXED
+  PERCENTAGE
+
+  @@map("discount_type")
+}

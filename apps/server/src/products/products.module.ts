@@ -1,16 +1,24 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/common/database/prisma.service';
-import { PricesService } from './prices/prices.service';
-import { PricesController } from './prices/prices.controller';
+import { PrismaService } from '@database/prisma.service';
+import { PricingController } from './variants/pricing/pricing.controller';
 import { RouterModule } from '@nestjs/core';
 import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { TagsService } from 'src/tags/tags.service';
 import { VariantsModule } from './variants/variants.module';
+import { ImageService } from './image/image.service';
+import { PricingService } from './variants/pricing/pricing.service';
+import { ImageController } from './image/image.controller';
 
 @Module({
-  controllers: [PricesController, ProductsController],
-  providers: [PrismaService, PricesService, ProductsService, TagsService],
+  controllers: [PricingController, ProductsController, ImageController],
+  providers: [
+    PrismaService,
+    ProductsService,
+    TagsService,
+    ImageService,
+    PricingService,
+  ],
   imports: [
     VariantsModule,
     RouterModule.register([

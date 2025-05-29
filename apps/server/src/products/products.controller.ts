@@ -10,20 +10,24 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { PublicRoute } from 'src/common/decorators/public-route.decorator';
+import { PublicRoute } from '@decorators/public-route.decorator';
 import {
   PaginationQueryDTO,
   paginationQuerySchema,
 } from './schemas/query-schema';
-import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
+import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
   ProductInputDto,
   productInputSchema,
   ProductUpdateDto,
   productUpdateSchema,
 } from './schemas/products.schema';
+import {
+  productTransactionInput,
+  ProductTransactionInputDTO,
+} from './schemas/product-transaction';
 
 @ApiTags('products')
 @ApiBearerAuth('swagger-access-token')
@@ -50,20 +54,21 @@ export class ProductsController {
   @Post()
   @UseGuards(StoreOwnershipGuard)
   async createOne(
-    @Param('storeId') _storeId: string, //! only for swagger
-    @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto,
+    @Param('storeId') storeId: string,
+    @Body(new ZodValidationPipe(productTransactionInput))
+    input: ProductTransactionInputDTO,
   ) {
-    return await this.productsService.createOne(input);
+    return await this.productsService.createOne(storeId, input);
   }
 
-  @Post('/bulk')
-  @UseGuards(StoreOwnershipGuard)
-  async createMany(
-    @Param('storeId') _storeId: string, //! only for swagger
-    @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[],
-  ) {
-    return await this.productsService.createMany(input);
-  }
+  // @Post('/bulk')
+  // @UseGuards(StoreOwnershipGuard)
+  // async createMany(
+  //   @Param('storeId') _storeId: string, //! only for swagger
+  //   @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[],
+  // ) {
+  //   return await this.productsService.createMany(input);
+  // }
 
   @Patch(':id')
   @UseGuards(StoreOwnershipGuard)

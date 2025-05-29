@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { CreateCategory, UpdateCategory } from './schemas/categories.schema';
-import { PrismaService } from 'src/common/database/prisma.service';
-import { handleInternalError } from 'src/errors/handlers/internal.error.handler';
+import { PrismaService } from '@database/prisma.service';
+import { handleInternalError } from '@errors/handlers/internal.error.handler';
 
 @Injectable()
 export class CategoriesService {
