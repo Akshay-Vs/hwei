@@ -210,7 +210,7 @@ model VariantCombinationOption {
 model Currency {
   id       String           @id @default(cuid())
   code     String           @unique @db.VarChar(3) // ISO 4217 currency code (USD, EUR, etc.)
-  name     String           @db.VarChar(50)
+  label     String           @db.VarChar(50)
   storeId  String
   store    Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
   pricings VariantPricing[]
