@@ -24,6 +24,10 @@ import {
   ProductUpdateDto,
   productUpdateSchema,
 } from './schemas/products.schema';
+import {
+  productTransactionInput,
+  ProductTransactionInputDTO,
+} from './schemas/product-transaction';
 
 @ApiTags('products')
 @ApiBearerAuth('swagger-access-token')
@@ -50,20 +54,21 @@ export class ProductsController {
   @Post()
   @UseGuards(StoreOwnershipGuard)
   async createOne(
-    @Param('storeId') _storeId: string, //! only for swagger
-    @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto,
+    @Param('storeId') storeId: string,
+    @Body(new ZodValidationPipe(productTransactionInput))
+    input: ProductTransactionInputDTO,
   ) {
-    return await this.productsService.createOne(input);
+    return await this.productsService.createOne(storeId, input);
   }
 
-  @Post('/bulk')
-  @UseGuards(StoreOwnershipGuard)
-  async createMany(
-    @Param('storeId') _storeId: string, //! only for swagger
-    @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[],
-  ) {
-    return await this.productsService.createMany(input);
-  }
+  // @Post('/bulk')
+  // @UseGuards(StoreOwnershipGuard)
+  // async createMany(
+  //   @Param('storeId') _storeId: string, //! only for swagger
+  //   @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[],
+  // ) {
+  //   return await this.productsService.createMany(input);
+  // }
 
   @Patch(':id')
   @UseGuards(StoreOwnershipGuard)
