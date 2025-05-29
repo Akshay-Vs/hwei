@@ -27,8 +27,8 @@ export class CurrencyService extends BaseService {
       return this.getClient().currency.findMany({
         where: {
           storeId,
-          name: {
-            contains: pagination.name,
+          label: {
+            contains: pagination.label,
             mode: 'insensitive',
           },
           code: {
@@ -53,22 +53,33 @@ export class CurrencyService extends BaseService {
     });
   }
 
-  async create(data: CurrencyInput): Promise<Currency> {
+  async create(storeId: string, data: CurrencyInput): Promise<Currency> {
     return this.withErrorHandling(() => {
       this.logger.debug(`Creating currency: ${JSON.stringify(data.code)}`);
       return this.getClient().currency.create({
-        data,
+        data: {
+          ...data,
+          storeId,
+        },
       });
     });
   }
 
-  async createMany(data: CurrencyInput[]): Promise<Prisma.BatchPayload> {
+  async createMany(
+    storeId: string,
+    data: CurrencyInput[],
+  ): Promise<Prisma.BatchPayload> {
     return this.withErrorHandling(() => {
       this.logger.debug(
         `Creating currencies with data ${JSON.stringify(data)}`,
       );
       return this.getClient().currency.createMany({
-        data,
+        data: {
+          ...data.map((currency) => ({
+            ...currency,
+            storeId,
+          })),
+        },
       });
     });
   }

@@ -47,20 +47,20 @@ export class CurrencyController {
   @Post()
   @UseGuards(StoreOwnershipGuard)
   async create(
-    @Param('storeId') _storeId: string,
+    @Param('storeId') storeId: string,
     @Body(new ZodValidationPipe(currencyInputSchema)) input: currencyInputDTO,
   ) {
-    return this.currencyService.create(input);
+    return this.currencyService.create(storeId, input);
   }
 
   @Post('/bulk')
   @UseGuards(StoreOwnershipGuard)
   async createBulk(
-    @Param('storeId') _storeId: string,
+    @Param('storeId') storeId: string,
     @Body(new ZodValidationPipe(currencyInputManySchema))
     input: currencyInputDTO[],
   ) {
-    return this.currencyService.createMany(input);
+    return this.currencyService.createMany(storeId, input);
   }
 
   @Patch(':id')
