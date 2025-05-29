@@ -12,19 +12,16 @@ import { createZodDto } from '@anatine/zod-nestjs';
 
 export const productTransactionInput = z.object({
   metadata: productInputSchema,
-  images: imageInputSchema.omit({ productId: true }).array(),
+  images: z.array(imageInputSchema.omit({ productId: true })),
   variants: z.array(
     z.object({
-      label: labelInputSchema,
+      label: labelInputSchema.omit({ productId: true }),
       items: z.array(
-        z.object({
-          pricing: priceInputSchema.omit({ combinationId: true }),
-          inventory: InventoryInputSchema.omit({ combinationId: true }),
-          options: z.array(optionInputSchema.omit({ variantLabelId: true })),
-          combinations: z.array(
-            combinationInputSchema.omit({ productId: true }),
-          ),
-        }),
+        priceInputSchema
+          .omit({ combinationId: true })
+          .extend(InventoryInputSchema.omit({ combinationId: true }).shape)
+          .extend(optionInputSchema.omit({ variantLabelId: true }).shape)
+          .extend(combinationInputSchema.omit({ productId: true }).shape),
       ),
     }),
   ),
