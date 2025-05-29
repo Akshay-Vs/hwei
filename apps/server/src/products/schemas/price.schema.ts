@@ -6,8 +6,8 @@ export const priceMetadataSchema = z.object({
 });
 
 export const priceRelationSchema = z.object({
-  combinationId: z.string().uuid(),
-  currencyId: z.string().uuid(),
+  combinationId: z.string().cuid(),
+  currencyId: z.string().cuid(),
 });
 
 export const priceBaseSchema = z.object({
