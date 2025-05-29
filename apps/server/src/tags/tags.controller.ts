@@ -10,7 +10,7 @@ import {
   tagsMetadataSchema,
   TagUpdateDto,
   tagUpdateSchema,
-} from '../products/schemas/tags.schema';
+} from './schemas/tags.schema';
 import {
   CreateManyDocs,
   DeleteOneDocs,

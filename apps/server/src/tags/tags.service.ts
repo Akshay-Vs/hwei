@@ -8,7 +8,7 @@ import {
   TagInputDto,
   TagMetadata,
   TagUpdate,
-} from '../products/schemas/tags.schema';
+} from './schemas/tags.schema';
 
 @Injectable()
 export class TagsService extends BaseService {
