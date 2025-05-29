@@ -5,7 +5,6 @@ import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import {
   Label,
   LabelInput,
-  LabelInputDTO,
   LabelUpdateDTO,
 } from 'src/products/schemas/variants.schema';
 
