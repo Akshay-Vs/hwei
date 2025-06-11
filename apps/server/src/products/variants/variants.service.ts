@@ -7,9 +7,9 @@ import { InventoryService } from './inventory/inventory.service';
 import { LabelService } from './label/label.service';
 import { OptionService } from './option/option.service';
 import { PricingService } from './pricing/pricing.service';
-import { VariantTransactionInput } from '../schemas/product-transaction';
 import { BaseService } from 'src/common/services/base.service';
 import { PrismaService } from 'src/common/database/prisma.service';
+import { VariantTransactionInput } from '../schemas/variants.schema';
 
 @Injectable()
 export class VariantsService extends BaseService {
