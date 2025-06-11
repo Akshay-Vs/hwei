@@ -83,6 +83,7 @@ export class ImageService extends BaseService {
     productId: string,
     images: Omit<ImageInput, 'productId'>[],
   ) {
+    if (images.length === 0) return;
     const formatted = images.map((img) => ({ ...img, productId }));
     await this.createManyTx(tx, formatted);
   }
