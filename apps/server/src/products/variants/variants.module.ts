@@ -11,6 +11,8 @@ import { InventoryService } from './inventory/inventory.service';
 import { InventoryController } from './inventory/inventory.controller';
 import { PricingService } from './pricing/pricing.service';
 import { PricingController } from './pricing/pricing.controller';
+import { ImageService } from '../image/image.service';
+import { VariantsService } from './variants.service';
 
 @Module({
   providers: [
@@ -21,6 +23,8 @@ import { PricingController } from './pricing/pricing.controller';
     InventoryService,
     PricingService,
     PrismaService,
+    ImageService,
+    VariantsService,
   ],
   controllers: [
     LabelController,
@@ -36,6 +40,7 @@ import { PricingController } from './pricing/pricing.controller';
     CombinationOptionService,
     InventoryService,
     PricingService,
+    VariantsService,
   ],
 })
 export class VariantsModule {}
