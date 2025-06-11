@@ -78,6 +78,15 @@ export class ImageService extends BaseService {
     });
   }
 
+  async createTransactionalImages(
+    tx: Prisma.TransactionClient,
+    productId: string,
+    images: Omit<ImageInput, 'productId'>[],
+  ) {
+    const formatted = images.map((img) => ({ ...img, productId }));
+    await this.createManyTx(tx, formatted);
+  }
+
   async updateOne(
     tx: Prisma.TransactionClient,
     id: string,
