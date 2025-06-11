@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotImplementedException,
   Param,
   Patch,
   Post,
@@ -19,8 +20,6 @@ import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
-  ProductInputDto,
-  productInputSchema,
   ProductUpdateDto,
   productUpdateSchema,
 } from './schemas/products.schema';
@@ -28,12 +27,16 @@ import {
   productTransactionInput,
   ProductTransactionInputDTO,
 } from './schemas/product-transaction';
+import { ProductTransactionsService } from './product.transactions.service';
 
 @ApiTags('products')
 @ApiBearerAuth('swagger-access-token')
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly productTransactionService: ProductTransactionsService,
+  ) {}
 
   @Get()
   @PublicRoute()
@@ -58,17 +61,15 @@ export class ProductsController {
     @Body(new ZodValidationPipe(productTransactionInput))
     input: ProductTransactionInputDTO,
   ) {
-    return await this.productsService.createOne(storeId, input);
+    return await this.productTransactionService.createOne(storeId, input);
   }
 
-  // @Post('/bulk')
-  // @UseGuards(StoreOwnershipGuard)
-  // async createMany(
-  //   @Param('storeId') _storeId: string, //! only for swagger
-  //   @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[],
-  // ) {
-  //   return await this.productsService.createMany(input);
-  // }
+  @Post('/bulk')
+  @UseGuards(StoreOwnershipGuard)
+  createMany() {
+    // @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[], // @Param('storeId') _storeId: string,
+    throw new NotImplementedException();
+  }
 
   @Patch(':id')
   @UseGuards(StoreOwnershipGuard)

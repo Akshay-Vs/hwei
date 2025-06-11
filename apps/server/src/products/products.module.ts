@@ -9,6 +9,7 @@ import { VariantsModule } from './variants/variants.module';
 import { ImageService } from './image/image.service';
 import { PricingService } from './variants/pricing/pricing.service';
 import { ImageController } from './image/image.controller';
+import { ProductTransactionsService } from './product.transactions.service';
 
 @Module({
   controllers: [PricingController, ProductsController, ImageController],
@@ -18,6 +19,7 @@ import { ImageController } from './image/image.controller';
     TagsService,
     ImageService,
     PricingService,
+    ProductTransactionsService,
   ],
   imports: [
     VariantsModule,

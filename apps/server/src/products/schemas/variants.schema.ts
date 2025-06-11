@@ -1,5 +1,7 @@
 import { createZodDto } from '@anatine/zod-nestjs';
 import { z } from 'zod';
+import { priceInputSchema } from './price.schema';
+import { InventoryInputSchema } from './inventory.schema';
 
 //#region Combination
 export const combinationMetadataSchema = z.object({
@@ -117,4 +119,19 @@ export class OptionRelationDTO extends createZodDto(optionRelationSchema) {}
 export class OptionInputDTO extends createZodDto(optionInputSchema) {}
 export class OptionUpdateDTO extends createZodDto(optionUpdateSchema) {}
 export class OptionDTO extends createZodDto(optionSchema) {}
+//#endregion
+
+//#region Variant
+export const variantTransactionInput = z.object({
+  label: labelInputSchema.omit({ productId: true }),
+  items: z.array(
+    priceInputSchema
+      .omit({ combinationId: true })
+      .extend(InventoryInputSchema.omit({ combinationId: true }).shape)
+      .extend(optionInputSchema.omit({ variantLabelId: true }).shape)
+      .extend(combinationInputSchema.omit({ productId: true }).shape),
+  ),
+});
+
+export type VariantTransactionInput = z.infer<typeof variantTransactionInput>;
 //#endregion

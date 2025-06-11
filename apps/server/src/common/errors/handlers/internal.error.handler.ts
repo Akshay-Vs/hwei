@@ -6,6 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@/generated/runtime/library';
+import { formatUniqueConstraintError } from 'src/common/utils/format-unique-constrain-error';
 
 interface InternalErrorHandlerProps {
   error: unknown;
@@ -26,15 +27,20 @@ export const handleInternalError = ({
     throw new InternalServerErrorException(`Operation failed unexpectedly`);
   }
 
-  // Use the correct Prisma error class
   if (error instanceof PrismaClientKnownRequestError) {
-    logger.error(`[Prisma ${error.code}] : ${error.message}`, error.stack);
+    if (process.env.NODE_ENV?.toLowerCase() === 'production') {
+      logger.error(`[Prisma ${error.code}] : ${error.message}`);
+    } else {
+      logger.error(`[Prisma ${error.code}] : ${error.message}`, error.stack);
+    }
 
     switch (error.code) {
-      case 'P2002':
+      case 'P2002': {
+        const target = error.meta?.target;
         throw new ConflictException(
-          `${entity} with same identifier already exists`,
+          formatUniqueConstraintError(entity, target),
         );
+      }
       case 'P2025':
         throw new NotFoundException(`${entity} not found`);
       case 'P2003':
@@ -50,9 +56,7 @@ export const handleInternalError = ({
           `Operation could not be completed`,
         );
     }
-  }
-
-  if (error instanceof Error) {
+  } else if (error instanceof Error) {
     logger.error(`[Error] : ${error.message}`, error.stack);
     throw new InternalServerErrorException(
       `Operation failed due to an internal error`,
