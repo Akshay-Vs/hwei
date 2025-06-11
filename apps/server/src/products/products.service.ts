@@ -48,7 +48,7 @@ export class ProductsService extends BaseService {
   async findOne(storeId: string, id: string): Promise<ProductDto> {
     return await this.withErrorHandling(
       async () =>
-        await this.prisma.product.findUniqueOrThrow({
+        await this.getClient().product.findUniqueOrThrow({
           where: { id, storeId },
           include: {
             images: true,
@@ -113,7 +113,8 @@ export class ProductsService extends BaseService {
 
   async deleteOne(storeId: string, id: string): Promise<ProductDto> {
     return await this.withErrorHandling(
-      async () => await this.prisma.product.delete({ where: { id, storeId } }),
+      async () =>
+        await this.getClient().product.delete({ where: { id, storeId } }),
     );
   }
 }
