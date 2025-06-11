@@ -21,25 +21,30 @@ export class ProductTransactionsService extends BaseService {
   }
 
   async createOne(storeId: string, input: ProductTransactionInput) {
-    await this.prisma.$transaction(async (tx) => {
-      // create product
-      const { id: productId } = await this.product.createOne(
-        tx,
-        storeId,
-        input.metadata,
-      );
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        // create product
+        const { id: productId } = await this.product.createOne(
+          tx,
+          storeId,
+          input.metadata,
+        );
 
-      // populate images
-      await this.productImage.createTransactionalImages(
-        tx,
-        productId,
-        input.images,
-      );
+        // populate images
+        await this.productImage.createTransactionalImages(
+          tx,
+          productId,
+          input.images,
+        );
 
-      // populate variants
-      for (const variant of input.variants) {
-        await this.variant.handleVariant(tx, productId, variant);
-      }
-    });
+        // populate variants
+        for (const variant of input.variants) {
+          await this.variant.handleVariant(tx, productId, variant);
+        }
+      });
+    } catch (err) {
+      this.logger.error('Transaction Failed', JSON.stringify(err, null, 4));
+      throw err;
+    }
   }
 }
