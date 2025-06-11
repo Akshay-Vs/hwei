@@ -68,7 +68,7 @@ export class ProductsController {
   @UseGuards(StoreOwnershipGuard)
   createMany() {
     // @Body(new ZodValidationPipe(productInputSchema)) input: ProductInputDto[], // @Param('storeId') _storeId: string,
-    return new NotImplementedException();
+    throw new NotImplementedException();
   }
 
   @Patch(':id')

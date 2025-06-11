@@ -6,7 +6,6 @@ import {
   ProductUpdateDto,
 } from './schemas/products.schema';
 import { PaginationQueryDTO } from './schemas/query-schema';
-import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import { BaseService } from 'src/common/services/base.service';
 import { ImageService } from './image/image.service';
 import { Prisma } from '@/generated';
@@ -27,69 +26,59 @@ export class ProductsService extends BaseService {
     storeId: string,
     query: PaginationQueryDTO,
   ): Promise<ProductDto[]> {
-    try {
-      return await this.prisma.product.findMany({
-        where: {
-          storeId,
-          title: {
-            contains: query.search,
-            mode: 'insensitive',
+    return this.withErrorHandling(
+      async () =>
+        await this.getClient().product.findMany({
+          where: {
+            storeId,
+            title: {
+              contains: query.search,
+              mode: 'insensitive',
+            },
           },
-        },
-        skip: query.skip,
-        take: query.take,
-        include: {
-          images: true,
-        },
-      });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+          skip: query.skip,
+          take: query.take,
+          include: {
+            images: true,
+          },
+        }),
+    );
   }
 
   async findOne(storeId: string, id: string): Promise<ProductDto> {
-    try {
-      return await this.prisma.product.findUniqueOrThrow({
-        where: { id, storeId },
-        include: {
-          images: true,
-          brand: true,
-          category: true,
-          tags: true,
-          variantCombinations: {
-            include: {
-              inventory: true,
-              options: true,
-              pricing: {
-                include: {
-                  currency: true,
+    return await this.withErrorHandling(
+      async () =>
+        await this.prisma.product.findUniqueOrThrow({
+          where: { id, storeId },
+          include: {
+            images: true,
+            brand: true,
+            category: true,
+            tags: true,
+            variantCombinations: {
+              include: {
+                inventory: true,
+                options: true,
+                pricing: {
+                  include: {
+                    currency: true,
+                  },
                 },
-              },
-              promotions: {
-                include: {
-                  promotion: true,
+                promotions: {
+                  include: {
+                    promotion: true,
+                  },
                 },
               },
             },
-          },
-          variantLabels: {
-            include: {
-              options: true,
+            variantLabels: {
+              include: {
+                options: true,
+              },
             },
           },
-        },
-      });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+        }),
+    );
   }
 
   async createOne(
@@ -97,12 +86,15 @@ export class ProductsService extends BaseService {
     storeId: string,
     metadata: ProductInput,
   ) {
-    return tx.product.create({
-      data: {
-        ...metadata,
-        storeId,
-      },
-    });
+    return this.withErrorHandling(
+      async () =>
+        await this.getClient(tx).product.create({
+          data: {
+            ...metadata,
+            storeId,
+          },
+        }),
+    );
   }
 
   async updateOne(
@@ -110,29 +102,18 @@ export class ProductsService extends BaseService {
     id: string,
     input: ProductUpdateDto,
   ): Promise<ProductDto> {
-    try {
-      return await this.prisma.product.update({
-        where: { id, storeId },
-        data: input,
-      });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    return await this.withErrorHandling(
+      async () =>
+        await this.getClient().product.update({
+          where: { id, storeId },
+          data: input,
+        }),
+    );
   }
 
   async deleteOne(storeId: string, id: string): Promise<ProductDto> {
-    try {
-      return await this.prisma.product.delete({ where: { id, storeId } });
-    } catch (error) {
-      return handleInternalError({
-        error,
-        logger: this.logger,
-        entity: this.entity,
-      });
-    }
+    return await this.withErrorHandling(
+      async () => await this.prisma.product.delete({ where: { id, storeId } }),
+    );
   }
 }
