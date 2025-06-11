@@ -84,5 +84,14 @@ export class VariantsService extends BaseService {
     this.logger.debug(
       `Created stock ${item.stock} for combination ${combinationId}`,
     );
+
+    await this.variantPricing.createByCombination(tx, {
+      combinationId,
+      currencyId: item.currencyId,
+      price: item.price,
+    });
+    this.logger.debug(
+      `Attached price ${item.currencyId} for combination ${combinationId}`,
+    );
   }
 }
