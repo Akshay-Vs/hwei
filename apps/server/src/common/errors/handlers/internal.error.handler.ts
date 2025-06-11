@@ -28,7 +28,11 @@ export const handleInternalError = ({
   }
 
   if (error instanceof PrismaClientKnownRequestError) {
-    logger.error(`[Prisma ${error.code}] : ${error.message}`, error.stack);
+    if (process.env.NODE_ENV?.toLowerCase() === 'production') {
+      logger.error(`[Prisma ${error.code}] : ${error.message}`);
+    } else {
+      logger.error(`[Prisma ${error.code}] : ${error.message}`, error.stack);
+    }
 
     switch (error.code) {
       case 'P2002': {
