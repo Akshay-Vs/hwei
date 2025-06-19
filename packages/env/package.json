@@ -27,11 +27,11 @@
 		"@hwei/eslint-config": "workspace:*",
 		"@hwei/typescript-config": "workspace:*",
 		"@jest/globals": "^29.7.0",
-		"@types/jest": "^29.5.14",
+		"@types/jest": "^30.0.0",
 		"@types/node": "^22.10.5",
 		"@types/npmlog": "^7.0.0",
 		"eslint": "^9.25.1",
-		"jest": "^29.7.0",
+		"jest": "^30.0.0",
 		"typescript": "^5.7.3"
 	}
 }
