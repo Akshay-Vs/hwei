@@ -40,7 +40,7 @@
 		"@hwei/tailwind-config": "workspace:*",
 		"@hwei/typescript-config": "workspace:*",
 		"@next/eslint-plugin-next": "^15.1.6",
-		"@types/node": "^22.13.1",
+		"@types/node": "^24.0.8",
 		"@types/react": "^19.1.0",
 		"@types/react-dom": "^19.0.3",
 		"eslint": "^9.25.1",

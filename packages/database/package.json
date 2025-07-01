@@ -24,7 +24,7 @@
 	},
 	"devDependencies": {
 		"@hwei/typescript-config": "workspace:*",
-		"@types/node": "^22.10.2",
+		"@types/node": "^24.0.8",
 		"eslint": "^9.25.1",
 		"prisma": "^6.0.1",
 		"rimraf": "^6.0.1",
