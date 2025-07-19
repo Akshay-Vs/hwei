@@ -36,7 +36,7 @@
 	"devDependencies": {
 		"@hwei/eslint-config": "workspace:*",
 		"@hwei/typescript-config": "workspace:*",
-		"@types/node": "^22.10.7",
+		"@types/node": "^24.0.15",
 		"@types/react": "^19.1.0",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.5.1",
