@@ -32,7 +32,7 @@
 		"sonner": "^2.0.6",
 		"uploadthing": "^7.6.0",
 		"zod": "^4.0.5",
-		"zustand": "^5.0.3"
+		"zustand": "^5.0.7"
 	},
 	"devDependencies": {
 		"@clerk/types": "^4.60.0",
