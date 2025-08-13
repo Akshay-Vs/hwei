@@ -11,7 +11,7 @@
 		"serve": "next build && next start"
 	},
 	"dependencies": {
-		"@clerk/elements": "^0.23.6",
+		"@clerk/elements": "^0.23.51",
 		"@clerk/nextjs": "^6.23.3",
 		"@hookform/resolvers": "^5.0.1",
 		"@hwei/ui": "workspace:*",
