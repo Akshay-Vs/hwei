@@ -19,7 +19,7 @@
 		"studio": "prisma studio"
 	},
 	"dependencies": {
-		"@prisma/client": "^6.1.0",
+		"@prisma/client": "^6.14.0",
 		"@hwei/env": "workspace:*"
 	},
 	"devDependencies": {
