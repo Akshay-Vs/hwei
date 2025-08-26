@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"@clerk/elements": "^0.23.55",
-		"@clerk/nextjs": "^6.23.3",
+		"@clerk/nextjs": "^6.31.4",
 		"@hookform/resolvers": "^5.0.1",
 		"@hwei/ui": "workspace:*",
 		"@serwist/next": "^9.0.13",
