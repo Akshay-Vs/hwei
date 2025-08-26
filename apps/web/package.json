@@ -45,7 +45,7 @@
 		"@types/react-dom": "^19.0.3",
 		"eslint": "^9.25.1",
 		"postcss": "^8.5.1",
-		"sass": "^1.83.4",
+		"sass": "^1.91.0",
 		"serwist": "^9.0.11",
 		"tailwindcss": "4.1.11",
 		"typescript": "5.7.3"
