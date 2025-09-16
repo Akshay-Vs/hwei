@@ -3,26 +3,18 @@ import { z } from 'zod';
 
 // Base schema for store creation
 export const createStoreSchema = z.object({
-  version: z
-    .number({
-      required_error: 'Store version number is required',
-    })
-    .positive({
-      message: 'Version must be a positive number',
-    }),
+  version: z.number().positive({
+    message: 'Version must be a positive number',
+  }),
   name: z
-    .string({
-      required_error: 'Store name is required',
-    })
+    .string()
     .trim()
     .min(1, { message: 'Store name cannot be empty' })
     .max(100, {
       message: 'Store name is too long (maximum 100 characters allowed)',
     }),
   icon: z
-    .string({
-      required_error: 'Store icon identifier is required',
-    })
+    .string()
     .trim()
     .min(1, { message: 'Store icon identifier cannot be empty' })
     .max(40, {
