@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* Global classes */
+@layer utilities {
+  .rounded-base {
+    @apply rounded-[3.125rem];
+  }
+
+  .rounded-r-base {
+    @apply rounded-r-[3.125rem];
+  }
+
+  .rounded-l-base {
+    @apply rounded-l-[3.125rem];
+  }
+
+  .center {
+    @apply flex justify-center items-center;
+  }
+
+  .col-center {
+    @apply flex justify-center items-center flex-col;
+  }
+
+  .col {
+    @apply flex flex-col;
+  }
+
+  .full {
+    @apply w-full h-full;
+  }
+
+  .screen {
+    @apply w-screen h-screen;
+  }
+
+  .gap-sm {
+    @apply gap-[1.375rem];
+  }
+
+  .gap-md {
+    @apply gap-[2.625rem];
+  }
+
+  .gap-xl {
+    @apply gap-[7.5rem];
+  }
+
+  .px-md {
+    @apply px-[2.625rem];
+  }
+
+  .bg-default {
+    @apply bg-[#f1efeb];
+  }
+
+  .main-container {
+    @apply w-full flex justify-center items-center gap-3 px-[5%];
+  }
+}
