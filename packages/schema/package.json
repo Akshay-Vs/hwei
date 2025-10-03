@@ -55,10 +55,7 @@
 		"lint": "eslint src/",
 		"dev": "tsc watch.ts --outDir ./dist && node ./dist/watch.js",
 		"type-check": "tsc --noEmit",
-		"postinstall": "pnpm build"
-	},
-	"peerDependencies": {
-		"react": "^19.0.0"
+		"prepublishOnly": "pnpm build"
 	},
 	"devDependencies": {
 		"@hwei/eslint-config": "workspace:*",
