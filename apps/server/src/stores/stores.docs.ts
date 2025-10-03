@@ -6,7 +6,7 @@ import {
   ApiResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateStoreDto, UpdateStoreDto } from './schemas/store.schema';
+import { CreateStoreDto, UpdateStoreDto } from '@hwei/schema/dto/store.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(

@@ -4,8 +4,8 @@ import {
   ProductDto,
   ProductInput,
   ProductUpdateDto,
-} from './schemas/products.schema';
-import { PaginationQueryDTO } from './schemas/query-schema';
+} from '@hwei/schema/dto/products.schema';
+import { PaginationQueryDTO } from '@hwei/schema/dto/query-schema';
 import { BaseService } from 'src/common/services/base.service';
 import { ImageService } from './image/image.service';
 import { Prisma } from '@/generated';

@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@hwei/schema": "workspace:*",
     "@anatine/zod-nestjs": "^2.0.12",
     "@anatine/zod-openapi": "^2.2.8",
     "@clerk/backend": "^2.5.0",
@@ -40,7 +41,7 @@
     "rxjs": "^7.8.2",
     "slugify": "^1.6.6",
     "uuid": "^11.1.0",
-    "zod": "^4.0.5"
+    "zod": "3.25.76"
   },
   "devDependencies": {
     "@cspell/eslint-plugin": "^9.0.1",

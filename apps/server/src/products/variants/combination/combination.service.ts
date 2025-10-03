@@ -6,7 +6,7 @@ import {
   Combination,
   CombinationInput,
   CombinationUpdateDTO,
-} from 'src/products/schemas/variants.schema';
+} from '@hwei/schema/dto/variants.schema';
 import { BaseService } from 'src/common/services/base.service';
 
 @Injectable()

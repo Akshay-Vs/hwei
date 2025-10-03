@@ -6,13 +6,13 @@ import {
   Label,
   LabelInput,
   LabelUpdateDTO,
-} from 'src/products/schemas/variants.schema';
+} from '@hwei/schema/dto/variants.schema';
 
 @Injectable()
 export class LabelService {
   private readonly entity = 'Label';
   private readonly logger = new Logger(LabelService.name);
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(productId: string): Promise<Label[]> {
     try {

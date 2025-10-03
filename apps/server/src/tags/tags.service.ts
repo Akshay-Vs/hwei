@@ -2,13 +2,13 @@ import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
-import { PaginationQueryDTO } from '../products/schemas/query-schema';
+import { PaginationQueryDTO } from '@hwei/schema/dto/query-schema';
 import {
   Tag,
   TagInputDto,
   TagMetadata,
   TagUpdate,
-} from './schemas/tags.schema';
+} from '@hwei/schema/dto/tags.schema';
 
 @Injectable()
 export class TagsService extends BaseService {

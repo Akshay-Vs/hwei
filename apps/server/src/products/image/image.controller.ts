@@ -9,17 +9,17 @@ import {
   imageMetadataSchema,
   ImageRelationsDTO,
   imageRelationsSchema,
-} from 'src/products/schemas/images.schema';
+} from '@hwei/schema/dto/images.schema';
 import {
   BasicPaginationDTO,
   basicPaginationQuerySchema,
-} from 'src/products/schemas/query-schema';
+} from '@hwei/schema/dto/query-schema';
 
 @ApiTags('product-images')
 @ApiBearerAuth('swagger-access-token')
 @Controller('image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) {}
+  constructor(private readonly imageService: ImageService) { }
 
   @PublicRoute()
   @FindAllByProductDocs()

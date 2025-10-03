@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
-import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
+import { CreateBrandDto, UpdateBrandDto } from '@hwei/schema/dto/brands.schema';
 import { PublicRoute } from '@decorators/public-route.decorator';
 import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
@@ -25,7 +25,7 @@ import {
 @ApiBearerAuth('swagger-access-token')
 @Controller('brands')
 export class BrandsController {
-  constructor(private readonly brandsService: BrandsService) {}
+  constructor(private readonly brandsService: BrandsService) { }
 
   // #region Find All Brands
   @PublicRoute()

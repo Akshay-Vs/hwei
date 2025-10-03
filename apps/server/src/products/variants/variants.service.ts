@@ -9,7 +9,7 @@ import { OptionService } from './option/option.service';
 import { PricingService } from './pricing/pricing.service';
 import { BaseService } from 'src/common/services/base.service';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { VariantTransactionInput } from '../schemas/variants.schema';
+import { VariantTransactionInput } from '@hwei/schema/dto/variants.schema';
 
 @Injectable()
 export class VariantsService extends BaseService {

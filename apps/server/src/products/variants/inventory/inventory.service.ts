@@ -6,7 +6,7 @@ import {
   InventoryFilter,
   InventoryInput,
   InventoryUpdate,
-} from 'src/products/schemas/inventory.schema';
+} from '@hwei/schema/dto/inventory.schema';
 
 @Injectable()
 export class InventoryService extends BaseService {

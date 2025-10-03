@@ -19,7 +19,7 @@ import {
   CreateStoreDto,
   createStoreSchema,
   UpdateStoreDto,
-} from './schemas/store.schema';
+} from '@hwei/schema/dto/store.schema';
 import { StoresService } from './stores.service';
 import {
   CreateOneDocs,
@@ -36,7 +36,7 @@ import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 export class StoresController {
   private readonly logger = new Logger(StoresController.name);
 
-  constructor(private readonly storesService: StoresService) {}
+  constructor(private readonly storesService: StoresService) { }
 
   //#region [GET] /stores - Get all stores
   @Get()

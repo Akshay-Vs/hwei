@@ -6,7 +6,7 @@ import {
   Option,
   OptionInput,
   OptionUpdate,
-} from 'src/products/schemas/variants.schema';
+} from '@hwei/schema/dto/variants.schema';
 
 @Injectable()
 export class OptionService extends BaseService {

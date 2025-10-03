@@ -7,14 +7,14 @@ import {
   InventoryCombinationSchema,
   InventoryFilterDTO,
   InventoryFilterSchema,
-} from 'src/products/schemas/inventory.schema';
+} from '@hwei/schema/dto/inventory.schema';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 
 @ApiTags('variant-inventory')
 @ApiBearerAuth('swagger-access-token')
 @Controller('inventory')
 export class InventoryController {
-  constructor(private readonly inventoryService: InventoryService) {}
+  constructor(private readonly inventoryService: InventoryService) { }
 
   @PublicRoute()
   @Get(':combinationId/:id')

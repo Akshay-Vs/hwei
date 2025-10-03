@@ -17,7 +17,7 @@ import {
   currencyInputDTO,
   currencyInputSchema,
   currencyInputManySchema,
-} from './schemas/currency.schema';
+} from '@hwei/schema/dto/currency.schema';
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
@@ -26,7 +26,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth('swagger-access-token')
 @Controller('currency')
 export class CurrencyController {
-  constructor(private readonly currencyService: CurrencyService) {}
+  constructor(private readonly currencyService: CurrencyService) { }
 
   @Get()
   @PublicRoute()

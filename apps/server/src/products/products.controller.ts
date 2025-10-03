@@ -15,18 +15,18 @@ import { PublicRoute } from '@decorators/public-route.decorator';
 import {
   PaginationQueryDTO,
   paginationQuerySchema,
-} from './schemas/query-schema';
+} from '@hwei/schema/dto/query-schema';
 import { ZodValidationPipe } from '@pipes/zod-validation.pipe';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
 import {
   ProductUpdateDto,
   productUpdateSchema,
-} from './schemas/products.schema';
+} from '@hwei/schema/dto/products.schema';
 import {
   productTransactionInput,
   ProductTransactionInputDTO,
-} from './schemas/product-transaction';
+} from '@hwei/schema/dto/product-transaction';
 import { ProductTransactionsService } from './product.transactions.service';
 
 @ApiTags('products')
@@ -36,7 +36,7 @@ export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
     private readonly productTransactionService: ProductTransactionsService,
-  ) {}
+  ) { }
 
   @Get()
   @PublicRoute()

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
-import { ProductTransactionInput } from './schemas/product-transaction';
+import { ProductTransactionInput } from '@hwei/schema/dto/product-transaction';
 import { ImageService } from './image/image.service';
 import { VariantsService } from './variants/variants.service';
 import { ProductsService } from './products.service';
