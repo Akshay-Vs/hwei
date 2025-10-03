@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
-import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
+import { CreateBrandDto, UpdateBrandDto } from '@hwei/schema/dto/brands.schema';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
 
 @Injectable()
@@ -8,7 +8,7 @@ export class BrandsService {
   private readonly logger = new Logger(BrandsService.name);
   private readonly entity = 'Brand';
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(storeId: string) {
     try {

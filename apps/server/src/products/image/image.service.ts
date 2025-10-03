@@ -2,12 +2,8 @@ import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { BaseService } from 'src/common/services/base.service';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { PaginationQuery } from 'src/products/schemas/query-schema';
-import {
-  Image,
-  ImageInput,
-  ImageUpdate,
-} from 'src/products/schemas/images.schema';
+import { PaginationQuery } from '@hwei/schema/dto/query-schema';
+import { Image, ImageInput, ImageUpdate } from '@hwei/schema/dto/images.schema';
 
 @Injectable()
 export class ImageService extends BaseService {

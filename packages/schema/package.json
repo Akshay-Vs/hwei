@@ -1,0 +1,76 @@
+{
+	"name": "@hwei/schema",
+	"version": "0.0.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
+		},
+		"./dto/*": {
+			"import": {
+				"types": "./dist/dto/*.d.ts",
+				"default": "./dist/dto/*.mjs"
+			},
+			"require": {
+				"types": "./dist/dto/*.d.ts",
+				"default": "./dist/dto/*.js"
+			}
+		},
+		"./types/*": {
+			"import": {
+				"types": "./dist/types/*.d.ts",
+				"default": "./dist/types/*.mjs"
+			},
+			"require": {
+				"types": "./dist/types/*.d.ts",
+				"default": "./dist/types/*.js"
+			}
+		}
+	},
+	"typesVersions": {
+		"*": {
+			"dto/*": [
+				"./dist/dto/*.d.ts"
+			],
+			"types/*": [
+				"./dist/types/*.d.ts"
+			]
+		}
+	},
+	"license": "MIT",
+	"scripts": {
+		"build": "tsup",
+		"lint": "eslint src/",
+		"dev": "tsc watch.ts --outDir ./dist && node ./dist/watch.js",
+		"type-check": "tsc --noEmit",
+		"prepublishOnly": "pnpm build"
+	},
+	"devDependencies": {
+		"@hwei/eslint-config": "workspace:*",
+		"@hwei/typescript-config": "workspace:*",
+		"@types/node": "^24.0.15",
+		"@types/react": "^19.1.0",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.5.1",
+		"tsup": "^8.3.5",
+		"glob": "^11.0.3",
+		"typescript": "5.7.3"
+	},
+	"dependencies": {
+		"@anatine/zod-nestjs": "^2.0.12",
+		"@anatine/zod-openapi": "^2.2.8",
+		"zod": "3.25.76"
+	}
+}

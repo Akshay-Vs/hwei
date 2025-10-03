@@ -7,7 +7,7 @@ import {
   ApiResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { TagInputDto, TagUpdateDto } from './schemas/tags.schema';
+import { TagInputDto, TagUpdateDto } from '@hwei/schema/dto/tags.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(

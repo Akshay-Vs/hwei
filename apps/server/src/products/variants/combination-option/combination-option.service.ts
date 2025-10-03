@@ -1,6 +1,5 @@
 import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
-import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import { BaseService } from 'src/common/services/base.service';
 import { PrismaService } from 'src/common/database/prisma.service';
 

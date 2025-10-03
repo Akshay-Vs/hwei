@@ -1,5 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreateCategory, UpdateCategory } from './schemas/categories.schema';
+import {
+  CreateCategory,
+  UpdateCategory,
+} from '@hwei/schema/dto/categories.schema';
 import { PrismaService } from '@database/prisma.service';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
 
@@ -8,7 +11,7 @@ export class CategoriesService {
   private readonly logger = new Logger(CategoriesService.name);
   private readonly entity = 'Category';
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(storeId: string) {
     try {

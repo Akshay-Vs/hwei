@@ -6,7 +6,7 @@ import {
   ApiResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateBrandDto, UpdateBrandDto } from './schemas/brands.schema';
+import { CreateBrandDto, UpdateBrandDto } from '@hwei/schema/dto/brands.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(

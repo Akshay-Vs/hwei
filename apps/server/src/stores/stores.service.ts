@@ -5,15 +5,15 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { PrismaService } from '@database/prisma.service';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
-import { UpdateBrand } from 'src/brands/schemas/brands.schema';
-import { CreateStore } from './schemas/store.schema';
+import { UpdateBrand } from '@hwei/schema/dto/brands.schema';
+import { CreateStore } from '@hwei/schema/dto/store.schema';
 
 @Injectable()
 export class StoresService {
   private readonly logger = new Logger(StoresService.name);
   private readonly entity = 'Store';
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   private generateSlug(name: string): string {
     return `${slugify(name, { lower: true })}-${uuid4()}`;

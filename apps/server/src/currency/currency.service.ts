@@ -1,12 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
+
 import {
   Currency,
   CurrencyInput,
   CurrencyPagination,
   CurrencyUpdate,
-} from './schemas/currency.schema';
+} from '@hwei/schema/dto/currency.schema';
+
 import { Prisma } from '@/generated';
 
 @Injectable()

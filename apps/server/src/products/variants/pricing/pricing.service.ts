@@ -2,7 +2,7 @@ import { Prisma } from '@/generated';
 import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
-import { PriceInput, PriceUpdate } from '../../schemas/price.schema';
+import { PriceInput, PriceUpdate } from '@hwei/schema/dto/price.schema';
 
 @Injectable()
 export class PricingService extends BaseService {

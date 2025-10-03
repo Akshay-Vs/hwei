@@ -14,7 +14,7 @@ import { CategoriesService } from './categories.service';
 import {
   CreateCategoryDto,
   UpdateCategoryDto,
-} from './schemas/categories.schema';
+} from '@hwei/schema/dto/categories.schema';
 
 import { PublicRoute } from '@decorators/public-route.decorator';
 import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
@@ -31,7 +31,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth('swagger-access-token')
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) { }
 
   // #region Find All Categories
   @PublicRoute()

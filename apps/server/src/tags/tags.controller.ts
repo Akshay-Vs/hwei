@@ -10,7 +10,7 @@ import {
   tagsMetadataSchema,
   TagUpdateDto,
   tagUpdateSchema,
-} from './schemas/tags.schema';
+} from '@hwei/schema/dto/tags.schema';
 import {
   CreateManyDocs,
   DeleteOneDocs,
@@ -21,7 +21,7 @@ import {
 import {
   PaginationQueryDTO,
   paginationQuerySchema,
-} from '../products/schemas/query-schema';
+} from '@hwei/schema/dto/query-schema';
 import {
   Body,
   Controller,
@@ -37,7 +37,7 @@ import {
 @ApiBearerAuth('swagger-access-token')
 @Controller('tags')
 export class TagsController {
-  constructor(private readonly tagsService: TagsService) {}
+  constructor(private readonly tagsService: TagsService) { }
 
   @Get()
   @PublicRoute()

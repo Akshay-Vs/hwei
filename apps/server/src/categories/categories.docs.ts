@@ -9,7 +9,7 @@ import {
 import {
   CreateCategoryDto,
   UpdateCategoryDto,
-} from './schemas/categories.schema';
+} from '@hwei/schema/dto/categories.schema';
 
 export const FindAllDocs = () => {
   return applyDecorators(
