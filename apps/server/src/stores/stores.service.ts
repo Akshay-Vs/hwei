@@ -64,11 +64,20 @@ export class StoresService {
     }
   }
 
-  async deleteOne(user: User, storeId: string): Promise<void> {
+  async deleteOne(user: User, storeId: string) {
     try {
-      await this.prisma.store.deleteMany({
+      const res = await this.prisma.store.update({
         where: { id: storeId, userId: user.id },
+        data: {
+          deletedAt: new Date(),
+          isActive: false,
+        },
       });
+
+      if (process.env.NODE_ENV === 'TEST' || process.env.NODE_ENV === 'DEV') {
+        this.logger.debug(res);
+        return res;
+      }
     } catch (error) {
       handleInternalError({ error, entity: this.entity, logger: this.logger });
     }
