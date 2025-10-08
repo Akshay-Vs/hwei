@@ -36,7 +36,9 @@ void (async (): Promise<void> => {
 
   try {
     await bootstrap();
-    logger.log('Server Started');
+    logger.log(
+      `Server Started in ${process.env.NODE_ENV ?? 'PRODUCTION'} mode`,
+    );
   } catch (error) {
     logger.error(error);
   }
