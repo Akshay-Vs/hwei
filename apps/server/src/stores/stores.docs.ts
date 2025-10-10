@@ -33,7 +33,7 @@ export const FindOneDocs = () => {
       description: 'Retrieve a specific store by its ID',
     }),
     ApiParam({
-      name: 'id',
+      name: 'storeId',
       type: String,
       description: 'Store ID to retrieve',
     }),
@@ -88,7 +88,7 @@ export const UpdateOneDocs = () => {
       description: 'Update an existing store by ID',
     }),
     ApiParam({
-      name: 'id',
+      name: 'storeId',
       type: String,
       description: 'Store ID to update',
     }),
@@ -126,7 +126,7 @@ export const DeleteOneDocs = () => {
       description: 'Delete a store by ID',
     }),
     ApiParam({
-      name: 'id',
+      name: 'storeId',
       type: String,
       description: 'Store ID to delete',
     }),
