@@ -34,7 +34,7 @@ import { PrismaService } from '@database/prisma.service';
 export class StoreOwnershipGuard implements CanActivate {
   private readonly logger = new Logger(StoreOwnershipGuard.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
   /**
    * Determines if the current request is allowed to proceed.
    *
@@ -51,9 +51,12 @@ export class StoreOwnershipGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
     const params = request['params'] as { storeId?: string };
-    const body = request['body'] as { storeId?: string };
-    const storeId = params.storeId || body.storeId;
+    const storeId = params.storeId;
     const user = request['user'] as { id: string };
+
+    this.logger.debug('Params: ' + JSON.stringify(params));
+    this.logger.debug('User-ID: ' + user.id);
+    this.logger.debug('Store-ID: ' + storeId);
 
     if (!storeId || !user?.id) {
       this.logger.debug('Missing storeId or user information.');
@@ -64,6 +67,7 @@ export class StoreOwnershipGuard implements CanActivate {
       where: {
         id: storeId,
         userId: user.id,
+        deletedAt: null,
       },
     });
 

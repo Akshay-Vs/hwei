@@ -1,7 +1,7 @@
 import { User } from '@clerk/backend';
 import slugify from 'slugify';
 import { v4 as uuid4 } from 'uuid';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 
 import { PrismaService } from '@database/prisma.service';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
@@ -21,7 +21,9 @@ export class StoresService {
 
   async findAll(user: User) {
     try {
-      return await this.prisma.store.findMany({ where: { userId: user.id } });
+      return await this.prisma.store.findMany({
+        where: { userId: user.id, deletedAt: null },
+      });
     } catch (error) {
       handleInternalError({ error, entity: this.entity, logger: this.logger });
     }
@@ -30,7 +32,7 @@ export class StoresService {
   async findOne(user: User, storeId: string) {
     try {
       return await this.prisma.store.findFirstOrThrow({
-        where: { id: storeId, userId: user.id },
+        where: { id: storeId, userId: user.id, deletedAt: null },
       });
     } catch (error) {
       handleInternalError({ error, entity: this.entity, logger: this.logger });
@@ -64,11 +66,27 @@ export class StoresService {
     }
   }
 
-  async deleteOne(user: User, storeId: string): Promise<void> {
+  async deleteOne(user: User, storeId: string) {
     try {
-      await this.prisma.store.deleteMany({
+      const prev = await this.findOne(user, storeId);
+
+      if (!prev) {
+        throw new NotFoundException(`Store [id=${storeId}] not found.`);
+      }
+      const deletedAt = new Date();
+      const res = await this.prisma.store.update({
         where: { id: storeId, userId: user.id },
+        data: {
+          deletedAt: deletedAt,
+          name: prev.name.concat(`-deleted-${deletedAt.toISOString()}`),
+          isActive: false,
+        },
       });
+
+      if (process.env.NODE_ENV === 'TEST' || process.env.NODE_ENV === 'DEV') {
+        this.logger.debug(res);
+        return res;
+      }
     } catch (error) {
       handleInternalError({ error, entity: this.entity, logger: this.logger });
     }

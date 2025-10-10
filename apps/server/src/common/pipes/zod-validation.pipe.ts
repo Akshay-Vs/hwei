@@ -10,7 +10,7 @@ import { ZodError, ZodSchema } from 'zod';
 
 @Injectable()
 export class ZodValidationPipe implements PipeTransform {
-  constructor(private schema: ZodSchema) {}
+  constructor(private schema: ZodSchema) { }
 
   transform(value: unknown, _metadata: ArgumentMetadata): unknown {
     try {
@@ -35,7 +35,9 @@ export class ZodValidationPipe implements PipeTransform {
           issues: zodErrors,
         });
       }
-      throw new InternalServerErrorException('Validation failed');
+
+      Logger.debug(err, 'ZodValidation');
+      throw new BadRequestException('Validation failed');
     }
   }
 }

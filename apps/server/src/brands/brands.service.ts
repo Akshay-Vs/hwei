@@ -74,7 +74,7 @@ export class BrandsService {
           storeId,
         },
       });
-      return;
+      return true;
     } catch (error) {
       handleInternalError({ error, logger: this.logger, entity: this.entity });
     }

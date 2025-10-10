@@ -48,9 +48,9 @@ export class StoresController {
   //#endregion
 
   //#region [GET] /stores/:id - Get a store by ID
-  @Get(':id')
+  @Get(':storeId')
   @FindOneDocs()
-  findOne(@User() user: ClerkUser, @Param('id') id: string) {
+  findOne(@User() user: ClerkUser, @Param('storeId') id: string) {
     this.logger.log(`Fetching store [id=${id}] for user: ${user.id}`);
     return this.storesService.findOne(user, id);
   }
@@ -68,13 +68,13 @@ export class StoresController {
   }
   //#endregion
 
-  //#region [PUT] /stores/:id - Update a store
-  @Patch(':id')
-  @UpdateOneDocs()
+  //#region [PUT] /stores/:storeId - Update a store
+  @Patch(':storeId')
   @UseGuards(StoreOwnershipGuard)
+  @UpdateOneDocs()
   editOne(
     @User() user: ClerkUser,
-    @Param('id') id: string,
+    @Param('storeId') id: string,
     @Body(new ZodValidationPipe(createStoreSchema)) body: UpdateStoreDto,
   ) {
     this.logger.log(`Updating store [id=${id}] for user: ${user.id}`);
@@ -83,10 +83,10 @@ export class StoresController {
   //#endregion
 
   //#region [DELETE] /stores/:id - Delete a store
-  @Delete(':id')
+  @Delete(':storeId')
   @DeleteOneDocs()
   @UseGuards(StoreOwnershipGuard)
-  deleteOne(@User() user: ClerkUser, @Param('id') id: string) {
+  deleteOne(@User() user: ClerkUser, @Param('storeId') id: string) {
     this.logger.warn(`Deleting store [id=${id}] for user: ${user.id}`);
     return this.storesService.deleteOne(user, id);
   }
