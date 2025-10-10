@@ -50,8 +50,8 @@ export class StoreOwnershipGuard implements CanActivate {
    */
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const params = request['params'] as { id?: string };
-    const storeId = params.id;
+    const params = request['params'] as { storeId?: string };
+    const storeId = params.storeId;
     const user = request['user'] as { id: string };
 
     this.logger.debug('Params: ' + JSON.stringify(params));
@@ -67,6 +67,7 @@ export class StoreOwnershipGuard implements CanActivate {
       where: {
         id: storeId,
         userId: user.id,
+        deletedAt: null,
       },
     });
 
