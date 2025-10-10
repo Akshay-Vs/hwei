@@ -9,8 +9,9 @@
 		"rootDir": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@utils/*": ["./utils/*"],
-			"@errors/*": ["./errors/*"]
+			"@utils/*": ["./src/utils/*"],
+			"@test-utils/*": ["./tests/utils/*"],
+			"@errors/*": ["./src/errors/*"]
 		}
 	},
 	"include": ["."],

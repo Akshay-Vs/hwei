@@ -1,13 +1,13 @@
-import { StoreClient } from "@/store";
 import { getToken } from "./utils/get-token";
 import dotenv from 'dotenv';
 import { Store } from "@hwei/schema/dto/store.schema";
+import { StoreClient } from "@/helpers/store";
 
 dotenv.config();
 
 const myStore = new StoreClient(getToken)
 
-const name = "My Test Store";
+const name = "HWEI Test Store";
 let storeId = "";
 
 describe("StoreClient CRUD Test", () => {
@@ -70,30 +70,31 @@ describe("StoreClient CRUD Test", () => {
   });
 
 
-  // test("Update store name and Icon", async () => {
-  //   const result = await myStore.updateStore(storeId, {
-  //     name: "New Store Name",
-  //     icon: "Home"
-  //   })
-  //   expect(result).toEqual(expect.objectContaining({
-  //     id: expect.any(String),
-  //     name: "New Store Name",
-  //     slug: expect.any(String),
-  //     icon: "Home",
-  //     isActive: true,
-  //     version: 1,
-  //     userId: expect.any(String),
-  //     createdAt: expect.any(String),
-  //     updatedAt: expect.any(String),
-  //     deletedAt: null
-  //   }))
-  // })
+  test("Update store name and Icon", async () => {
+    const result = await myStore.updateStore(storeId, {
+      name: "New Store Name",
+      icon: "Home",
+      version: 1
+    })
+    expect(result).toEqual(expect.objectContaining({
+      id: expect.any(String),
+      name: "New Store Name",
+      slug: expect.any(String),
+      icon: "Home",
+      isActive: true,
+      version: 1,
+      userId: expect.any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+      deletedAt: null
+    }))
+  })
 
   test("Delete a store", async () => {
     const result = await myStore.deleteStore(storeId);
     expect(result).toEqual(expect.objectContaining({
       id: expect.any(String),
-      name: name,
+      name: expect.any(String),
       slug: expect.any(String),
       icon: expect.any(String),
       isActive: false,

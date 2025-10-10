@@ -1,27 +1,56 @@
 {
-	"name": "@hwei/react-sdk",
+	"name": "@hwei/client-sdk",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
-	"type": "module",
 	"scripts": {
 		"start:dev": "ts-node src/index.ts",
-		"test": "jest",
-		"build": "tsc"
+		"test": "jest --runInBand",
+		"build": "tsup"
 	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"type": "module",
+	"exports": {
+		"./helpers/*": {
+			"import": {
+				"types": "./dist/helpers/*.d.ts",
+				"default": "./dist/helpers/*.mjs"
+			},
+			"require": {
+				"types": "./dist/helpers/*.d.ts",
+				"default": "./dist/helpers/*.js"
+			}
+		},
+		"./errors/*": {
+			"import": {
+				"types": "./dist/errors/*.d.ts",
+				"default": "./dist/errors/*.mjs"
+			},
+			"require": {
+				"types": "./dist/errors/*.d.ts",
+				"default": "./dist/errors/*.js"
+			}
+		}
+	},
+	"files": [
+		"dist"
+	],
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
 	"packageManager": "pnpm@10.11.0",
 	"devDependencies": {
 		"@hwei/typescript-config": "workspace:*",
-		"dotenv": "^17.2.3",
 		"@types/jest": "^30.0.0",
 		"@types/node": "^24.5.0",
+		"dotenv": "^17.2.3",
+		"glob": "^11.0.3",
 		"jest": "^30.2.0",
 		"ts-jest": "^29.4.4",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0",
+		"tsup": "^8.5.0",
 		"typescript": "^5.9.2"
 	},
 	"dependencies": {

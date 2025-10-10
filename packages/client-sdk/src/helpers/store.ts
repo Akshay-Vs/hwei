@@ -8,7 +8,7 @@ import { withErrorHandling } from "@utils/with-error-handling";
 export class StoreClient {
   private api: AxiosInstance;
 
-  constructor(getToken: () => string, url?: string, api?: AxiosInstance) {
+  constructor(getToken: () => Promise<string | null>, url?: string, api?: AxiosInstance) {
     const baseUrl = getBaseUrl(url);
 
     this.api = api ?? axios.create({
@@ -20,7 +20,7 @@ export class StoreClient {
     });
 
     this.api.interceptors.request.use(async (config) => {
-      const token = getToken();
+      const token = await getToken();
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     })
@@ -48,7 +48,7 @@ export class StoreClient {
   }
 
   async updateStore(id: string, data: UpdateStore): Promise<Store> {
-    return this.request(async () => this.api.put(`/stores/${id}`, data))
+    return this.request(async () => this.api.patch(`/stores/${id}`, data))
   }
 
   async deleteStore(id: string): Promise<void> {
