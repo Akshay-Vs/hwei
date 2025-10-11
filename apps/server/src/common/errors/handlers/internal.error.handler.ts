@@ -4,6 +4,8 @@ import {
   BadRequestException,
   InternalServerErrorException,
   Logger,
+  UnauthorizedException,
+  HttpException,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@/generated/runtime/library';
 import { formatUniqueConstraintError } from 'src/common/utils/format-unique-constrain-error';
@@ -51,16 +53,44 @@ export const handleInternalError = ({
         throw new BadRequestException(
           `Operation failed due to a relation error`,
         );
+
       default:
         throw new InternalServerErrorException(
           `Operation could not be completed`,
         );
     }
-  } else if (error instanceof Error) {
+  } else if (error instanceof HttpException) {
     logger.error(`[Error] : ${error.message}`, error.stack);
-    throw new InternalServerErrorException(
-      `Operation failed due to an internal error`,
-    );
+
+    switch (error.getStatus()) {
+      case 400:
+        logger.error(`[Bad Request] : ${error.message}`);
+        throw new BadRequestException(
+          `Operation failed due to an invalid request`,
+        );
+
+      case 401:
+        logger.error(`[Unauthorized] : ${error.message}`);
+        throw new UnauthorizedException(
+          `Operation failed due to an unauthorized request`,
+        );
+
+      case 404:
+        logger.error(`[Not Found] : ${error.message}`);
+        throw new NotFoundException(
+          `Operation failed due to a missing resource`,
+        );
+
+      case 409:
+        logger.error(`[Conflict] : ${error.message}`);
+        throw new ConflictException(`Operation failed due to a conflict`);
+
+      default:
+        logger.error(`[Unknown] : ${error.message}`);
+        throw new InternalServerErrorException(
+          `Operation failed due to an internal error`,
+        );
+    }
   }
 
   logger.error(`[Unknown] : ${JSON.stringify(error)}`);
