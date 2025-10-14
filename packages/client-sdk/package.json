@@ -4,7 +4,7 @@
 	"description": "",
 	"scripts": {
 		"start:dev": "ts-node src/index.ts",
-		"test": "jest --runInBand",
+		"test": "jest",
 		"build": "tsup"
 	},
 	"main": "./dist/index.js",
@@ -45,6 +45,7 @@
 		"@types/jest": "^30.0.0",
 		"@types/node": "^24.5.0",
 		"dotenv": "^17.2.3",
+		"axios-mock-adapter": "^2.1.0",
 		"glob": "^11.0.3",
 		"jest": "^30.2.0",
 		"ts-jest": "^29.4.4",
