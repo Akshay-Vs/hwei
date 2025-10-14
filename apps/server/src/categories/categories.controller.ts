@@ -26,6 +26,7 @@ import {
   UpdateOneDocs,
 } from './categories.docs';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ZodValidationPipe } from '@anatine/zod-nestjs';
 
 @ApiTags('categories')
 @ApiBearerAuth('swagger-access-token')
@@ -57,7 +58,7 @@ export class CategoriesController {
   @CreateOneDocs()
   async createOne(
     @Param('storeId') storeId: string,
-    @Body() category: CreateCategoryDto,
+    @Body(new ZodValidationPipe()) category: CreateCategoryDto,
   ) {
     return this.categoriesService.createOne(storeId, category);
   }
@@ -70,7 +71,7 @@ export class CategoriesController {
   async updateOne(
     @Param('storeId') storeId: string,
     @Param('id') id: string,
-    @Body() category: UpdateCategoryDto,
+    @Body(new ZodValidationPipe()) category: UpdateCategoryDto,
   ) {
     return this.categoriesService.updateOne(storeId, id, category);
   }
