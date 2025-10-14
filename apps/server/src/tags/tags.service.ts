@@ -7,7 +7,7 @@ import {
   Tag,
   TagInputDto,
   TagMetadata,
-  TagUpdate,
+  UpdateTag,
 } from '@hwei/schema/dto/tags.schema';
 
 @Injectable()
@@ -131,7 +131,7 @@ export class TagsService extends BaseService {
     });
   }
 
-  async updateOne(id: string, input: TagUpdate): Promise<Tag> {
+  async updateOne(id: string, input: UpdateTag): Promise<Tag> {
     return this.withErrorHandling(async () => {
       this.logger.debug(
         `Updating tag ${id} with data: ${JSON.stringify(input)}`,
