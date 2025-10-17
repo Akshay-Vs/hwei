@@ -1,4 +1,4 @@
-import { Currency, CurrencyInput, CurrencyUpdate } from "@hwei/schema/dto/currency.schema";
+import { Currency, CreateCurrency, UpdateCurrency } from "@hwei/schema/dto/currency.schema";
 import { BaseClient } from "./base";
 import { AxiosInstance } from "axios";
 
@@ -20,11 +20,11 @@ export class CurrencyClient extends BaseClient {
     return this.request(async () => this.api.get(`${this.route}/${id}`))
   }
 
-  async createCurrency(brand: CurrencyInput): Promise<Currency> {
+  async createCurrency(brand: CreateCurrency): Promise<Currency> {
     return this.request(async () => this.api.post(this.route, brand))
   }
 
-  async updateCurrency(id: string, data: CurrencyUpdate): Promise<Currency> {
+  async updateCurrency(id: string, data: UpdateCurrency): Promise<Currency> {
     return this.request(async () => this.api.patch(`${this.route}/${id}`, data))
   }
 
