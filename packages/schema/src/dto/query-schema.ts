@@ -5,6 +5,7 @@ export const paginationQuerySchema = z.object({
   search: z.string().optional(),
   skip: z
     .string()
+    .default('0')
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val) && val >= 0, {
       message: 'Skip must be a non-negative integer',
@@ -12,6 +13,7 @@ export const paginationQuerySchema = z.object({
     .optional(),
   take: z
     .string()
+    .default('10')
     .transform((val) => parseInt(val, 10))
     .refine((val) => !isNaN(val) && val >= 0, {
       message: 'Take must be an integer >= 1',
@@ -25,7 +27,7 @@ export const basicPaginationQuerySchema = paginationQuerySchema.omit({
 });
 
 export type PaginationQuery = z.infer<typeof paginationQuerySchema>;
-export class PaginationQueryDTO extends createZodDto(paginationQuerySchema) {}
+export class PaginationQueryDTO extends createZodDto(paginationQuerySchema) { }
 export class BasicPaginationDTO extends createZodDto(
   basicPaginationQuerySchema,
-) {}
+) { }
