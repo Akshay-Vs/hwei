@@ -1,5 +1,5 @@
 import { Prisma } from '@/generated';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
 import { PaginationQueryDTO } from '@hwei/schema/dto/query-schema';
@@ -32,7 +32,7 @@ export class TagsService extends BaseService {
           },
         },
         skip: query.skip,
-        take: query.take,
+        take: query.take || 10,
       });
       this.logger.debug(`Found ${res.length} tags`);
       return res;
@@ -45,6 +45,8 @@ export class TagsService extends BaseService {
       const res = await this.getClient().tag.findUnique({
         where: { id: params.id },
       });
+
+      if (!res) throw new NotFoundException(`Tag ${params.id} not found`);
       return res;
     });
   }
@@ -147,6 +149,10 @@ export class TagsService extends BaseService {
   async deleteOne(id: string): Promise<Tag> {
     return this.withErrorHandling(async () => {
       this.logger.debug(`Deleting tag ${id}`);
+
+      const prev = await this.findOne({ id });
+      if (!prev) throw new NotFoundException(`Tag ${id} not found`);
+
       const res = await this.getClient().tag.delete({ where: { id } });
       return res;
     });
