@@ -1,12 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
 
 import {
   Currency,
-  CurrencyInput,
+  CreateCurrency,
   CurrencyPagination,
-  CurrencyUpdate,
+  UpdateCurrency,
 } from '@hwei/schema/dto/currency.schema';
 
 import { Prisma } from '@/generated';
@@ -45,17 +45,20 @@ export class CurrencyService extends BaseService {
   }
 
   async findOne(id: string): Promise<Currency | null> {
-    return this.withErrorHandling(() => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(`Finding currency with id ${id}`);
-      return this.getClient().currency.findUnique({
+      const res = await this.getClient().currency.findUnique({
         where: {
           id,
         },
       });
+
+      if (!res) throw new NotFoundException(`Currency ${id} not found`);
+      return res;
     });
   }
 
-  async create(storeId: string, data: CurrencyInput): Promise<Currency> {
+  async create(storeId: string, data: CreateCurrency): Promise<Currency> {
     return this.withErrorHandling(() => {
       this.logger.debug(`Creating currency: ${JSON.stringify(data.code)}`);
       return this.getClient().currency.create({
@@ -69,7 +72,7 @@ export class CurrencyService extends BaseService {
 
   async createMany(
     storeId: string,
-    data: CurrencyInput[],
+    data: CreateCurrency[],
   ): Promise<Prisma.BatchPayload> {
     return this.withErrorHandling(() => {
       this.logger.debug(
@@ -86,7 +89,7 @@ export class CurrencyService extends BaseService {
     });
   }
 
-  async update(id: string, data: CurrencyUpdate): Promise<Currency> {
+  async update(id: string, data: UpdateCurrency): Promise<Currency> {
     return this.withErrorHandling(() => {
       this.logger.debug(
         `Updating currency with id ${id} with data ${JSON.stringify(data)}`,
@@ -101,8 +104,12 @@ export class CurrencyService extends BaseService {
   }
 
   async delete(id: string): Promise<Currency> {
-    return this.withErrorHandling(() => {
+    return this.withErrorHandling(async () => {
       this.logger.debug(`Deleting currency with id ${id}`);
+
+      const prev = await this.findOne(id);
+      if (!prev) throw new NotFoundException(`Currency ${id} not found`);
+
       return this.getClient().currency.delete({
         where: {
           id,
