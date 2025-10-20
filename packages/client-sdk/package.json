@@ -43,7 +43,7 @@
 	"devDependencies": {
 		"@hwei/typescript-config": "workspace:*",
 		"@types/jest": "^30.0.0",
-		"@types/node": "^24.5.0",
+		"@types/node": "^24.9.0",
 		"dotenv": "^17.2.3",
 		"axios-mock-adapter": "^2.1.0",
 		"glob": "^11.0.3",
