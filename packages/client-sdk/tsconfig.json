@@ -11,7 +11,8 @@
 			"@/*": ["./src/*"],
 			"@utils/*": ["./src/utils/*"],
 			"@test-utils/*": ["./tests/utils/*"],
-			"@errors/*": ["./src/errors/*"]
+			"@errors/*": ["./src/errors/*"],
+			"@tests/*": ["./tests/*"]
 		}
 	},
 	"include": ["."],

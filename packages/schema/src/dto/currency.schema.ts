@@ -13,6 +13,7 @@ export const currencyRelationSchema = z.object({
 export const currencyBaseSchema = z.object({
   code: z.string().min(1).max(3),
   label: z.string().min(1),
+  symbol: z.string().min(1).max(1),
 });
 
 export const currencyInputSchema = currencyBaseSchema;
@@ -26,8 +27,8 @@ export const currencyPaginationSchema = paginationQuerySchema.merge(
 );
 
 export type Currency = z.infer<typeof currencySchema>;
-export type CurrencyInput = z.infer<typeof currencyInputSchema>;
-export type CurrencyUpdate = z.infer<typeof currencyUpdateSchema>;
+export type CreateCurrency = z.infer<typeof currencyInputSchema>;
+export type UpdateCurrency = z.infer<typeof currencyUpdateSchema>;
 export type CurrencyPagination = z.infer<typeof currencyPaginationSchema>;
 
 export class currencyDTO extends createZodDto(currencySchema) { }

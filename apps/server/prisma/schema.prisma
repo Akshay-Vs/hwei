@@ -37,20 +37,20 @@ model Store {
 //#region Product
 
 model Product {
-  id          String    @id @default(cuid())
+  id          String         @id @default(cuid())
   storeId     String
-  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  title       String    @db.VarChar(200)
-  description String    @db.Text
+  store       Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  title       String         @db.VarChar(200)
+  description String         @db.Text
   minOrder    Int
   maxOrder    Int
   brandId     String
-  brand       Brand     @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brand       Brand          @relation(fields: [brandId], references: [id], onDelete: Cascade)
   categoryId  String
-  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  images     ProductImage[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  images      ProductImage[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   deletedAt   DateTime?
 
   tags                ProductTag[]
@@ -67,16 +67,17 @@ model Product {
 
 //#region Product Images
 model ProductImage {
-  id            String             @id @default(cuid())
-  imageUrl      String             @db.VarChar(255)
-  imageAlt      String?            @db.VarChar(255)
-  sortOrder     Int
-  productId     String
-  product       Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        String  @id @default(cuid())
+  imageUrl  String  @db.VarChar(255)
+  imageAlt  String? @db.VarChar(255)
+  sortOrder Int
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([id, productId])
   @@index([productId, sortOrder])
 }
+
 //#endregion
 
 //#region Brand & Category
@@ -146,7 +147,7 @@ model VariantLabel {
 
 model VariantOption {
   id             String                     @id @default(cuid())
-  name          String                     @db.VarChar(100)
+  name           String                     @db.VarChar(100)
   thumbnail      String?                    @db.VarChar(255)
   sortOrder      Int
   variantLabelId String
@@ -164,11 +165,11 @@ model VariantCombination {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product       Product                    @relation(fields: [productId], references: [id], onDelete: Cascade)
-  options       VariantCombinationOption[]
-  pricing       VariantPricing?
-  inventory     VariantInventory?
-  promotions    VariantPromotion[]
+  product    Product                    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  options    VariantCombinationOption[]
+  pricing    VariantPricing?
+  inventory  VariantInventory?
+  promotions VariantPromotion[]
 
   @@index([productId])
 }
@@ -210,7 +211,8 @@ model VariantCombinationOption {
 model Currency {
   id       String           @id @default(cuid())
   code     String           @unique @db.VarChar(3) // ISO 4217 currency code (USD, EUR, etc.)
-  label     String           @db.VarChar(50)
+  label    String           @db.VarChar(50)
+  symbol   String           @db.VarChar(10)
   storeId  String
   store    Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
   pricings VariantPricing[]

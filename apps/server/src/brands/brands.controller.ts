@@ -20,12 +20,13 @@ import {
   FindOneDocs,
   UpdateOneDocs,
 } from './brands.docs';
+import { ZodValidationPipe } from '@anatine/zod-nestjs';
 
 @ApiTags('brands')
 @ApiBearerAuth('swagger-access-token')
 @Controller('brands')
 export class BrandsController {
-  constructor(private readonly brandsService: BrandsService) { }
+  constructor(private readonly brandsService: BrandsService) {}
 
   // #region Find All Brands
   @PublicRoute()
@@ -51,7 +52,7 @@ export class BrandsController {
   @CreateOneDocs()
   async createOne(
     @Param('storeId') storeId: string,
-    @Body() brand: CreateBrandDto,
+    @Body(new ZodValidationPipe()) brand: CreateBrandDto,
   ) {
     return this.brandsService.createOne(storeId, brand);
   }
@@ -64,7 +65,7 @@ export class BrandsController {
   async updateOne(
     @Param('storeId') storeId: string,
     @Param('id') id: string,
-    @Body() brand: UpdateBrandDto,
+    @Body(new ZodValidationPipe()) brand: UpdateBrandDto,
   ) {
     return this.brandsService.updateOne(storeId, id, brand);
   }

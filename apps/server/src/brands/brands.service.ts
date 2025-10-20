@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
 import { CreateBrandDto, UpdateBrandDto } from '@hwei/schema/dto/brands.schema';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
@@ -68,6 +68,12 @@ export class BrandsService {
   async deleteOne(storeId: string, id: string) {
     try {
       this.logger.debug(`Deleting brand ${id} for store ${storeId}`);
+      const prev = await this.findOne(storeId, id);
+
+      if (!prev) {
+        throw new NotFoundException(`Brand not found.`);
+      }
+
       await this.prisma.brand.deleteMany({
         where: {
           id,
