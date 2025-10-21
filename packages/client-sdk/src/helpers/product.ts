@@ -1,12 +1,12 @@
 import { AxiosInstance } from "axios";
 import { BaseClient } from "./base";
-import { Product, ProductInput, ProductUpdate } from "@hwei/schema/dto/products.schema";
-
+import { Product, ProductUpdate } from "@hwei/schema/dto/products.schema";
+import { ProductTransactionInput as CreateProduct } from "@hwei/schema/dto/product-transaction";
 export class ProductClient extends BaseClient {
   constructor(getToken: () => Promise<string | null>, storeId: string, baseUrl?: string, api?: AxiosInstance) {
     super(
       getToken,
-      `${storeId}/tags`,
+      `${storeId}/products`,
       baseUrl,
       api
     );
@@ -19,7 +19,7 @@ export class ProductClient extends BaseClient {
     return this.request(async () => this.api.get(`${this.route}/${id}`))
   }
 
-  async createProduct(brand: ProductInput): Promise<Product> {
+  async createProduct(brand: CreateProduct): Promise<Product> {
     return this.request(async () => this.api.post(this.route, brand))
   }
 
@@ -31,14 +31,33 @@ export class ProductClient extends BaseClient {
     return this.request(async () => this.api.delete(`${this.route}/${id}`))
   }
 
-  async getProductAllImages(productid: string) { }
-  async getProductImages(productId: string, imageId: string) { }
+  async getProductAllImages(productId: string) {
+    return this.request(async () => this.api.get(`${this.route}/images/${productId}`))
+  }
+  async getProductImages(productId: string, imageId: string) {
+    return this.request(async () => this.api.get(`${this.route}/images/${productId}/${imageId}`))
+  }
 
-  async getAllProductVariants(productId: string) { }
-  async getProductVariant(productId: string, variantId: string) { }
+  async getAllProductVariantLabels(productId: string) {
+    return this.request(async () =>
+      this.api.get(`${this.route}/${productId}/variants/label`))
+  }
+  async getProductVariantLabel(productId: string, labelId: string) {
+    return this.request(async () =>
+      this.api.get(`${this.route}/${productId}/variants/label/${labelId}`))
+  }
 
-  async getAllProductCombinations(productId: string) { }
-  async getProductCombination(productId: string, combinationId: string) { }
+  async getAllProductCombinations(productId: string) {
+    return this.request(async () =>
+      this.api.get(`${this.route}/${productId}/variants/combination`))
+  }
+  async getProductCombination(productId: string, combinationId: string) {
+    return this.request(async () =>
+      this.api.get(`${this.route}/${productId}/variants/combination/${combinationId}`))
+  }
 
-  async getProductVariantInventory(productId: string, variantId: string) { }
+  async getProductVariantInventory(productId: string, combinationId: string, inventoryId: string) {
+    return this.request(async () =>
+      this.api.get(`${this.route}/${productId}/variants/inventory/${combinationId}/${inventoryId}`))
+  }
 }

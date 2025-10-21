@@ -17,7 +17,7 @@ import {
 
 @ApiTags('product-images')
 @ApiBearerAuth('swagger-access-token')
-@Controller('image')
+@Controller('images')
 export class ImageController {
   constructor(private readonly imageService: ImageService) { }
 
