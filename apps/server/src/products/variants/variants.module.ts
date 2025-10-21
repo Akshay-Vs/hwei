@@ -43,4 +43,4 @@ import { VariantsService } from './variants.service';
     VariantsService,
   ],
 })
-export class VariantsModule {}
+export class VariantsModule { }

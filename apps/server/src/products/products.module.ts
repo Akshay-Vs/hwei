@@ -6,23 +6,22 @@ import { ProductsService } from './products.service';
 import { ProductsController } from './products.controller';
 import { TagsService } from 'src/tags/tags.service';
 import { VariantsModule } from './variants/variants.module';
-import { ImageService } from './image/image.service';
 import { PricingService } from './variants/pricing/pricing.service';
-import { ImageController } from './image/image.controller';
 import { ProductTransactionsService } from './product.transactions.service';
+import { ImageModule } from './image/image.module';
 
 @Module({
-  controllers: [PricingController, ProductsController, ImageController],
+  controllers: [PricingController, ProductsController],
   providers: [
     PrismaService,
     ProductsService,
     TagsService,
-    ImageService,
     PricingService,
     ProductTransactionsService,
   ],
   imports: [
     VariantsModule,
+    ImageModule,
     RouterModule.register([
       {
         path: ':storeId',
@@ -32,9 +31,13 @@ import { ProductTransactionsService } from './product.transactions.service';
             path: 'products/:productId/variants',
             module: VariantsModule,
           },
+          {
+            path: 'products/',
+            module: ImageModule,
+          },
         ],
       },
     ]),
   ],
 })
-export class ProductsModule {}
+export class ProductsModule { }
