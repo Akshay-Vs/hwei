@@ -26,10 +26,12 @@ model Store {
   brands     Brand[]
   categories Category[]
   currencies Currency[]
+  orders     Order[]
+  carts      Cart[]
+  wishlists  Wishlist[]
 
   @@unique([userId, name])
-  @@index([userId])
-  @@index([slug])
+  @@index([userId, isActive, deletedAt])
 }
 
 //#endregion
@@ -39,15 +41,15 @@ model Store {
 model Product {
   id          String         @id @default(cuid())
   storeId     String
-  store       Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store       Store          @relation(fields: [storeId], references: [id])
   title       String         @db.VarChar(200)
   description String         @db.Text
   minOrder    Int
   maxOrder    Int
   brandId     String
-  brand       Brand          @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  brand       Brand          @relation(fields: [brandId], references: [id])
   categoryId  String
-  category    Category       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category    Category       @relation(fields: [categoryId], references: [id])
   images      ProductImage[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
@@ -56,9 +58,10 @@ model Product {
   tags                ProductTag[]
   variantLabels       VariantLabel[]
   variantCombinations VariantCombination[]
+  cartItems           CartItem[]
+  wishlistItems       WishlistItem[]
 
-  @@unique([storeId, id])
-  @@index([title])
+  @@index([storeId, deletedAt])
   @@index([brandId])
   @@index([categoryId])
 }
@@ -66,15 +69,15 @@ model Product {
 //#endregion
 
 //#region Product Images
+
 model ProductImage {
   id        String  @id @default(cuid())
   imageUrl  String  @db.VarChar(255)
   imageAlt  String? @db.VarChar(255)
   sortOrder Int
   productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 
-  @@unique([id, productId])
   @@index([productId, sortOrder])
 }
 
@@ -88,7 +91,7 @@ model Brand {
   image       String?   @db.VarChar(255)
   description String?   @db.Text
   storeId     String
-  store       Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store       Store     @relation(fields: [storeId], references: [id])
   products    Product[]
 
   @@unique([storeId, name])
@@ -99,7 +102,7 @@ model Category {
   id       String    @id @default(cuid())
   name     String    @db.VarChar(100)
   storeId  String
-  store    Store     @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store    Store     @relation(fields: [storeId], references: [id])
   products Product[]
 
   @@unique([storeId, name])
@@ -121,12 +124,11 @@ model ProductTag {
   productId String
   tagId     String
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+  tag     Tag     @relation(fields: [tagId], references: [id])
 
   @@unique([productId, tagId])
-  @@index([tagId])
-  @@index([productId])
+  @@index([tagId, productId])
 }
 
 //#endregion
@@ -139,7 +141,7 @@ model VariantLabel {
   hasThumbnail Boolean
   sortOrder    Int
   productId    String
-  product      Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product      Product         @relation(fields: [productId], references: [id])
   options      VariantOption[]
 
   @@index([productId, sortOrder])
@@ -151,7 +153,7 @@ model VariantOption {
   thumbnail      String?                    @db.VarChar(255)
   sortOrder      Int
   variantLabelId String
-  labelOwner     VariantLabel               @relation(fields: [variantLabelId], references: [id], onDelete: Cascade)
+  labelOwner     VariantLabel               @relation(fields: [variantLabelId], references: [id])
   combinations   VariantCombinationOption[]
 
   @@index([variantLabelId, sortOrder])
@@ -165,13 +167,17 @@ model VariantCombination {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  product    Product                    @relation(fields: [productId], references: [id], onDelete: Cascade)
-  options    VariantCombinationOption[]
-  pricing    VariantPricing?
-  inventory  VariantInventory?
-  promotions VariantPromotion[]
+  product       Product                    @relation(fields: [productId], references: [id])
+  options       VariantCombinationOption[]
+  pricing       VariantPricing?
+  inventory     VariantInventory?
+  promotions    VariantPromotion[]
+  orderItems    OrderItem[]
+  cartItems     CartItem[]
+  wishlistItems WishlistItem[]
 
-  @@index([productId])
+  @@index([productId, deletedAt])
+  @@index([sku])
 }
 
 model VariantPricing {
@@ -179,7 +185,7 @@ model VariantPricing {
   combinationId String             @unique
   price         Int
   currencyId    String
-  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  variant       VariantCombination @relation(fields: [combinationId], references: [id])
   currency      Currency           @relation(fields: [currencyId], references: [id])
 
   @@index([currencyId])
@@ -189,7 +195,7 @@ model VariantInventory {
   id            String             @id @default(cuid())
   combinationId String             @unique
   stock         Int
-  variant       VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
+  variant       VariantCombination @relation(fields: [combinationId], references: [id])
 
   @@index([stock])
 }
@@ -198,8 +204,8 @@ model VariantCombinationOption {
   id            String             @id @default(cuid())
   combinationId String
   optionId      String
-  combination   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
-  option        VariantOption      @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  combination   VariantCombination @relation(fields: [combinationId], references: [id])
+  option        VariantOption      @relation(fields: [optionId], references: [id])
 
   @@unique([combinationId, optionId])
   @@index([optionId, combinationId])
@@ -208,14 +214,16 @@ model VariantCombinationOption {
 //#endregion
 
 //#region Currency
+
 model Currency {
   id       String           @id @default(cuid())
-  code     String           @unique @db.VarChar(3) // ISO 4217 currency code (USD, EUR, etc.)
+  code     String           @db.VarChar(3)
   label    String           @db.VarChar(50)
   symbol   String           @db.VarChar(10)
   storeId  String
-  store    Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  store    Store            @relation(fields: [storeId], references: [id])
   pricings VariantPricing[]
+  orders   Order[]
 
   @@unique([storeId, code])
   @@index([storeId])
@@ -224,6 +232,7 @@ model Currency {
 //#endregion
 
 //#region Promotions
+
 model Promotion {
   id           String       @id @default(cuid())
   name         String       @db.VarChar(100)
@@ -249,7 +258,7 @@ model PromotionScope {
   scopeType   ScopeType
   targetId    String
 
-  promotion Promotion @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  promotion Promotion @relation(fields: [promotionId], references: [id])
 
   @@index([scopeType, targetId])
   @@index([promotionId])
@@ -260,11 +269,129 @@ model VariantPromotion {
   combinationId String
   promotionId   String
 
-  variant   VariantCombination @relation(fields: [combinationId], references: [id], onDelete: Cascade)
-  promotion Promotion          @relation(fields: [promotionId], references: [id], onDelete: Cascade)
+  variant   VariantCombination @relation(fields: [combinationId], references: [id])
+  promotion Promotion          @relation(fields: [promotionId], references: [id])
 
   @@unique([combinationId, promotionId])
   @@index([promotionId])
+}
+
+//#endregion
+
+//#region Orders
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique @db.VarChar(50)
+  storeId         String
+  userId          String      @db.VarChar(64)
+  status          OrderStatus @default(PENDING)
+  currencyId      String
+  subtotal        Int // Locked at order time
+  discount        Int         @default(0) // Locked at order time
+  tax             Int         @default(0) // Locked at order time
+  shippingCost    Int         @default(0) // Locked at order time
+  total           Int // Locked at order time
+  shippingAddress Json? // Stores address snapshot
+  billingAddress  Json? // Stores address snapshot
+  notes           String?     @db.Text
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  store    Store       @relation(fields: [storeId], references: [id])
+  currency Currency    @relation(fields: [currencyId], references: [id])
+  items    OrderItem[]
+
+  @@index([storeId, userId, status])
+  @@index([storeId, createdAt])
+  @@index([userId, createdAt])
+  @@index([orderNumber])
+}
+
+model OrderItem {
+  id            String @id @default(cuid())
+  orderId       String
+  productId     String
+  combinationId String
+  quantity      Int
+  unitPrice     Int // Locked price at order time
+  discount      Int    @default(0) // Locked discount at order time
+  total         Int // Locked total at order time
+  snapshot      Json // Stores product/variant details at order time
+
+  order   Order              @relation(fields: [orderId], references: [id])
+  variant VariantCombination @relation(fields: [combinationId], references: [id])
+
+  @@index([orderId])
+  @@index([combinationId])
+}
+
+//#endregion
+
+//#region Cart
+
+model Cart {
+  id        String   @id @default(cuid())
+  storeId   String
+  userId    String   @db.VarChar(64)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store Store      @relation(fields: [storeId], references: [id])
+  items CartItem[]
+
+  @@unique([storeId, userId])
+  @@index([userId])
+}
+
+model CartItem {
+  id            String   @id @default(cuid())
+  cartId        String
+  productId     String
+  combinationId String
+  quantity      Int
+  addedAt       DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  cart    Cart               @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product            @relation(fields: [productId], references: [id])
+  variant VariantCombination @relation(fields: [combinationId], references: [id])
+
+  @@unique([cartId, combinationId])
+  @@index([cartId])
+}
+
+//#endregion
+
+//#region Wishlist
+
+model Wishlist {
+  id        String   @id @default(cuid())
+  storeId   String
+  userId    String   @db.VarChar(64)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  store Store          @relation(fields: [storeId], references: [id])
+  items WishlistItem[]
+
+  @@unique([storeId, userId])
+  @@index([userId])
+}
+
+model WishlistItem {
+  id            String   @id @default(cuid())
+  wishlistId    String
+  productId     String
+  combinationId String?
+  addedAt       DateTime @default(now())
+
+  wishlist Wishlist            @relation(fields: [wishlistId], references: [id], onDelete: Cascade)
+  product  Product             @relation(fields: [productId], references: [id])
+  variant  VariantCombination? @relation(fields: [combinationId], references: [id])
+
+  @@unique([wishlistId, productId, combinationId])
+  @@index([wishlistId])
 }
 
 //#endregion
@@ -282,4 +409,16 @@ enum DiscountType {
   PERCENTAGE
 
   @@map("discount_type")
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+
+  @@map("order_status")
 }

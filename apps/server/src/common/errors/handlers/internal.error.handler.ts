@@ -3,23 +3,19 @@ import {
   ConflictException,
   BadRequestException,
   InternalServerErrorException,
-  Logger,
-  UnauthorizedException,
   HttpException,
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@/generated/runtime/library';
 import { formatUniqueConstraintError } from 'src/common/utils/format-unique-constrain-error';
-
-interface InternalErrorHandlerProps {
-  error: unknown;
-  entity: string;
-  logger: Logger;
-}
+import { InternalErrorHandlerProps } from '../types/internal-handler-props';
+import { formatForeignKeyError } from '../utils/format-foriegn-key-error';
+import { formatDependencyError } from '../utils/format-dependency-error';
 
 export const handleInternalError = ({
   error,
   entity,
   logger,
+  operation = 'operation',
 }: InternalErrorHandlerProps): never => {
   if (error == null) {
     logger.error(
@@ -30,69 +26,96 @@ export const handleInternalError = ({
   }
 
   if (error instanceof PrismaClientKnownRequestError) {
+    const logMessage = `[Prisma ${error.code}] : ${error.message}`;
+
     if (process.env.NODE_ENV?.toLowerCase() === 'production') {
-      logger.error(`[Prisma ${error.code}] : ${error.message}`);
+      logger.error(logMessage);
     } else {
-      logger.error(`[Prisma ${error.code}] : ${error.message}`, error.stack);
+      logger.error(logMessage, error.stack);
     }
 
     switch (error.code) {
+      // Unique constraint violation
       case 'P2002': {
         const target = error.meta?.target;
         throw new ConflictException(
           formatUniqueConstraintError(entity, target),
         );
       }
+
+      // Record not found
       case 'P2025':
         throw new NotFoundException(`${entity} not found`);
+
+      // Foreign key constraint failed (invalid reference)
       case 'P2003':
         throw new BadRequestException(
-          `Operation failed due to an invalid reference`,
-        );
-      case 'P2014':
-        throw new BadRequestException(
-          `Operation failed due to a relation error`,
+          formatForeignKeyError(entity, error.meta, error.message),
         );
 
+      // Required relation violation (cascading delete failure)
+      case 'P2014':
+        throw new BadRequestException(
+          `Cannot ${operation} ${entity} because it would violate a required relation`,
+        );
+
+      // Related record not found
+      case 'P2015':
+        throw new NotFoundException(
+          `Cannot perform operation: related record not found`,
+        );
+
+      // Dependent records exist (cannot delete due to dependencies)
+      case 'P2023':
+        throw new ConflictException(formatDependencyError(entity, error.meta));
+
+      // Value too long for column type
+      case 'P2000':
+        throw new BadRequestException(
+          `Value provided for ${entity} exceeds maximum length`,
+        );
+
+      // Record required but not found (null constraint violation)
+      case 'P2011':
+        throw new BadRequestException(
+          `Operation failed: required field is missing in ${entity}`,
+        );
+
+      // Missing required value
+      case 'P2012':
+        throw new BadRequestException(
+          `Operation failed: missing required value for ${entity}`,
+        );
+
+      // Missing required field
+      case 'P2013':
+        throw new BadRequestException(
+          `Operation failed: missing required field in ${entity}`,
+        );
+
+      // Default case for unhandled Prisma errors
       default:
+        logger.warn(`Unhandled Prisma error code: ${error.code}`);
         throw new InternalServerErrorException(
           `Operation could not be completed`,
         );
     }
   } else if (error instanceof HttpException) {
-    logger.error(`[Error] : ${error.message}`, error.stack);
+    const errorMessage = error.message;
+    const errorStack = error.stack;
 
-    switch (error.getStatus()) {
-      case 400:
-        logger.error(`[Bad Request] : ${error.message}`);
-        throw new BadRequestException(
-          `Operation failed due to an invalid request`,
-        );
+    logger.error(`[HttpException] : ${errorMessage}`, errorStack);
 
-      case 401:
-        logger.error(`[Unauthorized] : ${error.message}`);
-        throw new UnauthorizedException(
-          `Operation failed due to an unauthorized request`,
-        );
-
-      case 404:
-        logger.error(`[Not Found] : ${error.message}`);
-        throw new NotFoundException(
-          `Operation failed due to a missing resource`,
-        );
-
-      case 409:
-        logger.error(`[Conflict] : ${error.message}`);
-        throw new ConflictException(`Operation failed due to a conflict`);
-
-      default:
-        logger.error(`[Unknown] : ${error.message}`);
-        throw new InternalServerErrorException(
-          `Operation failed due to an internal error`,
-        );
-    }
+    // Re-throw the original HttpException to preserve status code and message
+    // unless you want to override it
+    throw error;
   }
 
-  logger.error(`[Unknown] : ${JSON.stringify(error)}`);
+  // Unknown error type
+  const errorMessage =
+    error instanceof Error ? error.message : JSON.stringify(error);
+  const errorStack = error instanceof Error ? error.stack : undefined;
+
+  logger.error(`[Unknown Error] : ${errorMessage}`, errorStack);
   throw new InternalServerErrorException(`Operation failed unexpectedly`);
 };

@@ -17,7 +17,7 @@ export default tseslint.config(
           autoFix: true,
           cspell: {
             language: 'en_US',
-            words: ['hwei'],
+            words: ['hwei', 'fkey'],
             ignoreRegExpList: [
               '/user_\\w+/',
               '/cma\\w+/'
