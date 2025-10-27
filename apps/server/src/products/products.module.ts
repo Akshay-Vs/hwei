@@ -40,4 +40,4 @@ import { ImageModule } from './image/image.module';
     ]),
   ],
 })
-export class ProductsModule { }
+export class ProductsModule {}

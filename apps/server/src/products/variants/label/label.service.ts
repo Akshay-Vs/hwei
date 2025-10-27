@@ -12,7 +12,7 @@ import {
 export class LabelService {
   private readonly entity = 'Label';
   private readonly logger = new Logger(LabelService.name);
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(productId: string): Promise<Label[]> {
     try {

@@ -8,4 +8,4 @@ import { ImageController } from './image.controller';
   controllers: [ImageController],
   exports: [ImageService],
 })
-export class ImageModule { }
+export class ImageModule {}

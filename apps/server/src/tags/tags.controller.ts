@@ -37,7 +37,7 @@ import {
 @ApiBearerAuth('swagger-access-token')
 @Controller('tags')
 export class TagsController {
-  constructor(private readonly tagsService: TagsService) { }
+  constructor(private readonly tagsService: TagsService) {}
 
   @Get()
   @PublicRoute()

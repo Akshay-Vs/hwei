@@ -14,7 +14,7 @@ import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
 @ApiBearerAuth('swagger-access-token')
 @Controller('inventory')
 export class InventoryController {
-  constructor(private readonly inventoryService: InventoryService) { }
+  constructor(private readonly inventoryService: InventoryService) {}
 
   @PublicRoute()
   @Get(':combinationId/:id')

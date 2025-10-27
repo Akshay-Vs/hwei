@@ -34,7 +34,7 @@ import { PrismaService } from '@database/prisma.service';
 export class StoreOwnershipGuard implements CanActivate {
   private readonly logger = new Logger(StoreOwnershipGuard.name);
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
   /**
    * Determines if the current request is allowed to proceed.
    *

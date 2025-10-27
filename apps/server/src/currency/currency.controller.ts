@@ -26,7 +26,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 @ApiBearerAuth('swagger-access-token')
 @Controller('currency')
 export class CurrencyController {
-  constructor(private readonly currencyService: CurrencyService) { }
+  constructor(private readonly currencyService: CurrencyService) {}
 
   @Get()
   @PublicRoute()
