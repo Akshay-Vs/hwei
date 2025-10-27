@@ -11,9 +11,9 @@ export const priceRelationSchema = z.object({
 });
 
 export const priceBaseSchema = z.object({
-  price: number().min(0).int({
+  price: number({
     message: 'Price must be a number',
-  }),
+  }).min(0),
 });
 
 export const priceInputSchema = priceBaseSchema.merge(priceRelationSchema);
