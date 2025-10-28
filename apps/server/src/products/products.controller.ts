@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { PublicRoute } from '@decorators/public-route.decorator';
@@ -28,15 +29,18 @@ import {
   ProductTransactionInputDTO,
 } from '@hwei/schema/dto/product-transaction';
 import { ProductTransactionsService } from './product.transactions.service';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @ApiTags('products')
 @ApiBearerAuth('swagger-access-token')
+@CacheTTL(30000) // 30 sec
+@UseInterceptors(CacheInterceptor)
 @Controller('products')
 export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
     private readonly productTransactionService: ProductTransactionsService,
-  ) {}
+  ) { }
 
   @Get()
   @PublicRoute()

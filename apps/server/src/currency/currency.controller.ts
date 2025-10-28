@@ -8,6 +8,7 @@ import {
   Post,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CurrencyService } from './currency.service';
 import { ZodValidationPipe } from 'src/common/pipes/zod-validation.pipe';
@@ -21,12 +22,14 @@ import {
 import { PublicRoute } from 'src/common/decorators/public-route.decorator';
 import { StoreOwnershipGuard } from 'src/common/guards/store-ownership.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('currency')
 @ApiBearerAuth('swagger-access-token')
+@UseInterceptors(CacheInterceptor)
 @Controller('currency')
 export class CurrencyController {
-  constructor(private readonly currencyService: CurrencyService) {}
+  constructor(private readonly currencyService: CurrencyService) { }
 
   @Get()
   @PublicRoute()

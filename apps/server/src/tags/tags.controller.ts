@@ -31,13 +31,16 @@ import {
   Patch,
   Post,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('tags')
 @ApiBearerAuth('swagger-access-token')
+@UseInterceptors(CacheInterceptor)
 @Controller('tags')
 export class TagsController {
-  constructor(private readonly tagsService: TagsService) {}
+  constructor(private readonly tagsService: TagsService) { }
 
   @Get()
   @PublicRoute()

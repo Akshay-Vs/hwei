@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { CategoriesService } from './categories.service';
@@ -27,12 +28,14 @@ import {
 } from './categories.docs';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ZodValidationPipe } from '@anatine/zod-nestjs';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('categories')
 @ApiBearerAuth('swagger-access-token')
+@UseInterceptors(CacheInterceptor)
 @Controller('categories')
 export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) { }
 
   // #region Find All Categories
   @PublicRoute()
