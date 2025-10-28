@@ -21,10 +21,11 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@hwei/schema": "workspace:*",
     "@anatine/zod-nestjs": "^2.0.12",
     "@anatine/zod-openapi": "^2.2.8",
     "@clerk/backend": "^2.5.0",
+    "@hwei/schema": "workspace:*",
+    "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.1.0",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.0",
@@ -33,6 +34,7 @@
     "@nestjs/swagger": "^11.1.6",
     "@nestjs/throttler": "^6.4.0",
     "@prisma/client": "^6.7.0",
+    "cache-manager": "^7.2.4",
     "helmet": "^8.1.0",
     "openapi3-ts": "^4.4.0",
     "passport": "^0.7.0",

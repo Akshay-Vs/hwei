@@ -19,7 +19,7 @@ import {
 @ApiBearerAuth('swagger-access-token')
 @Controller('images')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) { }
+  constructor(private readonly imageService: ImageService) {}
 
   @PublicRoute()
   @FindAllByProductDocs()

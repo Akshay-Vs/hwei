@@ -13,7 +13,7 @@ export class StoresService {
   private readonly logger = new Logger(StoresService.name);
   private readonly entity = 'Store';
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   private generateSlug(name: string): string {
     return `${slugify(name, { lower: true })}-${uuid4()}`;

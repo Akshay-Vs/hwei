@@ -11,7 +11,7 @@ export class CategoriesService {
   private readonly logger = new Logger(CategoriesService.name);
   private readonly entity = 'Category';
 
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(storeId: string) {
     try {

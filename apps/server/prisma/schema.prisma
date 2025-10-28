@@ -55,15 +55,27 @@ model Product {
   updatedAt   DateTime       @updatedAt
   deletedAt   DateTime?
 
+  // Computed fields
+  variantCount    Int      @default(0) // Count of active variants
+  lowestPrice     Int? // Min price across all variants
+  highestPrice    Int? // Max price across all variants
+  totalStock      Int      @default(0) // Sum of all variant stock
+  hasStock        Boolean  @default(false) // Any variant in stock?
+  primaryImage    String?  @db.VarChar(255) // First image URL (cached)
+  lastStockUpdate DateTime? // Track when stock was last updated
+
+
   tags                ProductTag[]
   variantLabels       VariantLabel[]
   variantCombinations VariantCombination[]
   cartItems           CartItem[]
   wishlistItems       WishlistItem[]
 
-  @@index([storeId, deletedAt])
-  @@index([brandId])
-  @@index([categoryId])
+  @@index([storeId, deletedAt, hasStock])
+  @@index([storeId, lowestPrice, deletedAt])
+  @@index([storeId, createdAt])
+  @@index([brandId, deletedAt])
+  @@index([categoryId, deletedAt])
 }
 
 //#endregion
@@ -176,6 +188,9 @@ model VariantCombination {
   cartItems     CartItem[]
   wishlistItems WishlistItem[]
 
+  // Computed fields
+  displayLabel String? @db.VarChar(200) // "Large / Red / Cotton" - precomputed
+
   @@index([productId, deletedAt])
   @@index([sku])
 }
@@ -187,6 +202,10 @@ model VariantPricing {
   currencyId    String
   variant       VariantCombination @relation(fields: [combinationId], references: [id])
   currency      Currency           @relation(fields: [currencyId], references: [id])
+
+  // Computed fields
+  currencyCode   String? @db.VarChar(3) // "USD" - cached from Currency
+  currencySymbol String? @db.VarChar(10) // "$" - cached from Currency
 
   @@index([currencyId])
 }

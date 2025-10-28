@@ -31,13 +31,17 @@ export class ProductsService extends BaseService {
         await this.getClient().product.findMany({
           where: {
             storeId,
-            title: {
-              contains: query.search,
-              mode: 'insensitive',
-            },
+            ...(query.search
+              ? {
+                  title: {
+                    contains: query.search,
+                    mode: 'insensitive',
+                  },
+                }
+              : {}),
           },
-          skip: query.skip,
-          take: query.take,
+          ...(query.skip ? { skip: query.skip } : {}),
+          ...(query.take ? { take: query.take } : {}),
           include: {
             images: true,
           },

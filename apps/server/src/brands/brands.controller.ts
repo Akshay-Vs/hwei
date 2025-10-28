@@ -7,6 +7,7 @@ import {
   Delete,
   Patch,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { BrandsService } from './brands.service';
@@ -21,12 +22,14 @@ import {
   UpdateOneDocs,
 } from './brands.docs';
 import { ZodValidationPipe } from '@anatine/zod-nestjs';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('brands')
 @ApiBearerAuth('swagger-access-token')
+@UseInterceptors(CacheInterceptor)
 @Controller('brands')
 export class BrandsController {
-  constructor(private readonly brandsService: BrandsService) {}
+  constructor(private readonly brandsService: BrandsService) { }
 
   // #region Find All Brands
   @PublicRoute()

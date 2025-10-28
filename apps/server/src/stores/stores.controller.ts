@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
@@ -29,9 +30,11 @@ import {
   UpdateOneDocs,
 } from './stores.docs';
 import { StoreOwnershipGuard } from '@guards/store-ownership.guard';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('stores')
 @ApiBearerAuth('swagger-access-token')
+@UseInterceptors(CacheInterceptor)
 @Controller('stores')
 export class StoresController {
   private readonly logger = new Logger(StoresController.name);

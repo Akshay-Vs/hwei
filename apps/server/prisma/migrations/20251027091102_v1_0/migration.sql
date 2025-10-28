@@ -1,95 +1,211 @@
-/*
-  Warnings:
+-- CreateEnum
+CREATE TYPE "ScopeType" AS ENUM ('GLOBAL', 'BRAND', 'CATEGORY', 'PRODUCT', 'VARIANT');
 
-  - A unique constraint covering the columns `[storeId,code]` on the table `Currency` will be added. If there are existing duplicate values, this will fail.
+-- CreateEnum
+CREATE TYPE "discount_type" AS ENUM ('FIXED', 'PERCENTAGE');
 
-*/
 -- CreateEnum
 CREATE TYPE "order_status" AS ENUM ('PENDING', 'CONFIRMED', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'REFUNDED');
 
--- DropForeignKey
-ALTER TABLE "public"."Brand" DROP CONSTRAINT "Brand_storeId_fkey";
+-- CreateTable
+CREATE TABLE "Store" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "slug" VARCHAR(100) NOT NULL,
+    "icon" VARCHAR(100) NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "version" INTEGER NOT NULL DEFAULT 1,
+    "userId" VARCHAR(64) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
 
--- DropForeignKey
-ALTER TABLE "public"."Category" DROP CONSTRAINT "Category_storeId_fkey";
+    CONSTRAINT "Store_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."Currency" DROP CONSTRAINT "Currency_storeId_fkey";
+-- CreateTable
+CREATE TABLE "Product" (
+    "id" TEXT NOT NULL,
+    "storeId" TEXT NOT NULL,
+    "title" VARCHAR(200) NOT NULL,
+    "description" TEXT NOT NULL,
+    "minOrder" INTEGER NOT NULL,
+    "maxOrder" INTEGER NOT NULL,
+    "brandId" TEXT NOT NULL,
+    "categoryId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "variantCount" INTEGER NOT NULL DEFAULT 0,
+    "lowestPrice" INTEGER,
+    "highestPrice" INTEGER,
+    "totalStock" INTEGER NOT NULL DEFAULT 0,
+    "hasStock" BOOLEAN NOT NULL DEFAULT false,
+    "primaryImage" VARCHAR(255),
+    "lastStockUpdate" TIMESTAMP(3),
 
--- DropForeignKey
-ALTER TABLE "public"."Product" DROP CONSTRAINT "Product_brandId_fkey";
+    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."Product" DROP CONSTRAINT "Product_categoryId_fkey";
+-- CreateTable
+CREATE TABLE "ProductImage" (
+    "id" TEXT NOT NULL,
+    "imageUrl" VARCHAR(255) NOT NULL,
+    "imageAlt" VARCHAR(255),
+    "sortOrder" INTEGER NOT NULL,
+    "productId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."Product" DROP CONSTRAINT "Product_storeId_fkey";
+    CONSTRAINT "ProductImage_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."ProductImage" DROP CONSTRAINT "ProductImage_productId_fkey";
+-- CreateTable
+CREATE TABLE "Brand" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "image" VARCHAR(255),
+    "description" TEXT,
+    "storeId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."ProductTag" DROP CONSTRAINT "ProductTag_productId_fkey";
+    CONSTRAINT "Brand_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."ProductTag" DROP CONSTRAINT "ProductTag_tagId_fkey";
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "storeId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."PromotionScope" DROP CONSTRAINT "PromotionScope_promotionId_fkey";
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."VariantCombination" DROP CONSTRAINT "VariantCombination_productId_fkey";
+-- CreateTable
+CREATE TABLE "Tag" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."VariantCombinationOption" DROP CONSTRAINT "VariantCombinationOption_combinationId_fkey";
+    CONSTRAINT "Tag_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."VariantCombinationOption" DROP CONSTRAINT "VariantCombinationOption_optionId_fkey";
+-- CreateTable
+CREATE TABLE "ProductTag" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "tagId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."VariantInventory" DROP CONSTRAINT "VariantInventory_combinationId_fkey";
+    CONSTRAINT "ProductTag_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."VariantLabel" DROP CONSTRAINT "VariantLabel_productId_fkey";
+-- CreateTable
+CREATE TABLE "VariantLabel" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(50) NOT NULL,
+    "hasThumbnail" BOOLEAN NOT NULL,
+    "sortOrder" INTEGER NOT NULL,
+    "productId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."VariantOption" DROP CONSTRAINT "VariantOption_variantLabelId_fkey";
+    CONSTRAINT "VariantLabel_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."VariantPricing" DROP CONSTRAINT "VariantPricing_combinationId_fkey";
+-- CreateTable
+CREATE TABLE "VariantOption" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "thumbnail" VARCHAR(255),
+    "sortOrder" INTEGER NOT NULL,
+    "variantLabelId" TEXT NOT NULL,
 
--- DropForeignKey
-ALTER TABLE "public"."VariantPromotion" DROP CONSTRAINT "VariantPromotion_combinationId_fkey";
+    CONSTRAINT "VariantOption_pkey" PRIMARY KEY ("id")
+);
 
--- DropForeignKey
-ALTER TABLE "public"."VariantPromotion" DROP CONSTRAINT "VariantPromotion_promotionId_fkey";
+-- CreateTable
+CREATE TABLE "VariantCombination" (
+    "id" TEXT NOT NULL,
+    "productId" TEXT NOT NULL,
+    "sku" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+    "displayLabel" VARCHAR(200),
 
--- DropIndex
-DROP INDEX "public"."Currency_code_key";
+    CONSTRAINT "VariantCombination_pkey" PRIMARY KEY ("id")
+);
 
--- DropIndex
-DROP INDEX "public"."Product_storeId_id_key";
+-- CreateTable
+CREATE TABLE "VariantPricing" (
+    "id" TEXT NOT NULL,
+    "combinationId" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "currencyId" TEXT NOT NULL,
+    "currencyCode" VARCHAR(3) NOT NULL,
+    "currencySymbol" VARCHAR(10) NOT NULL,
 
--- DropIndex
-DROP INDEX "public"."Product_title_idx";
+    CONSTRAINT "VariantPricing_pkey" PRIMARY KEY ("id")
+);
 
--- DropIndex
-DROP INDEX "public"."ProductImage_id_productId_key";
+-- CreateTable
+CREATE TABLE "VariantInventory" (
+    "id" TEXT NOT NULL,
+    "combinationId" TEXT NOT NULL,
+    "stock" INTEGER NOT NULL,
 
--- DropIndex
-DROP INDEX "public"."ProductTag_productId_idx";
+    CONSTRAINT "VariantInventory_pkey" PRIMARY KEY ("id")
+);
 
--- DropIndex
-DROP INDEX "public"."ProductTag_tagId_idx";
+-- CreateTable
+CREATE TABLE "VariantCombinationOption" (
+    "id" TEXT NOT NULL,
+    "combinationId" TEXT NOT NULL,
+    "optionId" TEXT NOT NULL,
 
--- DropIndex
-DROP INDEX "public"."Store_slug_idx";
+    CONSTRAINT "VariantCombinationOption_pkey" PRIMARY KEY ("id")
+);
 
--- DropIndex
-DROP INDEX "public"."Store_userId_idx";
+-- CreateTable
+CREATE TABLE "Currency" (
+    "id" TEXT NOT NULL,
+    "code" VARCHAR(3) NOT NULL,
+    "label" VARCHAR(50) NOT NULL,
+    "symbol" VARCHAR(10) NOT NULL,
+    "storeId" TEXT NOT NULL,
 
--- DropIndex
-DROP INDEX "public"."VariantCombination_productId_idx";
+    CONSTRAINT "Currency_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Promotion" (
+    "id" TEXT NOT NULL,
+    "name" VARCHAR(100) NOT NULL,
+    "description" TEXT,
+    "discountType" "discount_type" NOT NULL,
+    "value" INTEGER NOT NULL,
+    "minPurchase" INTEGER,
+    "maxPurchase" INTEGER,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Promotion_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "PromotionScope" (
+    "id" TEXT NOT NULL,
+    "promotionId" TEXT NOT NULL,
+    "scopeType" "ScopeType" NOT NULL,
+    "targetId" TEXT NOT NULL,
+
+    CONSTRAINT "PromotionScope_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VariantPromotion" (
+    "id" TEXT NOT NULL,
+    "combinationId" TEXT NOT NULL,
+    "promotionId" TEXT NOT NULL,
+
+    CONSTRAINT "VariantPromotion_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Order" (
@@ -175,6 +291,108 @@ CREATE TABLE "WishlistItem" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Store_slug_key" ON "Store"("slug");
+
+-- CreateIndex
+CREATE INDEX "Store_userId_isActive_deletedAt_idx" ON "Store"("userId", "isActive", "deletedAt");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Store_userId_name_key" ON "Store"("userId", "name");
+
+-- CreateIndex
+CREATE INDEX "Product_storeId_deletedAt_hasStock_idx" ON "Product"("storeId", "deletedAt", "hasStock");
+
+-- CreateIndex
+CREATE INDEX "Product_storeId_lowestPrice_deletedAt_idx" ON "Product"("storeId", "lowestPrice", "deletedAt");
+
+-- CreateIndex
+CREATE INDEX "Product_storeId_createdAt_idx" ON "Product"("storeId", "createdAt");
+
+-- CreateIndex
+CREATE INDEX "Product_brandId_deletedAt_idx" ON "Product"("brandId", "deletedAt");
+
+-- CreateIndex
+CREATE INDEX "Product_categoryId_deletedAt_idx" ON "Product"("categoryId", "deletedAt");
+
+-- CreateIndex
+CREATE INDEX "ProductImage_productId_sortOrder_idx" ON "ProductImage"("productId", "sortOrder");
+
+-- CreateIndex
+CREATE INDEX "Brand_storeId_idx" ON "Brand"("storeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Brand_storeId_name_key" ON "Brand"("storeId", "name");
+
+-- CreateIndex
+CREATE INDEX "Category_storeId_idx" ON "Category"("storeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_storeId_name_key" ON "Category"("storeId", "name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
+
+-- CreateIndex
+CREATE INDEX "ProductTag_tagId_productId_idx" ON "ProductTag"("tagId", "productId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ProductTag_productId_tagId_key" ON "ProductTag"("productId", "tagId");
+
+-- CreateIndex
+CREATE INDEX "VariantLabel_productId_sortOrder_idx" ON "VariantLabel"("productId", "sortOrder");
+
+-- CreateIndex
+CREATE INDEX "VariantOption_variantLabelId_sortOrder_idx" ON "VariantOption"("variantLabelId", "sortOrder");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VariantCombination_sku_key" ON "VariantCombination"("sku");
+
+-- CreateIndex
+CREATE INDEX "VariantCombination_productId_deletedAt_idx" ON "VariantCombination"("productId", "deletedAt");
+
+-- CreateIndex
+CREATE INDEX "VariantCombination_sku_idx" ON "VariantCombination"("sku");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VariantPricing_combinationId_key" ON "VariantPricing"("combinationId");
+
+-- CreateIndex
+CREATE INDEX "VariantPricing_currencyId_idx" ON "VariantPricing"("currencyId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VariantInventory_combinationId_key" ON "VariantInventory"("combinationId");
+
+-- CreateIndex
+CREATE INDEX "VariantInventory_stock_idx" ON "VariantInventory"("stock");
+
+-- CreateIndex
+CREATE INDEX "VariantCombinationOption_optionId_combinationId_idx" ON "VariantCombinationOption"("optionId", "combinationId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VariantCombinationOption_combinationId_optionId_key" ON "VariantCombinationOption"("combinationId", "optionId");
+
+-- CreateIndex
+CREATE INDEX "Currency_storeId_idx" ON "Currency"("storeId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Currency_storeId_code_key" ON "Currency"("storeId", "code");
+
+-- CreateIndex
+CREATE INDEX "Promotion_startDate_endDate_idx" ON "Promotion"("startDate", "endDate");
+
+-- CreateIndex
+CREATE INDEX "PromotionScope_scopeType_targetId_idx" ON "PromotionScope"("scopeType", "targetId");
+
+-- CreateIndex
+CREATE INDEX "PromotionScope_promotionId_idx" ON "PromotionScope"("promotionId");
+
+-- CreateIndex
+CREATE INDEX "VariantPromotion_promotionId_idx" ON "VariantPromotion"("promotionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VariantPromotion_combinationId_promotionId_key" ON "VariantPromotion"("combinationId", "promotionId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Order_orderNumber_key" ON "Order"("orderNumber");
 
 -- CreateIndex
@@ -219,24 +437,6 @@ CREATE INDEX "WishlistItem_wishlistId_idx" ON "WishlistItem"("wishlistId");
 -- CreateIndex
 CREATE UNIQUE INDEX "WishlistItem_wishlistId_productId_combinationId_key" ON "WishlistItem"("wishlistId", "productId", "combinationId");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Currency_storeId_code_key" ON "Currency"("storeId", "code");
-
--- CreateIndex
-CREATE INDEX "Product_storeId_deletedAt_idx" ON "Product"("storeId", "deletedAt");
-
--- CreateIndex
-CREATE INDEX "ProductTag_tagId_productId_idx" ON "ProductTag"("tagId", "productId");
-
--- CreateIndex
-CREATE INDEX "Store_userId_isActive_deletedAt_idx" ON "Store"("userId", "isActive", "deletedAt");
-
--- CreateIndex
-CREATE INDEX "VariantCombination_productId_deletedAt_idx" ON "VariantCombination"("productId", "deletedAt");
-
--- CreateIndex
-CREATE INDEX "VariantCombination_sku_idx" ON "VariantCombination"("sku");
-
 -- AddForeignKey
 ALTER TABLE "Product" ADD CONSTRAINT "Product_storeId_fkey" FOREIGN KEY ("storeId") REFERENCES "Store"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -272,6 +472,9 @@ ALTER TABLE "VariantCombination" ADD CONSTRAINT "VariantCombination_productId_fk
 
 -- AddForeignKey
 ALTER TABLE "VariantPricing" ADD CONSTRAINT "VariantPricing_combinationId_fkey" FOREIGN KEY ("combinationId") REFERENCES "VariantCombination"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "VariantPricing" ADD CONSTRAINT "VariantPricing_currencyId_fkey" FOREIGN KEY ("currencyId") REFERENCES "Currency"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "VariantInventory" ADD CONSTRAINT "VariantInventory_combinationId_fkey" FOREIGN KEY ("combinationId") REFERENCES "VariantCombination"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
