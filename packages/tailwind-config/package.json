@@ -15,7 +15,7 @@
 	"license": "MIT",
 	"dependencies": {
 		"postcss": "^8.5.1",
-		"tailwindcss": "3.4.7",
+		"tailwindcss": "4.1.16",
 		"tailwindcss-animate": "^1.0.7"
 	}
 }
