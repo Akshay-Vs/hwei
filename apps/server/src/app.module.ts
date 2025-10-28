@@ -12,12 +12,18 @@ import { BrandsModule } from './brands/brands.module';
 import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { CurrencyModule } from './currency/currency.module';
+import { CacheModule } from '@nestjs/cache-manager';
+
 @Module({
   imports: [
+    CacheModule.register({
+      ttl: 60000, // 60 sec
+      isGlobal: true,
+    }),
     ThrottlerModule.forRoot({
       throttlers: [
         {
-          ttl: 60000,
+          ttl: 60000, // 60 sec
           limit: 10,
         },
       ],
@@ -45,4 +51,4 @@ import { CurrencyModule } from './currency/currency.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
