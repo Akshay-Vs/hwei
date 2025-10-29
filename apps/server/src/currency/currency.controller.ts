@@ -29,7 +29,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 @UseInterceptors(CacheInterceptor)
 @Controller('currency')
 export class CurrencyController {
-  constructor(private readonly currencyService: CurrencyService) { }
+  constructor(private readonly currencyService: CurrencyService) {}
 
   @Get()
   @PublicRoute()
