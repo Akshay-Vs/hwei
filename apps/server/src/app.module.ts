@@ -13,6 +13,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { CurrencyModule } from './currency/currency.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { WishlistModule } from './wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     CategoriesModule,
     TagsModule,
     CurrencyModule,
+    WishlistModule,
   ],
 
   providers: [
