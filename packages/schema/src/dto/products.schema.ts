@@ -38,6 +38,7 @@ export const productInputSchema = productFields
   });
 
 export const productUpdateSchema = productFields
+  .merge(productsMetadataSchema.pick({ deletedAt: true }))
   .partial()
   .superRefine((data, ctx) => {
     const { minOrder, maxOrder } = data;
@@ -78,7 +79,7 @@ export type ProductUpdate = z.infer<typeof productUpdateSchema>;
 export type ProductMetadata = z.infer<typeof productsMetadataSchema>;
 export type Product = z.infer<typeof productSchema>;
 
-export class ProductInputDto extends createZodDto(productInputSchema) {}
-export class ProductUpdateDto extends createZodDto(productUpdateSchema) {}
-export class ProductMetadataDto extends createZodDto(productsMetadataSchema) {}
-export class ProductDto extends createZodDto(productSchema) {}
+export class ProductInputDto extends createZodDto(productInputSchema) { }
+export class ProductUpdateDto extends createZodDto(productUpdateSchema) { }
+export class ProductMetadataDto extends createZodDto(productsMetadataSchema) { }
+export class ProductDto extends createZodDto(productSchema) { }
