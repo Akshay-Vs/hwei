@@ -41,7 +41,7 @@ export class ProductsService extends BaseService {
               : {}),
           },
           ...(query.skip ? { skip: query.skip } : {}),
-          ...(query.take ? { take: query.take } : {}),
+          ...(query.take ? { take: query.take } : { take: 10 }),
           include: {
             images: true,
           },
