@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '@database/prisma.service';
 import {
   ProductDto,
@@ -31,13 +31,14 @@ export class ProductsService extends BaseService {
         await this.getClient().product.findMany({
           where: {
             storeId,
+            deletedAt: null,
             ...(query.search
               ? {
-                  title: {
-                    contains: query.search,
-                    mode: 'insensitive',
-                  },
-                }
+                title: {
+                  contains: query.search,
+                  mode: 'insensitive',
+                },
+              }
               : {}),
           },
           ...(query.skip ? { skip: query.skip } : {}),
@@ -53,12 +54,16 @@ export class ProductsService extends BaseService {
     return await this.withErrorHandling(
       async () =>
         await this.getClient().product.findUniqueOrThrow({
-          where: { id, storeId },
+          where: { id, storeId, deletedAt: null },
           include: {
             images: true,
             brand: true,
             category: true,
-            tags: true,
+            tags: {
+              select: {
+                tag: true,
+              },
+            },
             variantCombinations: {
               include: {
                 inventory: true,
@@ -115,10 +120,17 @@ export class ProductsService extends BaseService {
     );
   }
 
-  async deleteOne(storeId: string, id: string): Promise<ProductDto> {
-    return await this.withErrorHandling(
-      async () =>
-        await this.getClient().product.delete({ where: { id, storeId } }),
-    );
+  async deleteOne(storeId: string, id: string): Promise<void> {
+    return await this.withErrorHandling(async () => {
+      const existing = await this.findOne(storeId, id);
+
+      if (!existing || existing.deletedAt) {
+        throw new NotFoundException(`Product ${id} not found`);
+      }
+
+      await this.updateOne(storeId, id, {
+        deletedAt: new Date(),
+      });
+    });
   }
 }
