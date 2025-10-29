@@ -29,7 +29,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 @UseInterceptors(CacheInterceptor)
 @Controller('brands')
 export class BrandsController {
-  constructor(private readonly brandsService: BrandsService) { }
+  constructor(private readonly brandsService: BrandsService) {}
 
   // #region Find All Brands
   @PublicRoute()

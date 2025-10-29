@@ -39,7 +39,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 export class StoresController {
   private readonly logger = new Logger(StoresController.name);
 
-  constructor(private readonly storesService: StoresService) { }
+  constructor(private readonly storesService: StoresService) {}
 
   //#region [GET] /stores - Get all stores
   @Get()

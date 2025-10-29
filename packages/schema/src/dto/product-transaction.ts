@@ -8,7 +8,7 @@ import { tagInputSchema } from './tags.schema';
 export const productTransactionInput = z.object({
   metadata: productInputSchema,
   images: z.array(imageInputSchema.omit({ productId: true })),
-  tags: tagInputSchema,
+  tags: tagInputSchema.optional(),
   variants: z.array(variantTransactionInput),
 });
 
