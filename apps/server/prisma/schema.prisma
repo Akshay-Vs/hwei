@@ -14,8 +14,8 @@ model User {
   id        String  @id @default(cuid())
   clerkId   String  @unique @db.VarChar(64)
   email     String  @unique @db.VarChar(255)
-  firstName String? @db.VarChar(255)
-  lastName  String? @db.VarChar(255)
+  firstName String  @db.VarChar(255)
+  lastName  String  @db.VarChar(255)
   avatar    String? @db.VarChar(255)
 
   status UserStatus @default(ACTIVE)
@@ -543,6 +543,7 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   SUSPENDED
+  DELETED
 
   @@map("user_status")
 }
