@@ -34,7 +34,6 @@ model User {
   Address   Address[]
   Store     Store[]
 
-  @@unique([clerkId, email])
   @@index([clerkId, email, deletedAt])
 }
 
@@ -492,7 +491,6 @@ model Wishlist {
   User  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([storeId, userId])
-  @@index([storeId, userId])
 }
 
 model WishlistItem {
