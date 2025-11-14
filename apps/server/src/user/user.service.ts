@@ -6,7 +6,6 @@ import {
   User,
   CreateUserDto,
   UpdateUserDto,
-  UserDto,
   RoleEnum,
 } from '@hwei/schema/dto/user.schema';
 
@@ -23,7 +22,7 @@ export class UserService extends BaseService {
   }
 
   //#region Admin Routes
-  async findAll(pagination: PaginationQuery): Promise<UserDto[]> {
+  async findAll(pagination: PaginationQuery): Promise<User[]> {
     return this.withErrorHandling(() => {
       this.logger.debug('Finding all users');
       return this.getClient().user.findMany({

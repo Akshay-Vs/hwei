@@ -56,11 +56,7 @@ export class WishlistService extends BaseService {
     });
   }
 
-  async create(
-    storeId: string,
-    userId: string,
-    data: CreateWishlistItemDto,
-  ) {
+  async create(storeId: string, userId: string, data: CreateWishlistItemDto) {
     return this.withErrorHandling(() => {
       return this.prisma.$transaction(async (tx) => {
         // Ensure wishlist exists
@@ -124,7 +120,7 @@ export class WishlistService extends BaseService {
 
   async delete(id: string, storeId: string, userId: string) {
     return this.withErrorHandling(async () => {
-      this.logger.debug(`Deleting wishlist with id ${id}`);
+      this.logger.debug(`Deleting wishlist item with id ${id}`);
 
       return this.prisma.$transaction(async (tx) => {
         // Ensure wishlist exists
@@ -150,7 +146,6 @@ export class WishlistService extends BaseService {
 
         await tx.wishlistItem.delete({
           where: {
-            wishlistId: wishlist.id,
             id: id,
           },
         });
@@ -164,7 +159,9 @@ export class WishlistService extends BaseService {
     userId: string,
   ): Promise<Prisma.BatchPayload> {
     return this.withErrorHandling(() => {
-      this.logger.debug(`Deleting wishlists with ids ${JSON.stringify(ids)}`);
+      this.logger.debug(
+        `Deleting wishlist items with ids ${JSON.stringify(ids)}`,
+      );
 
       return this.prisma.$transaction(async (tx) => {
         // Ensure wishlist exists
@@ -184,7 +181,6 @@ export class WishlistService extends BaseService {
 
         return await tx.wishlistItem.deleteMany({
           where: {
-            wishlistId: wishlist.id,
             id: {
               in: ids,
             },
