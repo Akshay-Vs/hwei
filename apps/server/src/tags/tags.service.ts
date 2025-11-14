@@ -71,31 +71,31 @@ export class TagsService extends BaseService {
     });
   }
 
-  async resolveTagIds(names: string[]): Promise<string[]> {
+  async resolveTagIds(
+    tx: Prisma.TransactionClient,
+    names: string[],
+  ): Promise<string[]> {
     return await this.withErrorHandling(async () => {
       this.logger.debug(
         `Resolving tag IDs for names: ${JSON.stringify(names)}`,
       );
-      await this.prisma.$transaction(async (tx) => {
-        const existing = await tx.tag.findMany({
-          where: { name: { in: names } },
-        });
 
-        const existingNames = new Set(existing.map((t) => t.name));
-        const missing = names.filter((name) => !existingNames.has(name));
-
-        if (missing.length > 0) {
-          this.logger.debug(
-            `Creating missing tags: ${JSON.stringify(missing)}`,
-          );
-          await tx.tag.createMany({
-            data: missing.map((name) => ({ name })),
-            skipDuplicates: true,
-          });
-        }
+      const existing = await this.getClient(tx).tag.findMany({
+        where: { name: { in: names } },
       });
 
-      const final = await this.getClient().tag.findMany({
+      const existingNames = new Set(existing.map((t) => t.name));
+      const missing = names.filter((name) => !existingNames.has(name));
+
+      if (missing.length > 0) {
+        this.logger.debug(`Creating missing tags: ${JSON.stringify(missing)}`);
+        await this.getClient(tx).tag.createMany({
+          data: missing.map((name) => ({ name })),
+          skipDuplicates: true,
+        });
+      }
+
+      const final = await this.getClient(tx).tag.findMany({
         where: { name: { in: names } },
       });
       this.logger.debug(`Resolved ${final.length} tag IDs`);

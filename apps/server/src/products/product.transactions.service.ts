@@ -5,6 +5,7 @@ import { ProductTransactionInput } from '@hwei/schema/dto/product-transaction';
 import { ImageService } from './image/image.service';
 import { VariantsService } from './variants/variants.service';
 import { ProductsService } from './products.service';
+import { TagsService } from 'src/tags/tags.service';
 
 @Injectable()
 export class ProductTransactionsService extends BaseService {
@@ -16,6 +17,7 @@ export class ProductTransactionsService extends BaseService {
     protected readonly product: ProductsService,
     protected readonly productImage: ImageService,
     protected readonly variant: VariantsService,
+    protected readonly tag: TagsService,
   ) {
     super(prisma);
   }
@@ -36,6 +38,12 @@ export class ProductTransactionsService extends BaseService {
           product.id,
           input.images,
         );
+
+        // populate tags
+        if (input.tags?.names?.length) {
+          const tagIds = await this.tag.resolveTagIds(tx, input.tags.names);
+          await this.tag.connectToProduct(tx, product.id, tagIds);
+        }
 
         // populate variants
         for (const variant of input.variants) {

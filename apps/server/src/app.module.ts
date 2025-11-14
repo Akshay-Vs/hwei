@@ -13,6 +13,11 @@ import { CategoriesModule } from './categories/categories.module';
 import { TagsModule } from './tags/tags.module';
 import { CurrencyModule } from './currency/currency.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { WishlistModule } from './wishlist/wishlist.module';
+import { CartService } from './cart/cart.service';
+import { CartModule } from './cart/cart.module';
+import { UserModule } from './user/user.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
   imports: [
@@ -40,6 +45,10 @@ import { CacheModule } from '@nestjs/cache-manager';
     CategoriesModule,
     TagsModule,
     CurrencyModule,
+    WishlistModule,
+    CartModule,
+    UserModule,
+    AddressModule,
   ],
 
   providers: [
@@ -49,6 +58,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       provide: APP_GUARD,
       useClass: ClerkAuthGuard,
     },
+    CartService,
   ],
 })
-export class AppModule { }
+export class AppModule {}

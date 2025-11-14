@@ -40,7 +40,7 @@ export class ProductsController {
   constructor(
     private readonly productsService: ProductsService,
     private readonly productTransactionService: ProductTransactionsService,
-  ) { }
+  ) {}
 
   @Get()
   @PublicRoute()

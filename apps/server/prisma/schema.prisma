@@ -8,6 +8,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//#region User
+
+model User {
+  id        String  @id @default(cuid())
+  clerkId   String  @unique @db.VarChar(64)
+  email     String  @unique @db.VarChar(255)
+  firstName String  @db.VarChar(255)
+  lastName  String  @db.VarChar(255)
+  avatar    String? @db.VarChar(255)
+
+  status UserStatus @default(ACTIVE)
+  role   Role       @default(USER)
+
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
+  deletedAt DateTime?
+
+  // Computed fields
+  fullName String? @db.VarChar(255)
+
+  orders    Order[]
+  carts     Cart[]
+  wishlists Wishlist[]
+  Address   Address[]
+  Store     Store[]
+
+  @@index([clerkId, email, deletedAt])
+}
+
+//#endregion
+
 //#region Store
 
 model Store {
@@ -29,6 +60,9 @@ model Store {
   orders     Order[]
   carts      Cart[]
   wishlists  Wishlist[]
+
+  // relations
+  user User @relation(fields: [userId], references: [id])
 
   @@unique([userId, name])
   @@index([userId, isActive, deletedAt])
@@ -56,14 +90,13 @@ model Product {
   deletedAt   DateTime?
 
   // Computed fields
-  variantCount    Int      @default(0) // Count of active variants
+  variantCount    Int       @default(0) // Count of active variants
   lowestPrice     Int? // Min price across all variants
   highestPrice    Int? // Max price across all variants
-  totalStock      Int      @default(0) // Sum of all variant stock
-  hasStock        Boolean  @default(false) // Any variant in stock?
-  primaryImage    String?  @db.VarChar(255) // First image URL (cached)
+  totalStock      Int       @default(0) // Sum of all variant stock
+  hasStock        Boolean   @default(false) // Any variant in stock?
+  primaryImage    String?   @db.VarChar(255) // First image URL (cached)
   lastStockUpdate DateTime? // Track when stock was last updated
-
 
   tags                ProductTag[]
   variantLabels       VariantLabel[]
@@ -297,34 +330,95 @@ model VariantPromotion {
 
 //#endregion
 
+//#region Address
+model Address {
+  id        String   @id @default(cuid())
+  userId    String   @db.VarChar(64)
+  firstName String   @db.VarChar(100)
+  lastName  String   @db.VarChar(100)
+  address1  String   @db.VarChar(255)
+  address2  String?  @db.VarChar(255)
+  city      String   @db.VarChar(100)
+  state     String   @db.VarChar(100)
+  zip       String   @db.VarChar(20)
+  country   String   @db.VarChar(2) // ISO 3166-1 alpha-2
+  phone     String   @db.VarChar(20) // E.164 format max 15 + prefix
+  isDefault Boolean  @default(false)
+  isActive  Boolean  @default(true) // Soft delete
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user             User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ordersAsShipping Order[] @relation("ShippingAddress")
+  ordersAsBilling  Order[] @relation("BillingAddress")
+
+  @@index([userId, isActive])
+  @@index([userId, isDefault])
+}
+
+//#endregion
+
 //#region Orders
-
 model Order {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique @db.VarChar(50)
-  storeId         String
-  userId          String      @db.VarChar(64)
-  status          OrderStatus @default(PENDING)
-  currencyId      String
-  subtotal        Int // Locked at order time
-  discount        Int         @default(0) // Locked at order time
-  tax             Int         @default(0) // Locked at order time
-  shippingCost    Int         @default(0) // Locked at order time
-  total           Int // Locked at order time
-  shippingAddress Json? // Stores address snapshot
-  billingAddress  Json? // Stores address snapshot
-  notes           String?     @db.Text
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id          String      @id @default(cuid())
+  orderNumber String      @unique @db.VarChar(50)
+  storeId     String
+  userId      String      @db.VarChar(64)
+  status      OrderStatus @default(PENDING)
+  currencyId  String
+  notes       String?     @db.Text
 
-  store    Store       @relation(fields: [storeId], references: [id])
-  currency Currency    @relation(fields: [currencyId], references: [id])
-  items    OrderItem[]
+  // Financial amounts in smallest currency unit (cents/paise)
+  subtotal     Int @default(0)
+  shippingCost Int @default(0)
+  taxAmount    Int @default(0)
+  discount     Int @default(0)
+  totalAmount  Int // itemsSubtotal - totalDiscount + shipping + tax
 
-  @@index([storeId, userId, status])
-  @@index([storeId, createdAt])
-  @@index([userId, createdAt])
-  @@index([orderNumber])
+  // stripe payment references
+  stripePaymentIntentId String? @unique @db.VarChar(255)
+  stripeChargeId        String? @db.VarChar(255)
+  stripeCustomerId      String? @db.VarChar(255)
+
+  paymentStatus PaymentStatus @default(PENDING)
+
+  // refunds
+  amountPaid     Int @default(0)
+  amountRefunded Int @default(0)
+
+  // Address references
+  billingAddressId  String
+  shippingAddressId String
+
+  // Timestamps
+  paidAt      DateTime?
+  shippedAt   DateTime?
+  deliveredAt DateTime?
+  cancelledAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Computed snapshots
+  shippingAddressSnapshot Json?
+  billingAddressSnapshot  Json?
+
+  stripeWebhookLog Json? // Store raw webhook data
+  calculationLog   Json? // Store how you calculated total
+
+  // Relations
+  store           Store       @relation(fields: [storeId], references: [id])
+  currency        Currency    @relation(fields: [currencyId], references: [id])
+  shippingAddress Address     @relation("ShippingAddress", fields: [shippingAddressId], references: [id], onDelete: Restrict)
+  billingAddress  Address     @relation("BillingAddress", fields: [billingAddressId], references: [id], onDelete: Restrict)
+  user            User        @relation(fields: [userId], references: [id])
+  items           OrderItem[]
+
+  // Optimized indexes for common queries
+  @@index([storeId, status, createdAt(sort: Desc)])
+  @@index([userId, status, createdAt(sort: Desc)])
+  @@index([status, createdAt(sort: Desc)])
+  @@index([storeId, userId])
+  @@index([createdAt(sort: Desc)])
 }
 
 model OrderItem {
@@ -358,6 +452,7 @@ model Cart {
 
   store Store      @relation(fields: [storeId], references: [id])
   items CartItem[]
+  User  User       @relation(fields: [userId], references: [id])
 
   @@unique([storeId, userId])
   @@index([userId])
@@ -391,11 +486,11 @@ model Wishlist {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  store Store          @relation(fields: [storeId], references: [id])
+  store Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
   items WishlistItem[]
+  User  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([storeId, userId])
-  @@index([userId])
 }
 
 model WishlistItem {
@@ -440,4 +535,30 @@ enum OrderStatus {
   REFUNDED
 
   @@map("order_status")
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  DELETED
+
+  @@map("user_status")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+  USER
+}
+
+enum PaymentStatus {
+  PENDING // Order created, no payment
+  PROCESSING // Payment initiated
+  REQUIRES_ACTION // 3D Secure required
+  SUCCEEDED // Payment successful
+  FAILED // Payment failed
+  PARTIALLY_REFUNDED
+  REFUNDED
+  DISPUTED // Chargeback
 }
