@@ -40,8 +40,8 @@ export class ProductTransactionsService extends BaseService {
         );
 
         // populate tags
-        if (input.tags?.names) {
-          const tagIds = await this.tag.resolveTagIds(input.tags.names);
+        if (input.tags?.names?.length) {
+          const tagIds = await this.tag.resolveTagIds(tx, input.tags.names);
           await this.tag.connectToProduct(tx, product.id, tagIds);
         }
 

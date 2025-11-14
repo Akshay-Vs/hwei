@@ -26,7 +26,7 @@ export class WishlistService extends BaseService {
     pagination: PaginationQuery,
   ): Promise<WishlistDto[]> {
     return this.withErrorHandling(() => {
-      this.logger.debug(`Finding all currencies for store ${storeId}`);
+      this.logger.debug(`Finding all wishlists for store ${storeId}`);
       return this.getClient().wishlist.findMany({
         where: {
           storeId,
@@ -56,7 +56,11 @@ export class WishlistService extends BaseService {
     });
   }
 
-  async create(storeId: string, userId: string, data: CreateWishlistItemDto) {
+  async create(
+    storeId: string,
+    userId: string,
+    data: CreateWishlistItemDto,
+  ) {
     return this.withErrorHandling(() => {
       return this.prisma.$transaction(async (tx) => {
         // Ensure wishlist exists
@@ -82,13 +86,13 @@ export class WishlistService extends BaseService {
           where: {
             wishlistId: wishlist.id,
             productId: data.productId,
-            combinationId: data.combinationId || null,
+            combinationId: data.combinationId ?? null,
           },
         });
 
         if (existingItem) {
           // Update existing item
-          await tx.wishlistItem.update({
+          return await tx.wishlistItem.update({
             where: {
               id: existingItem.id,
             },
@@ -102,11 +106,11 @@ export class WishlistService extends BaseService {
           });
         } else {
           // Create new item
-          await tx.wishlistItem.create({
+          return await tx.wishlistItem.create({
             data: {
               wishlistId: wishlist.id,
               productId: data.productId,
-              combinationId: data.combinationId || null,
+              combinationId: data.combinationId ?? null,
             },
             include: {
               product: true,
@@ -141,7 +145,7 @@ export class WishlistService extends BaseService {
         // check the item exists in the wishlist
         const item = wishlist.items.find((i) => i.id === id);
         if (!item) {
-          throw new NotFoundException(`No wishlist item found for id id`);
+          throw new NotFoundException(`No wishlist item found for id ${id}`);
         }
 
         await tx.wishlistItem.delete({

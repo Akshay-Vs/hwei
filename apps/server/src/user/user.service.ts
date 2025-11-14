@@ -41,7 +41,7 @@ export class UserService extends BaseService {
 
   async updateRole(id: string, role: RoleEnum): Promise<User> {
     return this.withErrorHandling(async () => {
-      this.logger.debug(`Updating admin user with id id`);
+      this.logger.debug(`Updating admin user with id ${id}`);
 
       // Check if user exists
       const existingUser = await this.getClient().user.findFirst({
@@ -52,7 +52,7 @@ export class UserService extends BaseService {
       });
 
       if (!existingUser) {
-        throw new NotFoundException(`User with id id not found`);
+        throw new NotFoundException(`User with id ${id} not found`);
       }
 
       return this.getClient().user.update({
@@ -140,10 +140,17 @@ export class UserService extends BaseService {
         throw new NotFoundException(`User with id ${id} not found`);
       }
 
+      // Update fullName
+      const nextFirstName = data.firstName ?? existingUser.firstName;
+      const nextLastName = data.lastName ?? existingUser.lastName;
+      const fullName =
+        [nextFirstName, nextLastName].filter(Boolean).join(' ') || null;
+
       return this.getClient().user.update({
         where: { id },
         data: {
           ...data,
+          fullName,
         },
       });
     });
