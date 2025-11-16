@@ -7,13 +7,17 @@ import { PrismaService } from '@database/prisma.service';
 import { handleInternalError } from '@errors/handlers/internal.error.handler';
 import { UpdateBrand } from '@hwei/schema/dto/brands.schema';
 import { CreateStore } from '@hwei/schema/dto/store.schema';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class StoresService {
   private readonly logger = new Logger(StoresService.name);
   private readonly entity = 'Store';
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userService: UserService,
+  ) { }
 
   private generateSlug(name: string): string {
     return `${slugify(name, { lower: true })}-${uuid4()}`;
@@ -39,8 +43,16 @@ export class StoresService {
     }
   }
 
-  async createOne(user: User, input: CreateStore) {
+  async createOne(clerkUser: User, input: CreateStore) {
     try {
+      this.logger.debug('Creating new store for user ' + clerkUser.id);
+
+      const user = await this.userService.findByClerkId(clerkUser.id);
+
+      if (!user) {
+        throw new NotFoundException(`User not found`);
+      }
+
       return await this.prisma.store.create({
         data: {
           ...input,
