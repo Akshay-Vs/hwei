@@ -15,12 +15,10 @@ export const userMetadataSchema = z.object({
 export const userBaseSchema = z.object({
   clerkId: z.string().min(1).max(64),
   email: z.string().email().max(255),
-  firstName: z.string().max(255),
-  lastName: z.string().max(255),
   avatar: z.string().url().max(255).nullable().optional(),
   status: userStatusEnum.optional().default('ACTIVE'),
   role: roleEnum.optional().default('USER'),
-  fullName: z.string().max(255).nullable().optional(),
+  fullName: z.string().max(255).nullable(),
 });
 
 // Represents a full User
@@ -30,16 +28,14 @@ export const userSchema = userMetadataSchema.merge(userBaseSchema);
 export const createUserSchema = userBaseSchema.pick({
   clerkId: true,
   email: true,
-  firstName: true,
-  lastName: true,
+  fullName: true,
   avatar: true,
 });
 
 export const updateUserSchema = userBaseSchema
   .pick({
     email: true,
-    firstName: true,
-    lastName: true,
+    fullName: true,
     avatar: true,
   })
   .partial();
