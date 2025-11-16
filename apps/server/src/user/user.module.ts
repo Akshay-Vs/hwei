@@ -2,18 +2,10 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { PrismaService } from 'src/common/database/prisma.service';
-import { RouterModule } from '@nestjs/core';
+import { AdminController } from './admin.user.controller';
 
 @Module({
   providers: [UserService, PrismaService],
-  controllers: [UserController],
-  imports: [
-    RouterModule.register([
-      {
-        path: ':id',
-        module: UserModule,
-      },
-    ]),
-  ],
+  controllers: [UserController, AdminController],
 })
-export class UserModule {}
+export class UserModule { }
