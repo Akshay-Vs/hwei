@@ -11,12 +11,11 @@ datasource db {
 //#region User
 
 model User {
-  id        String  @id @default(cuid())
-  clerkId   String  @unique @db.VarChar(64)
-  email     String  @unique @db.VarChar(255)
-  firstName String  @db.VarChar(255)
-  lastName  String  @db.VarChar(255)
-  avatar    String? @db.VarChar(255)
+  id       String  @id @default(cuid())
+  clerkId  String  @unique @db.VarChar(64)
+  email    String  @unique @db.VarChar(255)
+  fullName String? @db.VarChar(255)
+  avatar   String? @db.VarChar(255)
 
   status UserStatus @default(ACTIVE)
   role   Role       @default(USER)
@@ -24,9 +23,6 @@ model User {
   updatedAt DateTime  @updatedAt
   createdAt DateTime  @default(now())
   deletedAt DateTime?
-
-  // Computed fields
-  fullName String? @db.VarChar(255)
 
   orders    Order[]
   carts     Cart[]
