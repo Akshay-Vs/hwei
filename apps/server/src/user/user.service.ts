@@ -2,13 +2,9 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/common/database/prisma.service';
 import { BaseService } from 'src/common/services/base.service';
 
-import {
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-  RoleEnum,
-} from '@hwei/schema/dto/user.schema';
+import { User, UpdateUserDto, RoleEnum } from '@hwei/schema/dto/user.schema';
 
+import { User as ClerkUser } from '@clerk/backend';
 import { Prisma } from '@/generated';
 import { PaginationQuery } from '@hwei/schema/dto/query-schema';
 
@@ -62,7 +58,55 @@ export class UserService extends BaseService {
       });
     });
   }
-  //#endregion
+
+  async findByEmail(email: string): Promise<User | null> {
+    return this.withErrorHandling(async () => {
+      this.logger.debug(`Finding user with email ${email}`);
+      return this.getClient().user.findFirst({
+        where: {
+          email,
+          deletedAt: null,
+        },
+      });
+    });
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return this.withErrorHandling(async () => {
+      this.logger.debug(`Finding user with id ${id}`);
+      const user = await this.getClient().user.findFirst({
+        where: {
+          id,
+          deletedAt: null,
+        },
+      });
+
+      if (!user) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
+
+      return user;
+    });
+  }
+
+  async deleteMany(ids: string[]): Promise<Prisma.BatchPayload> {
+    return this.withErrorHandling(() => {
+      this.logger.debug(`Soft deleting users with ids ${JSON.stringify(ids)}`);
+
+      return this.getClient().user.updateMany({
+        where: {
+          id: {
+            in: ids,
+          },
+          deletedAt: null,
+        },
+        data: {
+          deletedAt: new Date(),
+          status: 'DELETED',
+        },
+      });
+    });
+  }
 
   async findOne(id: string): Promise<User | null> {
     return this.withErrorHandling(async () => {
@@ -81,6 +125,7 @@ export class UserService extends BaseService {
       return user;
     });
   }
+  //#endregion
 
   async findByClerkId(clerkId: string): Promise<User | null> {
     return this.withErrorHandling(async () => {
@@ -94,30 +139,18 @@ export class UserService extends BaseService {
     });
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    return this.withErrorHandling(async () => {
-      this.logger.debug(`Finding user with email ${email}`);
-      return this.getClient().user.findFirst({
-        where: {
-          email,
-          deletedAt: null,
-        },
-      });
-    });
-  }
-
-  async create(data: CreateUserDto): Promise<User> {
+  async create(user: ClerkUser): Promise<User> {
     return this.withErrorHandling(async () => {
       this.logger.debug('Creating new user');
 
-      // Compute fullName
-      const fullName =
-        [data.firstName, data.lastName].filter(Boolean).join(' ') || null;
+      const { fullName, id: clerkId, emailAddresses, imageUrl } = user;
 
       return this.getClient().user.create({
         data: {
-          ...data,
           fullName,
+          clerkId,
+          email: emailAddresses[0].emailAddress,
+          avatar: imageUrl,
         },
       });
     });
@@ -139,58 +172,32 @@ export class UserService extends BaseService {
         throw new NotFoundException(`User with id ${id} not found`);
       }
 
-      // Update fullName
-      const nextFirstName = data.firstName ?? existingUser.firstName;
-      const nextLastName = data.lastName ?? existingUser.lastName;
-      const fullName =
-        [nextFirstName, nextLastName].filter(Boolean).join(' ') || null;
-
       return this.getClient().user.update({
         where: { id },
         data: {
           ...data,
-          fullName,
         },
       });
     });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(clerkId: string): Promise<void> {
     return this.withErrorHandling(async () => {
-      this.logger.debug(`Soft deleting user with id ${id}`);
+      this.logger.debug(`Soft deleting user with clerk id ${clerkId}`);
 
       const user = await this.getClient().user.findFirst({
         where: {
-          id,
+          clerkId,
           deletedAt: null,
         },
       });
 
       if (!user) {
-        throw new NotFoundException(`User with id ${id} not found`);
+        throw new NotFoundException(`User with clerk id ${clerkId} not found`);
       }
 
       await this.getClient().user.update({
-        where: { id },
-        data: {
-          deletedAt: new Date(),
-          status: 'DELETED',
-        },
-      });
-    });
-  }
-
-  async deleteMany(ids: string[]): Promise<Prisma.BatchPayload> {
-    return this.withErrorHandling(() => {
-      this.logger.debug(`Soft deleting users with ids ${JSON.stringify(ids)}`);
-
-      return this.getClient().user.updateMany({
-        where: {
-          id: {
-            in: ids,
-          },
-          deletedAt: null,
-        },
+        where: { clerkId },
         data: {
           deletedAt: new Date(),
           status: 'DELETED',
