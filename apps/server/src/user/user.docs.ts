@@ -1,3 +1,4 @@
+// user.docs.ts
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import {
   ApiBody,
@@ -5,22 +6,30 @@ import {
   ApiParam,
   ApiResponse,
   ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger';
-import {
-  CreateUserDto,
-  UpdateRoleDto,
-  UpdateUserDto,
-} from '@hwei/schema/dto/user.schema';
+import { UpdateRoleDto, UpdateUserDto } from '@hwei/schema/dto/user.schema';
 
+/**
+ * Get all users (store owner / admin only)
+ * Controller: @Get('') with StoreOwnershipGuard
+ */
 export const FindAllDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Get all users (admin only)',
-      description: 'Retrieve all active users with pagination',
+      summary: 'Get all users (store owner / admin only)',
+      description:
+        'Retrieve all active users with pagination (requires store ownership).',
     }),
     ApiResponse({
       status: HttpStatus.OK,
       description: 'List of users returned successfully',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -29,25 +38,40 @@ export const FindAllDocs = () => {
   );
 };
 
+/**
+ * Update user role (store owner / admin only)
+ * Controller: @Patch('role/:id')
+ */
 export const UpdateRoleDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Update user role (admin only)',
-      description: 'Update user role',
+      summary: 'Update user role (store owner / admin only)',
+      description:
+        "Update a user's role by user ID (requires store ownership).",
     }),
     ApiParam({
-      name: 'userId',
+      name: 'id',
       type: String,
       description: 'User ID to update',
     }),
     ApiBody({
       type: UpdateRoleDto,
       required: true,
-      description: 'User update payload',
+      description: 'Role update payload',
     }),
     ApiResponse({
       status: HttpStatus.OK,
-      description: 'List of users returned successfully',
+      description: 'User role updated successfully',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
+    }),
+    ApiResponse({
+      status: HttpStatus.BAD_REQUEST,
+      description: 'Invalid role data provided',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -56,16 +80,15 @@ export const UpdateRoleDocs = () => {
   );
 };
 
-export const FindOneDocs = () => {
+/**
+ * Get user by token
+ * Controller: @Get()
+ */
+export const FindMeDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Get user by ID',
-      description: 'Retrieve a single user by their ID',
-    }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'User ID',
+      summary: 'Get Current User',
+      description: 'Retrieve a single user by auth token.',
     }),
     ApiResponse({
       status: HttpStatus.OK,
@@ -75,6 +98,9 @@ export const FindOneDocs = () => {
       status: HttpStatus.NOT_FOUND,
       description: 'User not found',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Internal server error',
@@ -82,11 +108,54 @@ export const FindOneDocs = () => {
   );
 };
 
+/**
+ * Get user by ID (store owner / admin only)
+ * Controller: @Get(':id')
+ */
+export const FindByIdDocs = () => {
+  return applyDecorators(
+    ApiOperation({
+      summary: 'Get User by ID (admin only)',
+      description: 'Retrieve a single user by id.',
+    }),
+
+    ApiParam({
+      name: 'id',
+      type: String,
+      description: 'User ID to update',
+    }),
+    ApiResponse({
+      status: HttpStatus.OK,
+      description: 'User returned successfully',
+    }),
+    ApiResponse({
+      status: HttpStatus.NOT_FOUND,
+      description: 'User not found',
+    }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
+    }),
+
+    ApiResponse({
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
+      description: 'Internal server error',
+    }),
+  );
+};
+
+/**
+ * Get user by Clerk ID (store owner / admin only)
+ * Controller: @Get('clerk/:clerkId')
+ */
 export const FindByClerkIdDocs = () => {
   return applyDecorators(
     ApiOperation({
       summary: 'Get user by Clerk ID',
-      description: 'Retrieve a user by their Clerk authentication ID',
+      description:
+        'Retrieve a user by their Clerk authentication ID (requires store ownership).',
     }),
     ApiParam({
       name: 'clerkId',
@@ -101,6 +170,12 @@ export const FindByClerkIdDocs = () => {
       status: HttpStatus.NOT_FOUND,
       description: 'User not found',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
+    }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Internal server error',
@@ -108,10 +183,14 @@ export const FindByClerkIdDocs = () => {
   );
 };
 
+/**
+ * Get user by email (admin only)
+ * Controller: @Get('email/:email')
+ */
 export const FindByEmailDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Get user by email',
+      summary: 'Get user by email (admin only)',
       description: 'Retrieve a user by their email address',
     }),
     ApiParam({
@@ -127,6 +206,12 @@ export const FindByEmailDocs = () => {
       status: HttpStatus.NOT_FOUND,
       description: 'User not found',
     }),
+    ApiUnauthorizedResponse({
+      description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
+    }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Internal server error',
@@ -134,16 +219,17 @@ export const FindByEmailDocs = () => {
   );
 };
 
+/**
+ * Create a new user from authenticated Clerk session
+ * Controller: @Post()
+ * NOTE: Controller creates the user from the authenticated Clerk user (no request body expected).
+ */
 export const CreateOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Create a new user',
-      description: 'Create a new user account',
-    }),
-    ApiBody({
-      type: CreateUserDto,
-      required: true,
-      description: 'User creation payload',
+      summary: 'Create a new user from authenticated Clerk session',
+      description:
+        'Create a new user account using the authenticated Clerk user (no request body required).',
     }),
     ApiResponse({
       status: HttpStatus.CREATED,
@@ -151,10 +237,6 @@ export const CreateOneDocs = () => {
     }),
     ApiUnauthorizedResponse({
       description: 'Unauthorized (missing or invalid token)',
-    }),
-    ApiResponse({
-      status: HttpStatus.BAD_REQUEST,
-      description: 'Invalid user data provided',
     }),
     ApiResponse({
       status: HttpStatus.CONFLICT,
@@ -167,16 +249,17 @@ export const CreateOneDocs = () => {
   );
 };
 
+/**
+ * Update current authenticated user
+ * Controller: @Patch()
+ * NOTE: This updates the currently authenticated user's data (no :id param).
+ */
 export const UpdateOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Update user',
-      description: 'Update user information',
-    }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'User ID to update',
+      summary: 'Update current user',
+      description:
+        "Update the authenticated user's information (updates current user's record).",
     }),
     ApiBody({
       type: UpdateUserDto,
@@ -205,16 +288,15 @@ export const UpdateOneDocs = () => {
   );
 };
 
+/**
+ * Delete user by ID (store owner / admin only)
+ * Controller: @Delete()
+ */
 export const DeleteOneDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Delete user',
-      description: 'Soft delete a user by their ID',
-    }),
-    ApiParam({
-      name: 'id',
-      type: String,
-      description: 'User ID to delete',
+      summary: 'Delete Self',
+      description: 'Soft delete a user by token',
     }),
     ApiResponse({
       status: HttpStatus.OK,
@@ -227,6 +309,9 @@ export const DeleteOneDocs = () => {
     ApiUnauthorizedResponse({
       description: 'Unauthorized (missing or invalid token)',
     }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
+    }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       description: 'Internal server error',
@@ -234,11 +319,17 @@ export const DeleteOneDocs = () => {
   );
 };
 
+/**
+ * Delete multiple users (bulk) (admin only)
+ * Controller: @Delete('/bulk')
+ * Body: { ids: string[] }
+ */
 export const DeleteManyDocs = () => {
   return applyDecorators(
     ApiOperation({
-      summary: 'Delete multiple users',
-      description: 'Bulk soft deletion of users by their IDs',
+      summary: 'Delete multiple users (admin only)',
+      description:
+        'Bulk soft deletion of users by their IDs (requires store ownership).',
     }),
     ApiBody({
       schema: {
@@ -259,6 +350,9 @@ export const DeleteManyDocs = () => {
     }),
     ApiUnauthorizedResponse({
       description: 'Unauthorized (missing or invalid token)',
+    }),
+    ApiForbiddenResponse({
+      description: 'Forbidden (requires store ownership / admin privileges)',
     }),
     ApiResponse({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
