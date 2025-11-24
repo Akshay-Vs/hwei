@@ -44,10 +44,10 @@ importers:
     dependencies:
       '@anatine/zod-nestjs':
         specifier: ^2.0.12
-        version: 2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)
+        version: 2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@4.1.13))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@4.1.13)
       '@anatine/zod-openapi':
         specifier: ^2.2.8
-        version: 2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)
+        version: 2.2.8(openapi3-ts@4.5.0)(zod@4.1.13)
       '@clerk/backend':
         specifier: ^2.5.0
         version: 2.17.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -109,8 +109,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       zod:
-        specifier: 3.25.76
-        version: 3.25.76
+        specifier: 4.1.13
+        version: 4.1.13
     devDependencies:
       '@cspell/eslint-plugin':
         specifier: ^9.0.1
@@ -266,8 +266,8 @@ importers:
         specifier: ^7.6.0
         version: 7.7.4(express@5.1.0)(next@15.5.5(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(sass@1.93.2))(tailwindcss@3.4.7(ts-node@10.9.2(@swc/core@1.15.1)(@types/node@24.9.1)(typescript@5.7.3)))
       zod:
-        specifier: 3.25.76
-        version: 3.25.76
+        specifier: 4.1.13
+        version: 4.1.13
       zustand:
         specifier: ^5.0.3
         version: 5.0.8(@types/react@19.2.5)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0))
@@ -321,8 +321,8 @@ importers:
         specifier: ^1.12.2
         version: 1.12.2
       zod:
-        specifier: ^4.1.9
-        version: 4.1.12
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       '@hwei/typescript-config':
         specifier: workspace:*
@@ -398,13 +398,13 @@ importers:
     dependencies:
       '@anatine/zod-nestjs':
         specifier: ^2.0.12
-        version: 2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)
+        version: 2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@4.1.13))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@4.1.13)
       '@anatine/zod-openapi':
         specifier: ^2.2.8
-        version: 2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)
+        version: 2.2.8(openapi3-ts@4.5.0)(zod@4.1.13)
       zod:
-        specifier: 3.25.76
-        version: 3.25.76
+        specifier: 4.1.13
+        version: 4.1.13
     devDependencies:
       '@hwei/eslint-config':
         specifier: workspace:*
@@ -518,8 +518,8 @@ importers:
         specifier: ^8.3.5
         version: 8.5.0(@swc/core@1.15.1)(jiti@2.6.1)(postcss@8.5.6)(typescript@5.7.3)(yaml@2.8.1)
       zod:
-        specifier: ^4.0.5
-        version: 4.1.12
+        specifier: ^4.1.13
+        version: 4.1.13
     devDependencies:
       '@hwei/eslint-config':
         specifier: workspace:*
@@ -7639,11 +7639,8 @@ packages:
     resolution: {integrity: sha512-U/PBtDf35ff0D8X8D0jfdzHYEPFxAI7jJlxZXwCSez5M3190m+QobIfh+sWDWSHMCWWJN2AWamkegn6vr6YBTw==}
     engines: {node: '>=18'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
-  zod@4.1.12:
-    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
+  zod@4.1.13:
+    resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
 
   zod@4.1.5:
     resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
@@ -7670,20 +7667,20 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
-  '@anatine/zod-nestjs@2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@3.25.76)':
+  '@anatine/zod-nestjs@2.0.12(@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@4.1.13))(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/swagger@11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2))(openapi3-ts@4.5.0)(zod@4.1.13)':
     dependencies:
-      '@anatine/zod-openapi': 2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)
+      '@anatine/zod-openapi': 2.2.8(openapi3-ts@4.5.0)(zod@4.1.13)
       '@nestjs/common': 11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/swagger': 11.2.3(@nestjs/common@11.1.6(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9)(reflect-metadata@0.2.2)
       openapi3-ts: 4.5.0
       ts-deepmerge: 6.2.1
-      zod: 3.25.76
+      zod: 4.1.13
 
-  '@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@3.25.76)':
+  '@anatine/zod-openapi@2.2.8(openapi3-ts@4.5.0)(zod@4.1.13)':
     dependencies:
       openapi3-ts: 4.5.0
       ts-deepmerge: 6.2.1
-      zod: 3.25.76
+      zod: 4.1.13
 
   '@angular-devkit/core@19.2.15(chokidar@4.0.3)':
     dependencies:
@@ -15731,9 +15728,7 @@ snapshots:
 
   yoctocolors-cjs@2.1.3: {}
 
-  zod@3.25.76: {}
-
-  zod@4.1.12: {}
+  zod@4.1.13: {}
 
   zod@4.1.5: {}
 
