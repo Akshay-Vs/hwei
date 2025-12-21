@@ -71,6 +71,6 @@
 	"dependencies": {
 		"@anatine/zod-nestjs": "^2.0.12",
 		"@anatine/zod-openapi": "^2.2.8",
-		"zod": "3.25.76"
+		"zod": "4.2.1"
 	}
 }
