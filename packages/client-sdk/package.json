@@ -57,6 +57,6 @@
 	"dependencies": {
 		"@hwei/schema": "workspace:*",
 		"axios": "^1.12.2",
-		"zod": "^4.1.9"
+		"zod": "^4.2.1"
 	}
 }
